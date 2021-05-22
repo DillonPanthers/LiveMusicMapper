@@ -1,13 +1,13 @@
 {
-  "name": "deck-gl-tutorial",
+  "name": "Capstone project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Capstone project",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "build:dev": "webpack --watch --mode=development",
-    "start": "node server.js",
-    "start:dev": "npm run build:dev & nodemon server.js"
+    "start": "node ./server/server.js",
+    "start:dev": "npm run build:dev & nodemon ./server/server.js"
   },
   "keywords": [],
   "author": "",
