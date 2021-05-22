@@ -1,6 +1,7 @@
 # Dependency Directories
 node_modules
-
+.env
 # Public
 public/main.js
 public/main.js.map
+
