@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 const port = process.env.PORT || 3000;
 const router = require('./api');
+// const { init } = require('./db/index');
+//init();
 
 // Static Files
 app.use(express.static(path.join(__dirname, '..', 'public')));
