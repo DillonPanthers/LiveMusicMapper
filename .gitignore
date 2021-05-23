@@ -4,4 +4,5 @@ node_modules
 # Public
 public/main.js
 public/main.js.map
+client/secret.js
 
