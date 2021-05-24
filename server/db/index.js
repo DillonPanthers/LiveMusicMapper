@@ -1,12 +1,7 @@
 const { db } = require('./db');
 
-const init = async () => {
-  try {
-    await db.sync({ force: true });
-    console.log('connected');
-  } catch (error) {
-    console.log(error);
-  }
-};
+//import models from hooks.js
+const { Concert } = require('./hooks');
 
-module.exports = { init };
+///export models and db into the seed file
+module.exports = { db, Concert };
