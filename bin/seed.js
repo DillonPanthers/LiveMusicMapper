@@ -1,4 +1,4 @@
-const { db } = require('../server/db');
+const { db, Concert } = require('../server/db');
 
 const init = async () => {
   try {
