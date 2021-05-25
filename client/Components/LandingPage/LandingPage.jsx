@@ -23,23 +23,20 @@ const LandingPage = () => {
           Find live music events for all your favorite bands and artists in your
           city
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{
-            fontFamily: 'Montserrat, sans-serif',
-            width: '20rem',
-            margin: '2rem',
-            padding: '0.5rem 0',
-          }}
-        >
-          <Link
-            to="/map"
-            style={{ color: 'inherit', textDecoration: 'inherit' }}
+        <Link to="/map" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+              width: '20rem',
+              margin: '2rem',
+              padding: '0.5rem 0',
+            }}
           >
             SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Container>
       <div className="background">
         <span></span>
