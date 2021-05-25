@@ -1,12 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-  shadows: ['none'],
   typography: {
-    h1: {
+    h2: {
       fontFamily: 'Montserrat, sans-serif',
       fontWeight: 'bold',
       color: 'white',
+      fontSize: '5rem',
+      lineHeight: '1.15',
     },
     h4: {
       fontFamily: 'Montserrat, sans-serif',
@@ -15,6 +16,7 @@ const theme = createMuiTheme({
     },
     body: {
       fontFamily: 'Roboto, sans-serif',
+      color: 'white',
     },
   },
   palette: {
@@ -31,7 +33,6 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       text: {
-        color: 'white',
         height: 48,
         padding: '0 30px',
         fontFamily: 'Montserrat, sans-serif',

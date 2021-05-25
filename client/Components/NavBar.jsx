@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   makeStyles,
   AppBar,
@@ -10,9 +11,6 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
@@ -28,10 +26,15 @@ const NavBar = () => {
       <AppBar position="sticky" style={{ backgroundColor: '#000A47' }}>
         <Toolbar>
           <Typography variant="h4" className={classes.title}>
-            Live Music Mapper
+            <Link
+              to="/"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              Live Music Mapper
+            </Link>
           </Typography>
-          <Button>Log in</Button>
-          <Button>Sign up</Button>
+          <Button style={{ color: 'white' }}>Log in</Button>
+          <Button style={{ color: 'white' }}>Sign up</Button>
         </Toolbar>
       </AppBar>
     </div>
