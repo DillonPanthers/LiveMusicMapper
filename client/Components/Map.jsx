@@ -1,15 +1,17 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import {TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY} from '../secret'
+import axios from 'axios'
 class Map extends React.Component{
   constructor(){
     super()
     this.state={
       lat: 0,
-      lon: 0
+      lon: 0,
+      ticketDataByLocation: []
     }
   }
-  componentDidMount(){
+  async componentDidMount(){
     navigator.geolocation.getCurrentPosition((position)=>{
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
@@ -18,13 +20,17 @@ class Map extends React.Component{
         lon: position.coords.longitude
       })
     });
+    // const latlong = this.state.lat +","+this.state.lon;
+    console.log(typeof latlong, "latitude longitude here SIR")
+    const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&lat=${this.state.lat}&long=${this.state.lon}&apikey=${TICKETMASTERAPIKEY}`)
+    console.log("ticket data here", ticketDataByLocation)
 
-
-
+    this.setState({ticketDataByLocation: ticketDataByLocation.data._embedded.events})
+    console.log(this.state.ticketDataByLocation, 'componentdidmount check for ticket data')
 //   $.ajax({
 //     type: 'GET',
 //     url:
-//       `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&countryCode=CA&apikey={TICKETMASTERAPIKEY}=`,
+//       `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&countryCode=CA&apikey={TICKETMASTERAPIKEY}`,
 //       // latlon,
 //     async: true,
 //     dataType: 'json',
@@ -90,6 +96,7 @@ class Map extends React.Component{
 
   render() {
     console.log('state', this.state)
+    // console.log(this.state.ticketDataByLocation,'ticket data in render method')
     return (
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
         <GoogleMap
@@ -103,6 +110,15 @@ class Map extends React.Component{
                   lng: this.state.lon,
                 }} 
               />
+              {this.state.ticketDataByLocation.map((currEvent, idx) => {
+               return <Marker key={idx}
+                position={{
+                  lat: +currEvent._embedded.venues[0].location.latitude,
+                  lng: +currEvent._embedded.venues[0].location.longitude,
+                }} 
+              />
+                
+              })}
         </GoogleMap>
       </LoadScript>
     );
