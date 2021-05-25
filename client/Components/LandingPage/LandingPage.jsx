@@ -30,13 +30,14 @@ const LandingPage = () => {
             fontFamily: 'Montserrat, sans-serif',
             width: '20rem',
             margin: '2rem',
+            padding: '0.5rem 0',
           }}
         >
           <Link
             to="/map"
             style={{ color: 'inherit', textDecoration: 'inherit' }}
           >
-            SEE LIVE MUSIC EVENTS NEARBY
+            SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
           </Link>
         </Button>
       </Container>
