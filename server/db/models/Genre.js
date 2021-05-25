@@ -6,9 +6,9 @@ const Genre = db.define(
   'genres',
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
