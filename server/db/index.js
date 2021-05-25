@@ -1,7 +1,7 @@
 const { db } = require('./db');
 
 //import models from hooks.js
-const { Concert } = require('./hooks');
+const { Concert, Genre } = require('./hooks');
 
 ///export models and db into the seed file
-module.exports = { db, Concert };
+module.exports = { db, Concert, Genre };
