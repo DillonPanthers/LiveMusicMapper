@@ -25,6 +25,7 @@ class Map extends React.Component{
     const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&lat=${this.state.lat}&long=${this.state.lon}&apikey=${TICKETMASTERAPIKEY}`)
     console.log("ticket data here", ticketDataByLocation)
 
+
     this.setState({ticketDataByLocation: ticketDataByLocation.data._embedded.events})
     console.log(this.state.ticketDataByLocation, 'componentdidmount check for ticket data')
 //   $.ajax({
