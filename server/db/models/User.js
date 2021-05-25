@@ -2,13 +2,22 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { db } = require('../db');
 const { DataTypes } = require('sequelize');
+require('dotenv').config();
 
 const User = db.define('user', {
   firstName: {
     type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   lastName: {
     type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   email: {
     type: DataTypes.STRING,
@@ -20,6 +29,7 @@ const User = db.define('user', {
   },
   password: {
     type: DataTypes.STRING,
+    // can be false depending on how we handle guest access
     allowNull: true,
     validate: {
       notEmpty: true,
@@ -90,3 +100,4 @@ User.authenticate = async ({ email, password }) => {
 };
 
 module.exports = { User };
+// Where should we import the User model?
