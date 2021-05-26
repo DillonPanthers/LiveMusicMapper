@@ -29,8 +29,7 @@ const User = db.define('user', {
   },
   password: {
     type: DataTypes.STRING,
-    // can be false depending on how we handle guest access
-    allowNull: true,
+    allowNull: false,
     validate: {
       notEmpty: true,
     },
