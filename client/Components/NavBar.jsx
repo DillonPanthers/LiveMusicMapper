@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// ADD LINKS TO TITLE & BUTTONS
+// TODO: ADD LINKS TO TITLE & BUTTONS
+// TODO: FIX INLINE STYLES
 const NavBar = () => {
   const classes = useStyles();
 
