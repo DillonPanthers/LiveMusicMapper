@@ -1,16 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, makeStyles, Button, Container } from '@material-ui/core';
+import { Typography, makeStyles, Container, Button } from '@material-ui/core';
+
 import './LandingPage.scss';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '80%',
     textAlign: 'center',
-    padding: '5rem',
+    padding: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
-      width: '80%',
+      width: '85%',
     },
+  },
+  button: {
+    color: 'black',
+    background: '#1DE9B6',
+    margin: theme.spacing(2),
+    '&:hover': {
+      background: '#5F285A',
+      color: 'white',
+    },
+  },
+  link: {
+    color: 'inherit',
+    textDecoration: 'inherit',
   },
 }));
 
@@ -23,17 +37,8 @@ const LandingPage = () => {
           Find live music events for all your favorite bands and artists in your
           city
         </Typography>
-        <Link to="/map" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              fontFamily: 'Montserrat, sans-serif',
-              width: '20rem',
-              margin: '2rem',
-              padding: '0.5rem 0',
-            }}
-          >
+        <Link to="/map" className={classes.link}>
+          <Button className={classes.button}>
             SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
           </Button>
         </Link>

@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
     res.send(events.data._embedded.events);
   } catch (err) {
     console.log(err);
+    next(err);
   }
 });
 
