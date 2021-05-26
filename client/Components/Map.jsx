@@ -13,12 +13,15 @@ class Map extends React.Component{
   }
   async componentDidMount(){
     navigator.geolocation.getCurrentPosition((position)=>{
+      console.log('geo location', position)
       this.setState({
         lat: position.coords.latitude,
         lon: position.coords.longitude
       })
     });
-    const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&lat=${this.state.lat}&long=${this.state.lon}&apikey=${TICKETMASTERAPIKEY}`)
+    // const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&lat=${this.state.lat}&long=${this.state.lon}&apikey=${TICKETMASTERAPIKEY}`)
+    const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&dmaId=345&size=200&apikey=${TICKETMASTERAPIKEY}`)
+    console.log('ticket by location', ticketDataByLocation)
 
     this.setState({ticketDataByLocation: ticketDataByLocation.data._embedded.events})
 
