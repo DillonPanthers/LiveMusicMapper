@@ -38,9 +38,9 @@ User.belongsToMany(User, {
   otherKey: 'requesterId',
 });
 
-// Why aren't these getting back the info
-FriendRequest.hasMany(User, { as: 'invitee', foreignKey: 'inviteeId' });
-FriendRequest.hasMany(User, { as: 'requestedBy', foreignKey: 'requesterId' });
+// FriendRequest.findAll({ include: [{model: User, as: "invitee" or "requestedBy"}]})
+FriendRequest.belongsTo(User, { as: 'invitee', foreignKey: 'inviteeId' });
+FriendRequest.belongsTo(User, { as: 'requestedBy', foreignKey: 'requesterId' });
 
 //After relationships are created, export them here into hooks.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
