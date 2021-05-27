@@ -15,27 +15,34 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  appBar: {
+    backgroundColor: '#000A47',
+    position: 'sticky',
+  },
+  link: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+  },
+  button: {
+    color: 'white',
+  },
 }));
 
 // TODO: ADD LINKS TO TITLE & BUTTONS
-// TODO: FIX INLINE STYLES
 const NavBar = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky" style={{ backgroundColor: '#000A47' }}>
+      <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h4" className={classes.title}>
-            <Link
-              to="/"
-              style={{ color: 'inherit', textDecoration: 'inherit' }}
-            >
+            <Link to="/" className={classes.link}>
               Live Music Mapper
             </Link>
           </Typography>
-          <Button style={{ color: 'white' }}>Log in</Button>
-          <Button style={{ color: 'white' }}>Sign up</Button>
+          <Button className={classes.button}>Log in</Button>
+          <Button className={classes.button}>Sign up</Button>
         </Toolbar>
       </AppBar>
     </div>

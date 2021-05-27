@@ -2,16 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, makeStyles, Container, Button } from '@material-ui/core';
 
-import './LandingPage.scss';
+import Background from './Background';
+
+// TODO: Get z-index to work properly
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    position: 'relative',
     width: '80%',
     textAlign: 'center',
     padding: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       width: '85%',
     },
+    zindex: '1000',
   },
   button: {
     color: 'black',
@@ -43,28 +47,7 @@ const LandingPage = () => {
           </Button>
         </Link>
       </Container>
-      <div className="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <Background zindex="auto" />
     </>
   );
 };
