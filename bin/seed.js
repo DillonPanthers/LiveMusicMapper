@@ -30,10 +30,7 @@ const init = async () => {
     });
 
     await vikki.addInvitees(alejandra);
-    const hello = await FriendRequest.findAll({
-      where: { inviteeId: alejandra.id },
-      include: { model: User, as: 'requestedBy' },
-    });
+    console.log(await alejandra.getRequestedBy());
 
     console.log('connected');
     await db.close();
