@@ -5,8 +5,13 @@ const { User } = require('./models/User');
 const { Friendship } = require('./models/Friendship');
 const { FriendRequest } = require('./models/FriendRequest');
 
+// Concert Genres
 Concert.belongsToMany(Genre, { through: 'concertgenres', timestamps: false });
 Genre.belongsToMany(Concert, { through: 'concertgenres', timestamps: false });
+
+// User Concerts
+Concert.belongsToMany(User, { through: 'userconcerts', timestamps: false });
+User.belongsToMany(Concert, { through: 'userconcerts', timestamps: false });
 
 // TODO: Create hooks for easier access to data
 
@@ -45,10 +50,6 @@ User.belongsToMany(User, {
 // FriendRequest.findAll({ include: [{model: User, as: "invitee" or "requestedBy"}]})
 FriendRequest.belongsTo(User, { as: 'invitee', foreignKey: 'inviteeId' });
 FriendRequest.belongsTo(User, { as: 'requestedBy', foreignKey: 'requesterId' });
-
-// User Concerts
-Concert.belongsToMany(User, { through: 'userconcerts', timestamps: false });
-User.belongsToMany(Concert, { through: 'userconcerts', timestamps: false });
 
 // After relationships are created, export them here into hooks.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
