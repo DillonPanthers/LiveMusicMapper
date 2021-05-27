@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from "../secret";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import axios from "axios";
 class Map extends React.Component {
   constructor(props) {
@@ -18,10 +18,10 @@ class Map extends React.Component {
       selectedEventLat: 0,
       selectedEventLong: 0,
       selectedEventName: "",
-      selectedEventDate:"",
-      selectedEventAddress:"",
+      selectedEventDate: "",
+      selectedEventAddress: "",
       selectedEventGenre: "",
-      selectedEventSubGenre:"",
+      selectedEventSubGenre: "",
       isOpen: false,
     };
     this.onMarkerPopup = this.onMarkerPopup.bind(this);
@@ -51,10 +51,10 @@ class Map extends React.Component {
     const selectedEventLat = +event._embedded.venues[0].location.latitude;
     const selectedEventLong = +event._embedded.venues[0].location.longitude;
     const selectedEventName = event.name;
-    const selectedEventDate = event.dates.start.localDate; 
-    const selectedEventAddress = event._embedded.venues[0].address.line1; 
-    const selectedEventGenre = event.classifications[0].genre.name; 
-    const selectedEventSubGenre = event.classifications[0].subGenre.name; 
+    const selectedEventDate = event.dates.start.localDate;
+    const selectedEventAddress = event._embedded.venues[0].address.line1;
+    const selectedEventGenre = event.classifications[0].genre.name;
+    const selectedEventSubGenre = event.classifications[0].subGenre.name;
     this.setState({
       selectedEventLat,
       selectedEventLong,
@@ -108,7 +108,10 @@ class Map extends React.Component {
                 <br></br>
                 <p>Start Date: {this.state.selectedEventDate}</p>
                 <p>Concert Address: {this.state.selectedEventAddress}</p>
-                <p>Genres: {this.state.selectedEventGenre}, {this.state.selectedEventSubGenre}</p>
+                <p>
+                  Genres: {this.state.selectedEventGenre},{" "}
+                  {this.state.selectedEventSubGenre}
+                </p>
               </div>
             </InfoWindow>
           ) : null}
