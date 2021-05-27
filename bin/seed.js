@@ -24,13 +24,19 @@ const init = async () => {
       )
     );
 
-    await vikki.addFriend([alejandra, craig, inderprit]);
+    await vikki.addFriend([alejandra, inderprit]);
     const us = await User.findAll({
       include: 'friends',
     });
 
-    await vikki.addInviter(alejandra);
-
+    await vikki.addInvitees(alejandra);
+    console.log(
+      await FriendRequest.findAll({
+        where: { inviteeId: alejandra.id },
+        include: { model: User, as: 'invitee' },
+      })
+    );
+    console.log('connected');
     await db.close();
   } catch (error) {
     console.log(error);

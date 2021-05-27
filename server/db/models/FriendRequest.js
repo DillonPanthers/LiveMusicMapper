@@ -1,8 +1,8 @@
 const { db } = require('../db');
 const { DataTypes } = require('sequelize');
 
-const FriendRequest = db.define('friendRequest', {
-  inviterId: {
+const FriendRequest = db.define('friendrequest', {
+  requesterId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
@@ -10,6 +10,7 @@ const FriendRequest = db.define('friendRequest', {
       key: 'id',
     },
   },
+
   inviteeId: {
     type: DataTypes.UUID,
     allowNull: false,
@@ -21,6 +22,7 @@ const FriendRequest = db.define('friendRequest', {
 
   status: {
     type: DataTypes.ENUM(['pending', 'rejected', 'accepted']),
+    defaultValue: 'pending',
   },
 });
 

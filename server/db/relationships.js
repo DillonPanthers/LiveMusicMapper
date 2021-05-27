@@ -22,11 +22,25 @@ Friendship.belongsTo(User, { as: 'friendInfo', foreignKey: 'friendId' });
 
 // Friend Request System
 
-User.hasMany(FriendRequest, { as: 'inviter', foreignKey: 'inviterId' });
-User.hasMany(FriendRequest, { as: 'invitee', foreignKey: 'inviteeId' });
+// User.findAll({ include: 'invitees' })) -> find people User has invited
+User.belongsToMany(User, {
+  as: 'invitees',
+  through: FriendRequest,
+  foreignKey: 'requesterId',
+  otherKey: 'inviteeId',
+});
 
-FriendRequest.belongsTo(User, { as: 'inviter', foreignKey: 'inviterId' });
-FriendRequest.belongsTo(User, { as: 'invitee', foreignKey: 'inviteeId' });
+// User.findAll({ include: 'requestedBy' })) -> find people who have requested You
+User.belongsToMany(User, {
+  as: 'requestedBy',
+  through: FriendRequest,
+  foreignKey: 'inviteeId',
+  otherKey: 'requesterId',
+});
+
+// Why aren't these getting back the info
+FriendRequest.hasMany(User, { as: 'invitee', foreignKey: 'inviteeId' });
+FriendRequest.hasMany(User, { as: 'requestedBy', foreignKey: 'requesterId' });
 
 //After relationships are created, export them here into hooks.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
