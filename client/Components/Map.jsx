@@ -18,6 +18,10 @@ class Map extends React.Component {
       selectedEventLat: 0,
       selectedEventLong: 0,
       selectedEventName: "",
+      selectedEventDate:"",
+      selectedEventAddress:"",
+      selectedEventGenre: "",
+      selectedEventSubGenre:"",
       isOpen: false,
     };
     this.onMarkerPopup = this.onMarkerPopup.bind(this);
@@ -47,10 +51,18 @@ class Map extends React.Component {
     const selectedEventLat = +event._embedded.venues[0].location.latitude;
     const selectedEventLong = +event._embedded.venues[0].location.longitude;
     const selectedEventName = event.name;
+    const selectedEventDate = event.dates.start.localDate; 
+    const selectedEventAddress = event._embedded.venues[0].address.line1; 
+    const selectedEventGenre = event.classifications[0].genre.name; 
+    const selectedEventSubGenre = event.classifications[0].subGenre.name; 
     this.setState({
       selectedEventLat,
       selectedEventLong,
       selectedEventName,
+      selectedEventDate,
+      selectedEventAddress,
+      selectedEventGenre,
+      selectedEventSubGenre,
       isOpen: !this.state.isOpen,
     });
   }
@@ -62,7 +74,7 @@ class Map extends React.Component {
         <GoogleMap
           zoom={10}
           center={{ lat: this.state.lat, lng: this.state.lon }}
-          mapContainerStyle={{ height: "500px", width: "1000px" }}
+          mapContainerStyle={{ height: "100vh", width: "100vw" }}
         >
           <Marker
             position={{
@@ -93,6 +105,10 @@ class Map extends React.Component {
             >
               <div>
                 <Link to="/event">{this.state.selectedEventName}</Link>
+                <br></br>
+                <p>Start Date: {this.state.selectedEventDate}</p>
+                <p>Concert Address: {this.state.selectedEventAddress}</p>
+                <p>Genres: {this.state.selectedEventGenre}, {this.state.selectedEventSubGenre}</p>
               </div>
             </InfoWindow>
           ) : null}
