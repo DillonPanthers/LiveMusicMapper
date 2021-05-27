@@ -8,6 +8,8 @@ const { FriendRequest } = require('./models/FriendRequest');
 Concert.belongsToMany(Genre, { through: 'concertgenres', timestamps: false });
 Genre.belongsToMany(Concert, { through: 'concertgenres', timestamps: false });
 
+// TODO: Create hooks for easier access to data
+
 // User.findAll({ include: 'friends'}), you can't do include: Friendship
 User.belongsToMany(User, {
   as: 'friends',
