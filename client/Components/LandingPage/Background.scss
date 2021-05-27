@@ -2,13 +2,15 @@
 
 body {
   margin: 0;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .background {
   width: 100vw;
   height: 100vh;
   background: #000a47;
+  z-index: auto;
 }
 
 $particleSize: 20vmin;

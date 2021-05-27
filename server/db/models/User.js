@@ -99,4 +99,3 @@ User.authenticate = async ({ email, password }) => {
 };
 
 module.exports = { User };
-// Where should we import the User model?
