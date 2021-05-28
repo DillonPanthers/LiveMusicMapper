@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Dashboard = () => <p>Paragraph</p>;
+const Dashboard = () => <p>Dashboard Placeholder</p>;
 
 export default Dashboard;

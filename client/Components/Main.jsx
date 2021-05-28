@@ -7,6 +7,7 @@ import Map from './Map';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
 import Event from './Events/Event';
+import Login from './Login';
 
 const Main = () => (
     <div>
@@ -18,6 +19,7 @@ const Main = () => (
                 <Route exact component={Auth} path="/auth/:token" />
                 <Route exact component={Dashboard} path="/dashboard" />
                 <Route exact component={Event} path="/event" />
+                <Route exact component={Login} path="/login" />
             </Switch>
         </Router>
     </div>
