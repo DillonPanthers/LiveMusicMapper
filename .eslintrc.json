@@ -1,17 +1,17 @@
 {
-  "env": {
-    "es6": true,
-    "browser": true
-  },
-  "extends": "eslint:recommended",
-  "rules": {
-    "dot-notation": 1,
-    "valid-typeof": 2,
-    "no-undef": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.jsx", "*.js"]
-    }
-  ]
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "extends": ["eslint:recommended", "prettier"],
+    "rules": {
+        "dot-notation": 1,
+        "valid-typeof": 2,
+        "no-undef": "off"
+    },
+    "overrides": [
+        {
+            "files": ["*.jsx", "*.js"]
+        }
+    ]
 }
