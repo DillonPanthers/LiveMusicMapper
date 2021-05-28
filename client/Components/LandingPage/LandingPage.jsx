@@ -4,27 +4,26 @@ import { Typography, makeStyles, Container, Button } from '@material-ui/core';
 
 import Background from './Background';
 
-// TODO: Get z-index to work properly
-
 const useStyles = makeStyles((theme) => ({
   container: {
     position: 'relative',
-    width: '80%',
+    width: '85%',
     textAlign: 'center',
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
       width: '85%',
     },
-    zindex: '1000',
+    zIndex: '1000',
   },
   button: {
     color: 'black',
     background: '#1DE9B6',
-    margin: theme.spacing(2),
+    margin: theme.spacing(3),
     '&:hover': {
       background: '#5F285A',
       color: 'white',
     },
+    borderRadius: 50,
   },
   link: {
     color: 'inherit',
@@ -47,7 +46,7 @@ const LandingPage = () => {
           </Button>
         </Link>
       </Container>
-      <Background zindex="auto" />
+      <Background />
     </>
   );
 };

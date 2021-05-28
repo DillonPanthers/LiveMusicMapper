@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
-  GoogleMap,
-  LoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
-import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from "../secret";
-import { Link } from "react-router-dom";
-import axios from "axios";
+    GoogleMap,
+    LoadScript,
+    Marker,
+    InfoWindow,
+} from '@react-google-maps/api';
+import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -36,27 +36,27 @@ class Map extends React.Component {
     });
   }
 
-  onMarkerPopup(event) {
-    console.log(event, "here event");
+    onMarkerPopup(event) {
+        console.log(event, 'here event');
 
-    const selectedEventLat = +event._embedded.venues[0].location.latitude;
-    const selectedEventLong = +event._embedded.venues[0].location.longitude;
-    const selectedEventName = event.name;
-    const selectedEventDate = event.dates.start.localDate;
-    const selectedEventAddress = event._embedded.venues[0].address.line1;
-    const selectedEventGenre = event.classifications[0].genre.name;
-    const selectedEventSubGenre = event.classifications[0].subGenre.name;
-    this.setState({
-      selectedEventLat,
-      selectedEventLong,
-      selectedEventName,
-      selectedEventDate,
-      selectedEventAddress,
-      selectedEventGenre,
-      selectedEventSubGenre,
-      isOpen: !this.state.isOpen,
-    });
-  }
+        const selectedEventLat = +event._embedded.venues[0].location.latitude;
+        const selectedEventLong = +event._embedded.venues[0].location.longitude;
+        const selectedEventName = event.name;
+        const selectedEventDate = event.dates.start.localDate;
+        const selectedEventAddress = event._embedded.venues[0].address.line1;
+        const selectedEventGenre = event.classifications[0].genre.name;
+        const selectedEventSubGenre = event.classifications[0].subGenre.name;
+        this.setState({
+            selectedEventLat,
+            selectedEventLong,
+            selectedEventName,
+            selectedEventDate,
+            selectedEventAddress,
+            selectedEventGenre,
+            selectedEventSubGenre,
+            isOpen: !this.state.isOpen,
+        });
+    }
 
   async componentDidUpdate(prevProps,prevState){
     console.log(this.state, "componentDidUpdate")
@@ -86,42 +86,51 @@ class Map extends React.Component {
             }}
           />
 
-          {this.state.ticketDataByLocation.map((currEvent) => {
-            return (
-              <Marker
-                key={currEvent.id}
-                onClick={() => this.onMarkerPopup(currEvent)}
-                position={{
-                  lat: +currEvent._embedded.venues[0].location.latitude,
-                  lng: +currEvent._embedded.venues[0].location.longitude,
-                }}
-              />
-            );
-          })}
+                    {this.state.ticketDataByLocation.map((currEvent) => {
+                        return (
+                            <Marker
+                                key={currEvent.id}
+                                onClick={() => this.onMarkerPopup(currEvent)}
+                                position={{
+                                    lat: +currEvent._embedded.venues[0].location
+                                        .latitude,
+                                    lng: +currEvent._embedded.venues[0].location
+                                        .longitude,
+                                }}
+                            />
+                        );
+                    })}
 
-          {this.state.isOpen ? (
-            <InfoWindow
-              position={{
-                lat: this.state.selectedEventLat,
-                lng: this.state.selectedEventLong,
-              }}
-            >
-              <div>
-                <Link to="/event">{this.state.selectedEventName}</Link>
-                <br></br>
-                <p>Start Date: {this.state.selectedEventDate}</p>
-                <p>Concert Address: {this.state.selectedEventAddress}</p>
-                <p>
-                  Genres: {this.state.selectedEventGenre},{" "}
-                  {this.state.selectedEventSubGenre}
-                </p>
-              </div>
-            </InfoWindow>
-          ) : null}
-        </GoogleMap>
-      </LoadScript>
-    );
-  }
+                    {this.state.isOpen ? (
+                        <InfoWindow
+                            position={{
+                                lat: this.state.selectedEventLat,
+                                lng: this.state.selectedEventLong,
+                            }}
+                        >
+                            <div>
+                                <Link to="/event">
+                                    {this.state.selectedEventName}
+                                </Link>
+                                <br></br>
+                                <p>
+                                    Start Date: {this.state.selectedEventDate}
+                                </p>
+                                <p>
+                                    Concert Address:{' '}
+                                    {this.state.selectedEventAddress}
+                                </p>
+                                <p>
+                                    Genres: {this.state.selectedEventGenre},{' '}
+                                    {this.state.selectedEventSubGenre}
+                                </p>
+                            </div>
+                        </InfoWindow>
+                    ) : null}
+                </GoogleMap>
+            </LoadScript>
+        );
+    }
 }
 
 export default Map;

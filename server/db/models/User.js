@@ -5,6 +5,12 @@ const { DataTypes } = require('sequelize');
 require('dotenv').config();
 
 const User = db.define('user', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -57,6 +63,11 @@ const User = db.define('user', {
     defaultValue:
       'https://as2.ftcdn.net/v2/jpg/02/60/03/61/1000_F_260036118_AUYppgsODQeTCnbu0OXGNDXB8EVzpxKq.jpg',
   },
+
+  isPublic: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
 });
 
 // encrypts password
@@ -99,4 +110,3 @@ User.authenticate = async ({ email, password }) => {
 };
 
 module.exports = { User };
-// Where should we import the User model?

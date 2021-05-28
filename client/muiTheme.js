@@ -5,18 +5,14 @@ const theme = createMuiTheme({
     h2: {
       fontFamily: 'Montserrat, sans-serif',
       fontWeight: 'bold',
-      color: 'white',
+      color: '#FFFFFF',
       fontSize: '5rem',
       lineHeight: '1.15',
     },
     h4: {
       fontFamily: 'Montserrat, sans-serif',
       fontWeight: 'bold',
-      color: 'white',
-    },
-    body: {
-      fontFamily: 'Roboto, sans-serif',
-      color: 'white',
+      color: '#FFFFFF',
     },
   },
   palette: {
@@ -28,6 +24,9 @@ const theme = createMuiTheme({
     },
     background: {
       default: '#000A47',
+    },
+    text: {
+      primary: '#FFFFFF',
     },
   },
   overrides: {
