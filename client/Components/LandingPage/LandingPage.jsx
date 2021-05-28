@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
       background: '#5F285A',
       color: 'white',
     },
+    borderRadius: 50,
   },
   link: {
     color: 'inherit',
