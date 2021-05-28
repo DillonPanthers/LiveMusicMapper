@@ -15,7 +15,8 @@ User.belongsToMany(Concert, { through: 'userconcerts', timestamps: false });
 
 // TODO: Create hooks for easier access to data
 
-// User.findAll({ include: 'friends'}), you can't do include: Friendship
+// User.findAll({ include: 'friends'}), -> show User's friends
+// Note: you can't do include: Friendship
 User.belongsToMany(User, {
   as: 'friends',
   through: Friendship,
@@ -24,13 +25,14 @@ User.belongsToMany(User, {
 });
 
 // Friendship.findAll({ include: [{model: User, as: userInfo or friendInfo}]})
+// Use Friendship table to get user friendships
 Friendship.belongsTo(User, { as: 'userInfo', foreignKey: 'userId' });
 Friendship.belongsTo(User, { as: 'friendInfo', foreignKey: 'friendId' });
 
 // Friend Request System
 
-// User.findAll({ include: 'invitees' })) -> find people User has invited
-// instance.getInvitees()
+// User.findAll({ include: 'invitees' })) -> find people User has invited/requested
+// instance.getInvitees() -> get an instances invitees / person they have requested
 User.belongsToMany(User, {
   as: 'invitees',
   through: FriendRequest,
@@ -39,7 +41,7 @@ User.belongsToMany(User, {
 });
 
 // User.findAll({ include: 'requestedBy' })) -> find people who have requested you
-// instance.getRequestedBy();
+// instance.getRequestedBy()
 User.belongsToMany(User, {
   as: 'requestedBy',
   through: FriendRequest,
@@ -48,6 +50,7 @@ User.belongsToMany(User, {
 });
 
 // FriendRequest.findAll({ include: [{model: User, as: "invitee" or "requestedBy"}]})
+// Use FriendRequest table to find info on invitee and requester
 FriendRequest.belongsTo(User, { as: 'invitee', foreignKey: 'inviteeId' });
 FriendRequest.belongsTo(User, { as: 'requestedBy', foreignKey: 'requesterId' });
 
