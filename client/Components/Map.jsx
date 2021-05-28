@@ -34,15 +34,6 @@ class Map extends React.Component {
         lon: position.coords.longitude,
       });
     });
-    // const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&lat=${this.state.lat}&long=${this.state.lon}&apikey=${TICKETMASTERAPIKEY}`)
-    const ticketDataByLocation = await axios.get(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&dmaId=345&size=200&apikey=${TICKETMASTERAPIKEY}`
-    );
-    console.log("ticket by location", ticketDataByLocation);
-
-    this.setState({
-      ticketDataByLocation: ticketDataByLocation.data._embedded.events,
-    });
   }
 
   onMarkerPopup(event) {
@@ -65,6 +56,18 @@ class Map extends React.Component {
       selectedEventSubGenre,
       isOpen: !this.state.isOpen,
     });
+  }
+
+  async componentDidUpdate(prevProps,prevState){
+    console.log(this.state, "componentDidUpdate")
+    console.log(prevState,"Prev PRops")
+    if(prevState.lat !== this.state.lat && prevState.lon !== this.state.lon){
+       const latlong = this.state.lat + "," + this.state.lon;
+      const ticketDataByLocation = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`)
+      this.setState({
+        ticketDataByLocation: ticketDataByLocation.data._embedded.events,
+      });
+    }
   }
 
   render() {
