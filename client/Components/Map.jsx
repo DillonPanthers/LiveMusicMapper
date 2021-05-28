@@ -19,7 +19,7 @@ class Map extends React.Component {
       selectedEventLong: 0,
       selectedEventName: '',
       selectedEventDate: '',
-      selectedEventAddress: '',
+      selectedEventVenue: '',
       selectedEventGenre: '',
       selectedEventSubGenre: '',
       isOpen: false,
@@ -43,7 +43,7 @@ class Map extends React.Component {
     const selectedEventLong = +event._embedded.venues[0].location.longitude;
     const selectedEventName = event.name;
     const selectedEventDate = event.dates.start.localDate;
-    const selectedEventAddress = event._embedded.venues[0].address.line1;
+    const selectedEventVenue = event._embedded.venues[0].name;
     const selectedEventGenre = event.classifications[0].genre.name;
     const selectedEventSubGenre = event.classifications[0].subGenre.name;
     this.setState({
@@ -51,7 +51,7 @@ class Map extends React.Component {
       selectedEventLong,
       selectedEventName,
       selectedEventDate,
-      selectedEventAddress,
+      selectedEventVenue,
       selectedEventGenre,
       selectedEventSubGenre,
       isOpen: !this.state.isOpen,
@@ -110,7 +110,7 @@ class Map extends React.Component {
               <div>
                 <Link to='/event'>{this.state.selectedEventName}</Link>
                 <p>Start Date: {this.state.selectedEventDate}</p>
-                <p>Concert Address: {this.state.selectedEventAddress}</p>
+                <p>Venue: {this.state.selectedEventVenue}</p>
                 <p>
                   Genres: {this.state.selectedEventGenre},{' '}
                   {this.state.selectedEventSubGenre}
