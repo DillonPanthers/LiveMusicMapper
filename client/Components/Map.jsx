@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {GlobalState} from '../contexts/Store'
 import {
   GoogleMap,
   LoadScript,
@@ -73,6 +74,8 @@ class Map extends React.Component {
   render() {
     //TODO: Have a selectedMarker field in the state that we will check the coordinates of in order decide what the infowindow will show
     //TODO: Change font color for info window since I believe the font color is white thats why the rest of the details are currently not being shown but they are there don't worry!
+    const currentState = useContext(GlobalState);
+    console.log(currentState,'global store')
     return (
       <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
         <GoogleMap
