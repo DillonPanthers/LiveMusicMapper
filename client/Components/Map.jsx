@@ -71,6 +71,7 @@ function Map() {
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
+            
             setState({
                 ...state,
                 ticketDataByLocation:
