@@ -26,8 +26,13 @@ function Map() {
         isOpen: false,
     });
 
+    const {currSingleConcert} = useContext(GlobalState); 
+
+    const [singleConcert, setSingleConcert] = currSingleConcert; 
+
     const onMarkerPopup = function (event) {
         console.log(event, 'here event');
+        setSingleConcert(event); 
 
         const selectedEventLat = +event._embedded.venues[0].location.latitude;
         const selectedEventLong = +event._embedded.venues[0].location.longitude;
@@ -80,6 +85,9 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
+   
+
+
     return (
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
             <GoogleMap
@@ -117,8 +125,8 @@ function Map() {
                         }}
                     >
                         <div>
-                            <Link to="/event">
-                                {thistate.selectedEventName}
+                            <Link to={`/concert/${singleConcert.id}`}>
+                                {state.selectedEventName}
                             </Link>
                             <p>Start Date: {state.selectedEventDate}</p>
                             <p>Venue: {state.selectedEventVenue}</p>
