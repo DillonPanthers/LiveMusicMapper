@@ -6,7 +6,7 @@ import LandingPage from './LandingPage/LandingPage.jsx';
 import Map from './Map';
 import Auth from './Auth';
 import Dashboard from './Dashboard';
-import Event from './Events/Event';
+import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login';
 import Filter from './FilterMap'
 
@@ -19,7 +19,7 @@ const Main = () => (
                 <Route exact component={Map} path="/map" />
                 <Route exact component={Auth} path="/auth/:token" />
                 <Route exact component={Dashboard} path="/dashboard" />
-                <Route exact component={Event} path="/event" />
+                <Route exact component={SingleConcert} path="/concert/:id" />
                 <Route exact component={Login} path="/login" />
             </Switch>
         </Router>
