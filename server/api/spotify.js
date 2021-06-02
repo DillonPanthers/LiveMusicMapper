@@ -28,6 +28,7 @@ router.get('/login', (req, res, next) => {
     }
 });
 
+// GET /api/spotify/callback
 router.get('/callback', async (req, res, next) => {
     try {
         const code = req.query.code;

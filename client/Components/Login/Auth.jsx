@@ -21,7 +21,7 @@ function Auth() {
             setCalled(true);
         }
     }, []);
-    return called ? <Redirect to="/dashboard" /> : null;
+    return loggedIn && called ? <Redirect to="/dashboard" /> : null;
 }
 
 export default Auth;
