@@ -18,7 +18,7 @@ const Store = ({ children }) => {
             value={{
                 concerts: [concerts, setConcerts],
                 currSingleConcert: [singleConcert, setSingleConcert],
-                user: [user, setUser],
+                auth: [user, setUser],
             }}
         >
             {children}
