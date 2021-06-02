@@ -8,6 +8,8 @@ import {
     Button,
 } from '@material-ui/core';
 
+import Filter from './FilterMap'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: ADD LINKS TO TITLE & BUTTONS
-const NavBar = () => {
+const NavBar = (props) => {
     const classes = useStyles();
 
     return (
@@ -41,6 +43,7 @@ const NavBar = () => {
                             Live Music Mapper
                         </Link>
                     </Typography>
+                    <Filter/>
                     <Button className={classes.button}>
                         <Link to="/login" className={classes.link}>
                             Log in
