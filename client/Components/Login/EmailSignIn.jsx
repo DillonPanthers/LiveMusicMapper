@@ -8,7 +8,6 @@ import { GlobalState } from '../../contexts/Store';
 
 const EmailSignIn = () => {
     let history = useHistory();
-    console.log('history', history);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
