@@ -8,6 +8,7 @@ import Auth from './Auth';
 import Dashboard from './Dashboard';
 import Event from './Events/Event';
 import Login from './Login';
+import Filter from './FilterMap'
 
 const Main = () => (
     <div>

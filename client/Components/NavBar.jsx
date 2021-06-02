@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Filter from './FilterMap'
 import {
     makeStyles,
     AppBar,
@@ -29,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO: ADD LINKS TO TITLE & BUTTONS
-const NavBar = () => {
+const NavBar = (props) => {
     const classes = useStyles();
+    console.log('props', props)
 
     return (
         <div className={classes.root}>
@@ -41,6 +43,7 @@ const NavBar = () => {
                             Live Music Mapper
                         </Link>
                     </Typography>
+                    <Filter/>
                     <Button className={classes.button}>
                         <Link to="/login" className={classes.link}>
                             Log in
