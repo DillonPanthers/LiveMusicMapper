@@ -74,6 +74,8 @@ User.byToken = async (token) => {
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findByPk(id);
         if (user) {
+            // TODO: destructuring or use sequelize attributes
+            // include model using alias
             return user;
         }
         const error = Error('bad credentials');
