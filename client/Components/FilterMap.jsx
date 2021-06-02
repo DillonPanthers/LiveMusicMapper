@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 const Filter= ()=>{
     const location= useLocation()
     const path= location.pathname
-
+  console.log('path', path)
     let classes=useStyles()
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -31,7 +31,7 @@ const Filter= ()=>{
     }
 
 
-      {return true===true?<React.Fragment>
+      {return path ==='/map'?<React.Fragment>
         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={recordButtonPosition}>
           Filter By Music Category
         </Button>
