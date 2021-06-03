@@ -27,11 +27,12 @@ function Map() {
     });
 
     const {currSingleConcert} = useContext(GlobalState); 
-
+    const {concerts, location}= useContext(GlobalState)
+    const [concertData, setConcerts]= concerts
+    const [locationData, setLocation]= location
     const [singleConcert, setSingleConcert] = currSingleConcert; 
 
     const onMarkerPopup = function (event) {
-        console.log(event, 'here event');
         setSingleConcert(event); 
 
         const selectedEventLat = +event._embedded.venues[0].location.latitude;
@@ -57,7 +58,7 @@ function Map() {
     useEffect(() => {
         const getUserLocation = async () => {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log('geo location', position);
+                setLocation({lat:position.coords.latitude, lon:position.coords.longitude})
                 setState({
                     ...state,
                     lat: position.coords.latitude,
@@ -65,13 +66,15 @@ function Map() {
                 });
             });
         };
+        console.log('map use effect')
 
         const getConcertData = async () => {
             const latlong = state.lat + ',' + state.lon;
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
-            
+            setConcerts(ticketDataByLocation.data._embedded.events)
+
             setState({
                 ...state,
                 ticketDataByLocation:
@@ -81,12 +84,10 @@ function Map() {
 
         if (state.lon && state.lat) {
             getConcertData();
-            console.log(state);
         }
         getUserLocation();
     }, [state.lat]);
 
-   
 
 
     return (
@@ -94,29 +95,43 @@ function Map() {
             <GoogleMap
                 zoom={10}
                 center={{ lat: state.lat, lng: state.lon }}
+                // center={{ lat: Number(locationData.lat), lng: Number(locationData.lon) }}
                 mapContainerStyle={{ height: '100vh', width: '100vw' }}
             >
                 <Marker
                     position={{
-                        lat: state.lat,
-                        lng: state.lon,
+                        lat: locationData.lat,
+                        lng: locationData.lon,
                     }}
                 />
 
-                {state.ticketDataByLocation.map((currEvent) => {
+                {concertData?concertData.map((currEvent) => {
+                    console.log('curr event map', currEvent)
                     return (
                         <Marker
                             key={currEvent.id}
                             onClick={() => onMarkerPopup(currEvent)}
+                            // position={{
+                            //     lat: +currEvent._embedded.venues[0].location
+                            //         .latitude,
+                            //     lng: +currEvent._embedded.venues[0].location
+                            //         .longitude,
+                            // }}
+
                             position={{
                                 lat: +currEvent._embedded.venues[0].location
                                     .latitude,
                                 lng: +currEvent._embedded.venues[0].location
                                     .longitude,
                             }}
+
+                            // position={{
+                            //     lat: Number(locationData.lat),
+                            //     lng: Number(locationData.lon),
+                            // }}
                         />
                     );
-                })}
+                }): null}
 
                 {state.isOpen && (
                     <InfoWindow
