@@ -24,7 +24,6 @@ const init = async () => {
                 })
             )
         );
-        await vikki.addFriend(alejandra);
 
         const [concert] = await Promise.all(
             concerts.map((concert) => {
@@ -32,7 +31,10 @@ const init = async () => {
                 return Concert.create(concert);
             })
         );
+
         await vikki.addConcert(concert);
+        await vikki.addFriend(alejandra);
+
         console.log('connected');
         await db.close();
     } catch (error) {

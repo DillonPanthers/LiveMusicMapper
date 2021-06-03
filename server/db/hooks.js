@@ -1,17 +1,25 @@
 //Import models here from relationships.js
 const {
-  Concert,
-  Genre,
-  User,
-  Friendship,
-  FriendRequest,
+    Concert,
+    Genre,
+    User,
+    Friendship,
+    FriendRequest,
 } = require('./relationships');
-/*
 
-Hooks that require more than one model go here. We can divide them into regions
-using //#region  if needed
-
-*/
+User.findUser = function (id) {
+    return User.findByPk(id, {
+        attributes: { exlude: ['password'] },
+        include: [
+            {
+                model: User,
+                as: 'friends',
+                attributes: ['id', 'firstName', 'lastName'],
+            },
+            'concerts',
+        ],
+    });
+};
 
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
