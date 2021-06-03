@@ -14,7 +14,7 @@ User.findUser = function (id) {
             {
                 model: User,
                 as: 'friends',
-                attributes: ['id', 'firstName', 'lastName'],
+                attributes: ['id', 'firstName', 'lastName', 'imageUrl'],
             },
             'concerts',
         ],
