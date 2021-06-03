@@ -71,7 +71,6 @@ const EmailSignIn = () => {
                 value={email}
                 onChange={({ target }) => setEmail(target.value)}
                 className={classes.text}
-                defaultValue="Email"
             />
             <TextField
                 required

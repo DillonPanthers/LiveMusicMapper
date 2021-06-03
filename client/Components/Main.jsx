@@ -34,7 +34,6 @@ const Main = () => {
         getUserData();
     }, []);
 
-    console.log('called from Main', user);
 
     return (
         <div>
