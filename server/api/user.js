@@ -14,4 +14,6 @@ router.get('/:id/concerts', requireToken, async (req, res, next) => {
     }
 });
 
+// POST /api/user/ - create user
+
 module.exports = router;
