@@ -41,7 +41,7 @@ const Filter= ()=>{
     const filterMapData = async(event) => {
       // console.log(event.target.innerText)
       const newVal = event.currentTarget.innerText;
-      // console.log('my value',newVal)
+      // console.log('my value',newVal).
       // console.log('location', locationData)
       console.log('concert data before', concertData)
       const latlong = locationData.lat + ',' + locationData.lon;
