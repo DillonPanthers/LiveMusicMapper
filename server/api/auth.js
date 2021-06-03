@@ -15,7 +15,32 @@ router.post('/', async (req, res, next) => {
 // GET /api/auth
 router.get('/', requireToken, async (req, res, next) => {
     try {
-        res.send(req.user);
+        const { user } = req;
+        const {
+            id,
+            firstName,
+            lastName,
+            email,
+            fullName,
+            imageUrl,
+            isAdmin,
+            isPublic,
+            friends,
+            concerts,
+        } = user;
+        const newUser = {
+            id,
+            firstName,
+            lastName,
+            email,
+            fullName,
+            imageUrl,
+            isAdmin,
+            isPublic,
+            friends,
+            concerts,
+        };
+        res.send(newUser);
     } catch (ex) {
         next(ex);
     }
