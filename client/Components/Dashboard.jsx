@@ -5,9 +5,10 @@ import { GlobalState } from '../contexts/Store';
 const Dashboard = () => {
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
-    console.log('dashboard:', user.friends);
+
     user.friends = user.friends || [];
     user.concerts = user.concerts || [];
+
     return (
         <>
             <p>See {user.id ? user.firstName : 'User'}'s events</p>

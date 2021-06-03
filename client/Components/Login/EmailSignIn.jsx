@@ -1,10 +1,35 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { Button, TextField, makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../../contexts/Store';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+    },
+    text: {
+        marginBottom: '8%',
+        backgroundColor: 'rgba(228,228,228,0.25)',
+    },
+    button: {
+        height: 48,
+        padding: '0 30px',
+        fontFamily: 'Montserrat, sans-serif',
+        textTransform: 'none',
+        borderRadius: 50,
+        borderColor: '#1DE9B6',
+        color: '#1DE9B6',
+        width: '100%',
+    },
+}));
+
 const EmailSignIn = () => {
+    const classes = useStyles();
+
     let history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,42 +54,42 @@ const EmailSignIn = () => {
                 },
             });
             const userData = response.data;
-
-            // const concerts = await axios.get(
-            //     `/api/users/${response.data.id}/concerts`,
-            //     {
-            //         headers: {
-            //             authorization: token,
-            //         },
-            //     }
-            // );
             if (userData.id) {
                 setUser(userData);
-                console.log('called from loadAuthUser', user);
-                // return <Redirect to="/dashboard" />;
                 history.push('/dashboard');
             }
         }
     };
 
     return (
-        <form onSubmit={onSubmit}>
-            <input
+        <form className={classes.root}>
+            <TextField
+                required
+                id="filled-required"
+                label="Email"
+                variant="filled"
                 value={email}
                 onChange={({ target }) => setEmail(target.value)}
-                name="username"
-                placeholder="Email"
+                className={classes.text}
+                defaultValue="Email"
             />
-            <br />
-            <input
+            <TextField
+                required
+                id="filled-required"
+                label="Password"
+                variant="filled"
                 value={password}
-                onChange={({ target }) => setPassword(target.value)}
-                name="password"
-                placeholder="Password"
                 type="password"
+                onChange={({ target }) => setPassword(target.value)}
+                className={classes.text}
             />
-            <br />
-            <button>Continue with Email</button>
+            <Button
+                variant="outlined"
+                className={classes.button}
+                onClick={onSubmit}
+            >
+                CONTINUE WITH EMAIL
+            </Button>
         </form>
     );
 };
