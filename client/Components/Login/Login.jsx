@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React from 'react';
 import {
     Button,
     Typography,
@@ -13,12 +12,10 @@ import {
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
 
-import { GlobalState } from '../../contexts/Store';
-
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: '100vw',
-        minHeight: '100vh',
+        minHeight: '85vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -27,25 +24,24 @@ const useStyles = makeStyles((theme) => ({
     card: {
         zIndex: '1000',
         maxWidth: '50%',
-        minWidth: '25%',
         minHeight: '10vh',
         display: 'flex',
         fontWeight: '100',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '100px',
-        borderRadius: '5px',
+        padding: '5%',
+        borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
     },
     button: {
         color: 'black',
         background: '#1DE9B6',
-        margin: theme.spacing(3),
         '&:hover': {
             background: '#5F285A',
             color: 'white',
         },
         borderRadius: 50,
+        width: '100%',
     },
     link: {
         color: 'inherit',
@@ -56,27 +52,28 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         justifyContent: 'center',
     },
+    title: {
+        paddingBottom: '8%',
+    },
 }));
 
 const Login = () => {
     const classes = useStyles();
 
-    const { auth } = useContext(GlobalState);
-    const [user] = auth;
-
     return (
         <>
             <Grid className={classes.root}>
-                <Card className={classes.card} variant="outlined">
-                    <Typography variant="h4">Welcome Back</Typography>
+                <Card className={classes.card}>
+                    <Typography variant="h4" className={classes.title}>
+                        Welcome Back
+                    </Typography>
 
-                    <CardActions>
-                        <a href="/api/spotify/login" className={classes.link}>
-                            <Button className={classes.button}>
-                                Log In With Spotify
-                            </Button>
-                        </a>
-                    </CardActions>
+                    <a href="/api/spotify/login" className={classes.link}>
+                        <Button className={classes.button}>
+                            LOG IN WITH SPOTIFY ACCOUNT
+                        </Button>
+                    </a>
+
                     <div className={classes.divider}>
                         <p>or</p>
                     </div>
@@ -84,7 +81,6 @@ const Login = () => {
                 </Card>
             </Grid>
             <Background />
-            {/* {user.id && <Redirect to="/dashboard" />} */}
         </>
     );
 };

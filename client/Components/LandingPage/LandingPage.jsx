@@ -38,7 +38,7 @@ const LandingPage = () => {
             <Container className={classes.container}>
                 <Typography variant="h2">
                     Find live music events for all your favorite bands and
-                    artists in your city
+                    artists in your&nbsp;city
                 </Typography>
                 <Link to="/map" className={classes.link}>
                     <Button className={classes.button}>
