@@ -8,6 +8,7 @@ const {
 } = require('../server/db/index'); // import models from index so we have access to hooks and magic methods
 
 const { users } = require('./data/users');
+const { concerts } = require('./data/concerts');
 
 const init = async () => {
     try {
@@ -23,7 +24,15 @@ const init = async () => {
                 })
             )
         );
+        await vikki.addFriend(alejandra);
 
+        const [concert] = await Promise.all(
+            concerts.map((concert) => {
+                console.log('-----> seed:', concert);
+                return Concert.create(concert);
+            })
+        );
+        await vikki.addConcert(concert);
         console.log('connected');
         await db.close();
     } catch (error) {
