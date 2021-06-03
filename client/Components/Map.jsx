@@ -11,7 +11,12 @@ import {
 import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
+import Loading from './Loading/Loading'
+
+
+
 function Map() {
+
     const [state, setState] = useState({
         lat: 0,
         lon: 0,
@@ -25,6 +30,8 @@ function Map() {
         selectedEventSubGenre: '',
         isOpen: false,
     });
+
+    const [isLoading, setIsLoading] = useState(true); 
 
     const {currSingleConcert} = useContext(GlobalState); 
     const {concerts, location}= useContext(GlobalState)
@@ -83,18 +90,21 @@ function Map() {
 
         if (state.lon && state.lat) {
             getConcertData();
+            setTimeout(() => {
+                setIsLoading(false);
+              }, 2000);
         }
         getUserLocation();
     }, [state.lat]);
-
-
 
     return (
         //TODO:Filter by genre, and not keyword
         //TODO:Change color of our home marker 
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check. 
-        
+
+        isLoading?  <Loading loading={isLoading}/> :
+
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
             <GoogleMap
                 zoom={10}
@@ -152,6 +162,7 @@ function Map() {
             </GoogleMap>
         </LoadScript>
     );
+    
 }
 
 export default Map;
