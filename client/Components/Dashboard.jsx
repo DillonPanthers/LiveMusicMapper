@@ -4,7 +4,7 @@ import { GlobalState } from '../contexts/Store';
 
 const Dashboard = () => {
     const { auth } = useContext(GlobalState);
-    let [user, setUser] = auth;
+    const [user, setUser] = auth;
     console.log('dashboard:', user);
     user.friends = user.friends || [];
     return (

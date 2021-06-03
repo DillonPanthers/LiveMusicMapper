@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { GlobalState } from '../../contexts/Store';
-
-// useEffect?
 
 const EmailSignIn = () => {
     let history = useHistory();
