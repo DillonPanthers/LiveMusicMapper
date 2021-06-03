@@ -72,8 +72,14 @@ User.beforeCreate(async (user) => {
 User.byToken = async (token) => {
     try {
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findByPk(id);
+        // TODO: separate logic
+        // TODO: attributes to exclude - email, password, isAdmin
+        const user = await User.findByPk(id, {
+            include: ['friends', 'concerts'],
+        });
         if (user) {
+            // TODO: destructuring or use sequelize attributes
+            // include model using alias
             return user;
         }
         const error = Error('bad credentials');
