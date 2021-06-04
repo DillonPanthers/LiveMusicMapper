@@ -8,7 +8,7 @@ const initialState = {
 
 export const GlobalState = createContext(null);
 const Store = ({ children }) => {
-    const [concerts, setConcerts] = useState([]);
+    const [concerts, setConcerts] = useState({});
     const [singleConcert, setSingleConcert] = useState({});
     const [user, setUser] = useState({});
     const [location, setLocation] = useState({});

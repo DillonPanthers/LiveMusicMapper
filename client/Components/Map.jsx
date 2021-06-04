@@ -24,10 +24,6 @@ function Map() {
         selectedEventLat: 0,
         selectedEventLong: 0,
         selectedEventName: '',
-        selectedEventDate: '',
-        selectedEventVenue: '',
-        selectedEventGenre: '',
-        selectedEventSubGenre: '',
         isOpen: false,
     });
 
@@ -45,20 +41,13 @@ function Map() {
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;
-        // const selectedEventDate = event.dates.start.localDate;
-        // const selectedEventVenue = event._embedded.venues[0].name;
-        // const selectedEventGenre = event.classifications[0].genre.name;
-        // const selectedEventSubGenre = event.classifications[0].subGenre.name;
+ 
 
         setState({
             ...state,
             selectedEventLat,
             selectedEventLong,
             selectedEventName,
-            // selectedEventDate,
-            // selectedEventVenue,
-            // selectedEventGenre,
-            // selectedEventSubGenre,
             isOpen: !state.isOpen,
         });
     };
@@ -81,23 +70,41 @@ function Map() {
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
            
+       
+       /**
+        * I am taking the json from the ticketmaster data, manipulating it and setting our global state concerts field, which we should probably rename venues.
+        * 
+        * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys, 
+        * will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents, which 
+        * I am storing in a set because I didn't really want to have that as another object key value pair. 
+        */     
       const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
         const venueName = event._embedded.venues[0].name; 
         if(!accum.hasOwnProperty(venueName)){
+    //Here I am grabbing the venue data and setting it as that venues personal data. 
           const venueData = event._embedded.venues[0]; 
           accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
         }
         return accum; 
       },{})
 
-      ticketDataByLocation.data._embedded.events.map(event =>{
+
+      /**
+       * Now that I have an object that would look something like 
+       * {
+       *    Barclays Center: { venueData: {data of venue details here}, venueEvents: {will be a set that has the concerts at this venue} }
+       * }
+       * 
+       * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above. 
+       * 
+       */
+
+      ticketDataByLocation.data._embedded.events.forEach(event =>{
         const eventVenue = event._embedded.venues[0].name; 
         venueObj[eventVenue].venueEvents.add(event)
       })
 
-           
-           
-            // setConcerts(ticketDataByLocation.data._embedded.events)
+      //concerts, which we should probably change to venues, are now going to be equal to the venueObj that was set up above this. 
             setConcerts(venueObj); 
 
             setState({
@@ -123,6 +130,10 @@ function Map() {
         //TODO:Change color of our home marker 
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check. 
+        //TODO: Cleanup unnecessary code in this component
+        //TODO: Update SingleConcert component to singleVenue now that we are populating venues on the map. 
+        //TODO: Update SingleConcert hook and store value as well. 
+        //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it. 
 
         
         isLoading?  <Loading loading={isLoading}/> :
@@ -140,7 +151,7 @@ function Map() {
                     }}
                 />
 
-                {!Array.isArray(concertData)?Object.keys(concertData).map((currEvent) => {
+                {concertData ? Object.keys(concertData).map((currEvent) => {
                     if(concertData[currEvent].venueData.location){
                         
                         return (
@@ -172,12 +183,6 @@ function Map() {
                             <Link to={`/concert/${singleConcert.id}`}>
                                 {state.selectedEventName}
                             </Link>
-                            {/* <p>Start Date: {state.selectedEventDate}</p>
-                            <p>Venue: {state.selectedEventVenue}</p>
-                            <p>
-                                Genres: {state.selectedEventGenre},{' '}
-                                {state.selectedEventSubGenre}
-                            </p> */}
                         </div>
                     </InfoWindow>
                 )}

@@ -40,7 +40,7 @@ const Filter= ()=>{
      
       const newVal = event.currentTarget.innerText;
 
-      //if you want to use a value that is not in the innerHTML you can grab it by doing the following 
+      //if you want to use a value that is not in the innerText you can grab it by doing the following 
       const {myValue} = event.currentTarget.dataset; 
       const latlong = locationData.lat + ',' + locationData.lon;
     //   const ticketDataByLocation = await axios.get(
@@ -50,26 +50,40 @@ const Filter= ()=>{
     const ticketDataByLocation = await axios.get(
       `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
   );
-    //setConcerts(ticketDataByLocation.data._embedded.events)
+  /**
+        * I am taking the json from the ticketmaster data, manipulating it and setting our global state concerts field, which we should probably rename venues.
+        * 
+        * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys, 
+        * will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents, which 
+        * I am storing in a set because I didn't really want to have that as another object key value pair. 
+        */     
 
-    
-      const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
-        const venueName = event._embedded.venues[0].name; 
-        if(!accum.hasOwnProperty(venueName)){
-          const venueData = event._embedded.venues[0]; 
-          accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
-        }
-        return accum; 
-      },{})
-
-      ticketDataByLocation.data._embedded.events.map(event =>{
-        const eventVenue = event._embedded.venues[0].name; 
+  
+  const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
+    const venueName = event._embedded.venues[0].name; 
+    if(!accum.hasOwnProperty(venueName)){
+      const venueData = event._embedded.venues[0]; 
+      accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+    }
+    return accum; 
+  },{})
+  
+  /**
+   * Now that I have an object that would look something like 
+   * {
+   *    Barclays Center: { venueData: {data of venue details here}, venueEvents: {will be a set that has the concerts at this venue} }
+   * }
+   * 
+   * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above. 
+   * 
+   */
+  ticketDataByLocation.data._embedded.events.forEach(event =>{
+    const eventVenue = event._embedded.venues[0].name; 
         venueObj[eventVenue].venueEvents.add(event)
       })
-
+//we are now setting the venues in the concerts field of the global state, which we should probably rename venues. 
       setConcerts(venueObj);
 
-      console.log(venueObj, 'venue object here')
   }
 
 
