@@ -42,22 +42,23 @@ function Map() {
     const onMarkerPopup = function (event) {
         setSingleConcert(event); 
 
-        const selectedEventLat = +event._embedded.venues[0].location.latitude;
-        const selectedEventLong = +event._embedded.venues[0].location.longitude;
-        const selectedEventName = event.name;
-        const selectedEventDate = event.dates.start.localDate;
-        const selectedEventVenue = event._embedded.venues[0].name;
-        const selectedEventGenre = event.classifications[0].genre.name;
-        const selectedEventSubGenre = event.classifications[0].subGenre.name;
+        const selectedEventLat = +event.venueData.location.latitude;
+        const selectedEventLong = +event.venueData.location.longitude;
+        const selectedEventName = event.venueData.name;
+        // const selectedEventDate = event.dates.start.localDate;
+        // const selectedEventVenue = event._embedded.venues[0].name;
+        // const selectedEventGenre = event.classifications[0].genre.name;
+        // const selectedEventSubGenre = event.classifications[0].subGenre.name;
+
         setState({
             ...state,
             selectedEventLat,
             selectedEventLong,
             selectedEventName,
-            selectedEventDate,
-            selectedEventVenue,
-            selectedEventGenre,
-            selectedEventSubGenre,
+            // selectedEventDate,
+            // selectedEventVenue,
+            // selectedEventGenre,
+            // selectedEventSubGenre,
             isOpen: !state.isOpen,
         });
     };
@@ -79,7 +80,25 @@ function Map() {
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
-            setConcerts(ticketDataByLocation.data._embedded.events)
+           
+      const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
+        const venueName = event._embedded.venues[0].name; 
+        if(!accum.hasOwnProperty(venueName)){
+          const venueData = event._embedded.venues[0]; 
+          accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+        }
+        return accum; 
+      },{})
+
+      ticketDataByLocation.data._embedded.events.map(event =>{
+        const eventVenue = event._embedded.venues[0].name; 
+        venueObj[eventVenue].venueEvents.add(event)
+      })
+
+           
+           
+            // setConcerts(ticketDataByLocation.data._embedded.events)
+            setConcerts(venueObj); 
 
             setState({
                 ...state,
@@ -97,12 +116,15 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
+   
+
     return (
         //TODO:Filter by genre, and not keyword
         //TODO:Change color of our home marker 
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check. 
 
+        
         isLoading?  <Loading loading={isLoading}/> :
 
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
@@ -118,18 +140,18 @@ function Map() {
                     }}
                 />
 
-                {concertData?concertData.map((currEvent) => {
-                    if(currEvent._embedded.venues[0].location){
-
+                {!Array.isArray(concertData)?Object.keys(concertData).map((currEvent) => {
+                    if(concertData[currEvent].venueData.location){
+                        
                         return (
                             <Marker
-                                key={currEvent.id}
-                                onClick={() => onMarkerPopup(currEvent)}
+                                key={concertData[currEvent].venueData.id}
+                                onClick={() => onMarkerPopup(concertData[currEvent])}
                         
                                 position={{
-                                    lat: +currEvent._embedded.venues[0].location
+                                    lat: +concertData[currEvent].venueData.location
                                         .latitude,
-                                    lng: +currEvent._embedded.venues[0].location
+                                    lng: +concertData[currEvent].venueData.location
                                         .longitude,
                                 }}
     
@@ -150,12 +172,12 @@ function Map() {
                             <Link to={`/concert/${singleConcert.id}`}>
                                 {state.selectedEventName}
                             </Link>
-                            <p>Start Date: {state.selectedEventDate}</p>
+                            {/* <p>Start Date: {state.selectedEventDate}</p>
                             <p>Venue: {state.selectedEventVenue}</p>
                             <p>
                                 Genres: {state.selectedEventGenre},{' '}
                                 {state.selectedEventSubGenre}
-                            </p>
+                            </p> */}
                         </div>
                     </InfoWindow>
                 )}

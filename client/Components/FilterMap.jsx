@@ -50,8 +50,26 @@ const Filter= ()=>{
     const ticketDataByLocation = await axios.get(
       `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
   );
-    setConcerts(ticketDataByLocation.data._embedded.events)
+    //setConcerts(ticketDataByLocation.data._embedded.events)
 
+    
+      const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
+        const venueName = event._embedded.venues[0].name; 
+        if(!accum.hasOwnProperty(venueName)){
+          const venueData = event._embedded.venues[0]; 
+          accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+        }
+        return accum; 
+      },{})
+
+      ticketDataByLocation.data._embedded.events.map(event =>{
+        const eventVenue = event._embedded.venues[0].name; 
+        venueObj[eventVenue].venueEvents.add(event)
+      })
+
+      setConcerts(venueObj);
+
+      console.log(venueObj, 'venue object here')
   }
 
 
