@@ -22,8 +22,8 @@ const Filter= ()=>{
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState()
-    const {concerts, location}= useContext(GlobalState)
-    const [concertData, setConcerts] = concerts;
+    const {location, venues}= useContext(GlobalState)
+    const [venueDataObj, setVenues] = venues; 
     const [locationData, setLocation] = location
 
     const recordButtonPosition = (event) => {
@@ -38,9 +38,6 @@ const Filter= ()=>{
 
     const filterMapData = async(event) => {
      
-      const newVal = event.currentTarget.innerText;
-
-      //if you want to use a value that is not in the innerText you can grab it by doing the following 
       const {myValue} = event.currentTarget.dataset; 
       const latlong = locationData.lat + ',' + locationData.lon;
     //   const ticketDataByLocation = await axios.get(
@@ -50,6 +47,7 @@ const Filter= ()=>{
     const ticketDataByLocation = await axios.get(
       `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
   );
+
   /**
         * I am taking the json from the ticketmaster data, manipulating it and setting our global state concerts field, which we should probably rename venues.
         * 
@@ -81,12 +79,10 @@ const Filter= ()=>{
     const eventVenue = event._embedded.venues[0].name; 
         venueObj[eventVenue].venueEvents.add(event)
       })
-//we are now setting the venues in the concerts field of the global state, which we should probably rename venues. 
-      setConcerts(venueObj);
 
+      setVenues(venueObj); 
   }
-
-
+  
       {return path ==='/map'?<React.Fragment>
         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={recordButtonPosition}>
           Filter By Music Category

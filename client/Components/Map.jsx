@@ -29,15 +29,14 @@ function Map() {
 
     const [isLoading, setIsLoading] = useState(true); 
 
-    const {currSingleConcert} = useContext(GlobalState); 
-    const {concerts, location}= useContext(GlobalState)
-    const [concertData, setConcerts]= concerts
-    const [locationData, setLocation]= location
-    const [singleConcert, setSingleConcert] = currSingleConcert; 
+    const {currSingleVenue, location, venues} = useContext(GlobalState); //update
+    const [venueDataObj, setVenues] = venues; 
+    const [locationData, setLocation]= location;
+    const [singleVenue, setSingleVenue] = currSingleVenue; 
 
     const onMarkerPopup = function (event) {
-        setSingleConcert(event); 
-
+        setSingleVenue(event); 
+        
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;
@@ -105,7 +104,8 @@ function Map() {
       })
 
       //concerts, which we should probably change to venues, are now going to be equal to the venueObj that was set up above this. 
-            setConcerts(venueObj); 
+            // setConcerts(venueObj); 
+            setVenues(venueObj); 
 
             setState({
                 ...state,
@@ -122,8 +122,6 @@ function Map() {
         }
         getUserLocation();
     }, [state.lat]);
-
-   
 
     return (
         //TODO:Filter by genre, and not keyword
@@ -151,18 +149,18 @@ function Map() {
                     }}
                 />
 
-                {concertData ? Object.keys(concertData).map((currEvent) => {
-                    if(concertData[currEvent].venueData.location){
+                {venueDataObj ? Object.keys(venueDataObj).map((currEvent) => {
+                    if(venueDataObj[currEvent].venueData.location){
                         
                         return (
                             <Marker
-                                key={concertData[currEvent].venueData.id}
-                                onClick={() => onMarkerPopup(concertData[currEvent])}
+                                key={venueDataObj[currEvent].venueData.id}
+                                onClick={() => onMarkerPopup(venueDataObj[currEvent])}
                         
                                 position={{
-                                    lat: +concertData[currEvent].venueData.location
+                                    lat: +venueDataObj[currEvent].venueData.location
                                         .latitude,
-                                    lng: +concertData[currEvent].venueData.location
+                                    lng: +venueDataObj[currEvent].venueData.location
                                         .longitude,
                                 }}
     
@@ -180,7 +178,7 @@ function Map() {
                         }}
                     >
                         <div>
-                            <Link to={`/concert/${singleConcert.id}`}>
+                            <Link to={`/venue/${singleVenue.venueData.id}`}>
                                 {state.selectedEventName}
                             </Link>
                         </div>

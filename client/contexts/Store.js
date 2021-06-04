@@ -9,7 +9,9 @@ const initialState = {
 export const GlobalState = createContext(null);
 const Store = ({ children }) => {
     const [concerts, setConcerts] = useState({});
+    const [venues, setVenues] = useState({});
     const [singleConcert, setSingleConcert] = useState({});
+    const [singleVenue, setSingleVenue] = useState({});
     const [user, setUser] = useState({});
     const [location, setLocation] = useState({});
 
@@ -18,8 +20,10 @@ const Store = ({ children }) => {
             value={{
                 concerts: [concerts, setConcerts],
                 currSingleConcert: [singleConcert, setSingleConcert],
+                currSingleVenue: [singleVenue, setSingleVenue],
                 auth: [user, setUser],
                 location: [location, setLocation],
+                venues: [venues, setVenues],
             }}
         >
             {children}
