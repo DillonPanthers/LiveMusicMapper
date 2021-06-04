@@ -53,7 +53,6 @@ router.get('/callback', async (req, res, next) => {
 
         const { access_token, refresh_token } = response.data;
         // call Spotify api with access token to get user information
-        // look
         res.redirect(
             `http://localhost:3000/#/auth/${qs.stringify({
                 access_token,
