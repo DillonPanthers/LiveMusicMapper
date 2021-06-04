@@ -39,13 +39,17 @@ const Filter= ()=>{
     const filterMapData = async(event) => {
      
       const newVal = event.currentTarget.innerText;
+
       //if you want to use a value that is not in the innerHTML you can grab it by doing the following 
-      //const {myValue} = event.currentTarget.dataset; 
+      const {myValue} = event.currentTarget.dataset; 
       const latlong = locationData.lat + ',' + locationData.lon;
-      const ticketDataByLocation = await axios.get(
-        `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
-    );
-    
+    //   const ticketDataByLocation = await axios.get(
+    //     `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+    // );
+
+    const ticketDataByLocation = await axios.get(
+      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValuezoom}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+  );
     setConcerts(ticketDataByLocation.data._embedded.events)
 
   }
@@ -62,10 +66,10 @@ const Filter= ()=>{
           open={Boolean(menuOpen)}
           onClose={closeMenu}
         >
-          <MenuItem data-my-value='rock' className={classes.container} onClick={filterMapData}>Rock</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Pop</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Jazz</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Country</MenuItem>
+          <MenuItem data-my-value='KnvZfZ7vAeA' className={classes.container} onClick={filterMapData}>Rock</MenuItem>
+          <MenuItem data-my-value='KnvZfZ7vAev' className={classes.container} onClick={filterMapData}>Pop</MenuItem>
+          <MenuItem data-my-value='KnvZfZ7vAvE' className={classes.container} onClick={filterMapData}>Jazz</MenuItem>
+          <MenuItem data-my-value='KnvZfZ7vAv6' className={classes.container} onClick={filterMapData}>Country</MenuItem>
         </Menu> 
       </React.Fragment>: null}
       
