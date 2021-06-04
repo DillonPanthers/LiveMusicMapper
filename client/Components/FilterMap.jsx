@@ -48,7 +48,7 @@ const Filter= ()=>{
     // );
 
     const ticketDataByLocation = await axios.get(
-      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValuezoom}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+      `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
   );
     setConcerts(ticketDataByLocation.data._embedded.events)
 
