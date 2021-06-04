@@ -24,40 +24,29 @@ function Map() {
         selectedEventLat: 0,
         selectedEventLong: 0,
         selectedEventName: '',
-        selectedEventDate: '',
-        selectedEventVenue: '',
-        selectedEventGenre: '',
-        selectedEventSubGenre: '',
         isOpen: false,
     });
 
     const [isLoading, setIsLoading] = useState(true); 
 
-    const {currSingleConcert} = useContext(GlobalState); 
-    const {concerts, location}= useContext(GlobalState)
-    const [concertData, setConcerts]= concerts
-    const [locationData, setLocation]= location
-    const [singleConcert, setSingleConcert] = currSingleConcert; 
+    const {currSingleVenue, location, venues} = useContext(GlobalState); //update
+    const [venueDataObj, setVenues] = venues; 
+    const [locationData, setLocation]= location;
+    const [singleVenue, setSingleVenue] = currSingleVenue; 
 
     const onMarkerPopup = function (event) {
-        setSingleConcert(event); 
+        setSingleVenue(event); 
 
-        const selectedEventLat = +event._embedded.venues[0].location.latitude;
-        const selectedEventLong = +event._embedded.venues[0].location.longitude;
-        const selectedEventName = event.name;
-        const selectedEventDate = event.dates.start.localDate;
-        const selectedEventVenue = event._embedded.venues[0].name;
-        const selectedEventGenre = event.classifications[0].genre.name;
-        const selectedEventSubGenre = event.classifications[0].subGenre.name;
+        const selectedEventLat = +event.venueData.location.latitude;
+        const selectedEventLong = +event.venueData.location.longitude;
+        const selectedEventName = event.venueData.name;
+ 
+
         setState({
             ...state,
             selectedEventLat,
             selectedEventLong,
             selectedEventName,
-            selectedEventDate,
-            selectedEventVenue,
-            selectedEventGenre,
-            selectedEventSubGenre,
             isOpen: !state.isOpen,
         });
     };
@@ -74,12 +63,47 @@ function Map() {
             });
         };
 
-        const getConcertData = async () => {
+        const getVenueData = async () => {
             const latlong = state.lat + ',' + state.lon;
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
-            setConcerts(ticketDataByLocation.data._embedded.events)
+           
+       
+       /**
+        * I am taking the json from the ticketmaster data, manipulating it and setting our global state concerts field, which we should probably rename venues.
+        * 
+        * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys, 
+        * will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents, which 
+        * I am storing in a set because I didn't really want to have that as another object key value pair. 
+        */     
+      const venueObj = ticketDataByLocation.data._embedded.events.reduce((accum, event)=>{
+        const venueName = event._embedded.venues[0].name; 
+        if(!accum.hasOwnProperty(venueName)){
+    //Here I am grabbing the venue data and setting it as that venues personal data. 
+          const venueData = event._embedded.venues[0]; 
+          accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+        }
+        return accum; 
+      },{})
+
+
+      /**
+       * Now that I have an object that would look something like 
+       * {
+       *    Barclays Center: { venueData: {data of venue details here}, venueEvents: {will be a set that has the concerts at this venue} }
+       * }
+       * 
+       * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above. 
+       * 
+       */
+
+      ticketDataByLocation.data._embedded.events.forEach(event =>{
+        const eventVenue = event._embedded.venues[0].name; 
+        venueObj[eventVenue].venueEvents.add(event)
+      })
+      
+            setVenues(venueObj); 
 
             setState({
                 ...state,
@@ -89,7 +113,7 @@ function Map() {
         };
 
         if (state.lon && state.lat) {
-            getConcertData();
+            getVenueData();
             setTimeout(() => {
                 setIsLoading(false);
               }, 2000);
@@ -98,11 +122,15 @@ function Map() {
     }, [state.lat]);
 
     return (
-        //TODO:Filter by genre, and not keyword
+      
         //TODO:Change color of our home marker 
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check. 
+        //TODO: Cleanup unnecessary code in this component - in progress
+        //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it. 
+        //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component. 
 
+        
         isLoading?  <Loading loading={isLoading}/> :
 
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
@@ -118,18 +146,18 @@ function Map() {
                     }}
                 />
 
-                {concertData?concertData.map((currEvent) => {
-                    if(currEvent._embedded.venues[0].location){
-
+                {venueDataObj ? Object.keys(venueDataObj).map((currEvent) => {
+                    if(venueDataObj[currEvent].venueData.location){
+                        
                         return (
                             <Marker
-                                key={currEvent.id}
-                                onClick={() => onMarkerPopup(currEvent)}
+                                key={venueDataObj[currEvent].venueData.id}
+                                onClick={() => onMarkerPopup(venueDataObj[currEvent])}
                         
                                 position={{
-                                    lat: +currEvent._embedded.venues[0].location
+                                    lat: +venueDataObj[currEvent].venueData.location
                                         .latitude,
-                                    lng: +currEvent._embedded.venues[0].location
+                                    lng: +venueDataObj[currEvent].venueData.location
                                         .longitude,
                                 }}
     
@@ -147,15 +175,9 @@ function Map() {
                         }}
                     >
                         <div>
-                            <Link to={`/concert/${singleConcert.id}`}>
+                            <Link to={`/venue/${singleVenue.venueData.id}`}>
                                 {state.selectedEventName}
                             </Link>
-                            <p>Start Date: {state.selectedEventDate}</p>
-                            <p>Venue: {state.selectedEventVenue}</p>
-                            <p>
-                                Genres: {state.selectedEventGenre},{' '}
-                                {state.selectedEventSubGenre}
-                            </p>
                         </div>
                     </InfoWindow>
                 )}
