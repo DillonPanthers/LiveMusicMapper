@@ -11,6 +11,8 @@ import {
 import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
+import Loading from './Loading/Loading';
+
 function Map() {
     const [state, setState] = useState({
         lat: 0,
@@ -25,6 +27,8 @@ function Map() {
         selectedEventSubGenre: '',
         isOpen: false,
     });
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const { currSingleConcert } = useContext(GlobalState);
     const { concerts, location } = useContext(GlobalState);
@@ -86,6 +90,9 @@ function Map() {
 
         if (state.lon && state.lat) {
             getConcertData();
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 2000);
         }
         getUserLocation();
     }, [state.lat]);
@@ -96,60 +103,66 @@ function Map() {
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check.
 
-        <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
-            <GoogleMap
-                zoom={10}
-                center={{ lat: state.lat, lng: state.lon }}
-                mapContainerStyle={{ height: '100vh', width: '100vw' }}
-            >
-                <Marker
-                    position={{
-                        lat: +locationData.lat,
-                        lng: +locationData.lon,
-                    }}
-                />
-
-                {concertData
-                    ? concertData.map((currEvent) => {
-                          if (currEvent._embedded.venues[0].location) {
-                              return (
-                                  <Marker
-                                      key={currEvent.id}
-                                      onClick={() => onMarkerPopup(currEvent)}
-                                      position={{
-                                          lat: +currEvent._embedded.venues[0]
-                                              .location.latitude,
-                                          lng: +currEvent._embedded.venues[0]
-                                              .location.longitude,
-                                      }}
-                                  />
-                              );
-                          }
-                      })
-                    : null}
-
-                {state.isOpen && (
-                    <InfoWindow
+        isLoading ? (
+            <Loading loading={isLoading} />
+        ) : (
+            <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
+                <GoogleMap
+                    zoom={10}
+                    center={{ lat: state.lat, lng: state.lon }}
+                    mapContainerStyle={{ height: '100vh', width: '100vw' }}
+                >
+                    <Marker
                         position={{
-                            lat: state.selectedEventLat,
-                            lng: state.selectedEventLong,
+                            lat: +locationData.lat,
+                            lng: +locationData.lon,
                         }}
-                    >
-                        <div>
-                            <Link to={`/concert/${singleConcert.id}`}>
-                                {state.selectedEventName}
-                            </Link>
-                            <p>Start Date: {state.selectedEventDate}</p>
-                            <p>Venue: {state.selectedEventVenue}</p>
-                            <p>
-                                Genres: {state.selectedEventGenre},{' '}
-                                {state.selectedEventSubGenre}
-                            </p>
-                        </div>
-                    </InfoWindow>
-                )}
-            </GoogleMap>
-        </LoadScript>
+                    />
+
+                    {concertData
+                        ? concertData.map((currEvent) => {
+                              if (currEvent._embedded.venues[0].location) {
+                                  return (
+                                      <Marker
+                                          key={currEvent.id}
+                                          onClick={() =>
+                                              onMarkerPopup(currEvent)
+                                          }
+                                          position={{
+                                              lat: +currEvent._embedded
+                                                  .venues[0].location.latitude,
+                                              lng: +currEvent._embedded
+                                                  .venues[0].location.longitude,
+                                          }}
+                                      />
+                                  );
+                              }
+                          })
+                        : null}
+
+                    {state.isOpen && (
+                        <InfoWindow
+                            position={{
+                                lat: state.selectedEventLat,
+                                lng: state.selectedEventLong,
+                            }}
+                        >
+                            <div>
+                                <Link to={`/concert/${singleConcert.id}`}>
+                                    {state.selectedEventName}
+                                </Link>
+                                <p>Start Date: {state.selectedEventDate}</p>
+                                <p>Venue: {state.selectedEventVenue}</p>
+                                <p>
+                                    Genres: {state.selectedEventGenre},{' '}
+                                    {state.selectedEventSubGenre}
+                                </p>
+                            </div>
+                        </InfoWindow>
+                    )}
+                </GoogleMap>
+            </LoadScript>
+        )
     );
 }
 
