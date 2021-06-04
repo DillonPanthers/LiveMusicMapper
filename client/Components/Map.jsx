@@ -63,7 +63,7 @@ function Map() {
             });
         };
 
-        const getConcertData = async () => {
+        const getVenueData = async () => {
             const latlong = state.lat + ',' + state.lon;
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
@@ -113,7 +113,7 @@ function Map() {
         };
 
         if (state.lon && state.lat) {
-            getConcertData();
+            getVenueData();
             setTimeout(() => {
                 setIsLoading(false);
               }, 2000);
@@ -122,14 +122,13 @@ function Map() {
     }, [state.lat]);
 
     return (
-        //TODO:Filter by genre, and not keyword
+      
         //TODO:Change color of our home marker 
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check. 
-        //TODO: Cleanup unnecessary code in this component
-        //TODO: Update SingleConcert component to singleVenue now that we are populating venues on the map. 
-        //TODO: Update SingleConcert hook and store value as well. 
+        //TODO: Cleanup unnecessary code in this component - in progress
         //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it. 
+        //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component. 
 
         
         isLoading?  <Loading loading={isLoading}/> :
