@@ -36,7 +36,7 @@ function Map() {
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event); 
-        
+
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;
@@ -102,9 +102,7 @@ function Map() {
         const eventVenue = event._embedded.venues[0].name; 
         venueObj[eventVenue].venueEvents.add(event)
       })
-
-      //concerts, which we should probably change to venues, are now going to be equal to the venueObj that was set up above this. 
-            // setConcerts(venueObj); 
+      
             setVenues(venueObj); 
 
             setState({
