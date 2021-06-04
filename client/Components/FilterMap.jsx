@@ -1,7 +1,7 @@
-import React, {useState, useContext} from 'react';
-import {useLocation} from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import {MenuItem, Button, Menu, makeStyles} from '@material-ui/core';
+import { MenuItem, Button, Menu, makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY } from '../secret';
@@ -9,68 +9,90 @@ import { TICKETMASTERAPIKEY } from '../secret';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    color: 'black'
-  },
+    container: {
+        color: 'black',
+    },
 }));
 
-
-const Filter= ()=>{
+const Filter = () => {
     const currLocation = useLocation();
     const path = currLocation.pathname;
     let classes = useStyles();
 
     const [menuOpen, setMenuOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState()
-    const {concerts, location}= useContext(GlobalState)
+    const [anchorEl, setAnchorEl] = useState();
+    const { concerts, location } = useContext(GlobalState);
     const [concertData, setConcerts] = concerts;
-    const [locationData, setLocation] = location
+    const [locationData, setLocation] = location;
 
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
 
         setMenuOpen(true);
-    }
-  
+    };
+
     let closeMenu = () => {
         setMenuOpen(false);
+    };
+
+    const filterMapData = async (event) => {
+        const newVal = event.currentTarget.innerText;
+
+        const latlong = locationData.lat + ',' + locationData.lon;
+        const ticketDataByLocation = await axios.get(
+            `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+        );
+
+        setConcerts(ticketDataByLocation.data._embedded.events);
+    };
+
+    {
+        return path === '/map' ? (
+            <React.Fragment>
+                <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={recordButtonPosition}
+                >
+                    Filter By Music Category
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(menuOpen)}
+                    onClose={closeMenu}
+                >
+                    <MenuItem
+                        value="rock"
+                        color="black"
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Rock
+                    </MenuItem>
+                    <MenuItem
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Pop
+                    </MenuItem>
+                    <MenuItem
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Jazz
+                    </MenuItem>
+                    <MenuItem
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Country
+                    </MenuItem>
+                </Menu>
+            </React.Fragment>
+        ) : null;
     }
-
-    const filterMapData = async(event) => {
-     
-      const newVal = event.currentTarget.innerText;
-    
-      const latlong = locationData.lat + ',' + locationData.lon;
-      const ticketDataByLocation = await axios.get(
-        `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
-    );
-    
-    setConcerts(ticketDataByLocation.data._embedded.events)
-
-  }
-
-
-      {return path ==='/map'?<React.Fragment>
-        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={recordButtonPosition}>
-          Filter By Music Category
-        </Button>
-          <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(menuOpen)}
-          onClose={closeMenu}
-        >
-          <MenuItem value='rock' color='black' className={classes.container} onClick={filterMapData}>Rock</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Pop</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Jazz</MenuItem>
-          <MenuItem className={classes.container} onClick={filterMapData}>Country</MenuItem>
-        </Menu> 
-      </React.Fragment>: null}
-      
-
-}
-
-
+};
 
 export default Filter;

@@ -8,6 +8,7 @@ import {
     CardContent,
     CardActions,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
@@ -55,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
     title: {
         paddingBottom: '8%',
     },
+    label: {
+        paddingTop: '8%',
+    },
+    secondaryLink: {
+        color: 'inherit',
+    },
 }));
 
 const Login = () => {
@@ -78,6 +85,12 @@ const Login = () => {
                         <p>or</p>
                     </div>
                     <EmailSignIn />
+                    <Typography className={classes.label}>
+                        Don't have an account?{' '}
+                        <Link to="/signup" className={classes.secondaryLink}>
+                            SIGN UP
+                        </Link>
+                    </Typography>
                 </Card>
             </Grid>
             <Background />

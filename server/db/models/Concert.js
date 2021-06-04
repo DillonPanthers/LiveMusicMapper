@@ -3,88 +3,88 @@ const { db } = require('../db');
 const { DataTypes } = require('sequelize');
 
 const Concert = db.define(
-  'concert',
-  {
-    id: {
-      type: DataTypes.STRING,
-      primaryKey: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+    'concert',
+    {
+        id: {
+            type: DataTypes.STRING,
+            primaryKey: true,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    date: {
-      //might need to change type depending on ticketmaster data
-      type: DataTypes.DATEONLY,
-      allowNull: true,
-    },
+        date: {
+            //might need to change type depending on ticketmaster data
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+        },
 
-    time: {
-      //will also see if this works with ticketmaster data
-      type: DataTypes.TIME,
-      allowNull: true,
-    },
+        time: {
+            //will also see if this works with ticketmaster data
+            type: DataTypes.TIME,
+            allowNull: true,
+        },
 
-    venueName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+        venueName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    venueAddress: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
+        venueAddress: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    lat: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+        lat: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    lon: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
+        lon: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
 
-    imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        isUrl: true,
-      },
-    },
+        imageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: true,
+            },
+        },
 
-    eventUrl: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isUrl: true,
-      },
+        eventUrl: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isUrl: true,
+            },
+        },
     },
-  },
-  {
-    timestamps: false,
-  }
+    {
+        timestamps: false,
+    }
 );
 
 module.exports = { Concert };

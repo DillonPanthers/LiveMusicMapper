@@ -26,14 +26,14 @@ function Map() {
         isOpen: false,
     });
 
-    const {currSingleConcert} = useContext(GlobalState); 
-    const {concerts, location}= useContext(GlobalState)
-    const [concertData, setConcerts]= concerts
-    const [locationData, setLocation]= location
-    const [singleConcert, setSingleConcert] = currSingleConcert; 
+    const { currSingleConcert } = useContext(GlobalState);
+    const { concerts, location } = useContext(GlobalState);
+    const [concertData, setConcerts] = concerts;
+    const [locationData, setLocation] = location;
+    const [singleConcert, setSingleConcert] = currSingleConcert;
 
     const onMarkerPopup = function (event) {
-        setSingleConcert(event); 
+        setSingleConcert(event);
 
         const selectedEventLat = +event._embedded.venues[0].location.latitude;
         const selectedEventLong = +event._embedded.venues[0].location.longitude;
@@ -58,7 +58,10 @@ function Map() {
     useEffect(() => {
         const getUserLocation = async () => {
             navigator.geolocation.getCurrentPosition((position) => {
-                setLocation({lat:position.coords.latitude, lon:position.coords.longitude})
+                setLocation({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                });
                 setState({
                     ...state,
                     lat: position.coords.latitude,
@@ -72,7 +75,7 @@ function Map() {
             const ticketDataByLocation = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
             );
-            setConcerts(ticketDataByLocation.data._embedded.events)
+            setConcerts(ticketDataByLocation.data._embedded.events);
 
             setState({
                 ...state,
@@ -87,14 +90,12 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
-
-
     return (
         //TODO:Filter by genre, and not keyword
-        //TODO:Change color of our home marker 
+        //TODO:Change color of our home marker
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
-        //TODO: Do we need location data in global state? Double check. 
-        
+        //TODO: Do we need location data in global state? Double check.
+
         <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
             <GoogleMap
                 zoom={10}
@@ -108,26 +109,24 @@ function Map() {
                     }}
                 />
 
-                {concertData?concertData.map((currEvent) => {
-                    if(currEvent._embedded.venues[0].location){
-
-                        return (
-                            <Marker
-                                key={currEvent.id}
-                                onClick={() => onMarkerPopup(currEvent)}
-                        
-                                position={{
-                                    lat: +currEvent._embedded.venues[0].location
-                                        .latitude,
-                                    lng: +currEvent._embedded.venues[0].location
-                                        .longitude,
-                                }}
-    
-                        
-                            />
-                        );
-                    }
-                }): null}
+                {concertData
+                    ? concertData.map((currEvent) => {
+                          if (currEvent._embedded.venues[0].location) {
+                              return (
+                                  <Marker
+                                      key={currEvent.id}
+                                      onClick={() => onMarkerPopup(currEvent)}
+                                      position={{
+                                          lat: +currEvent._embedded.venues[0]
+                                              .location.latitude,
+                                          lng: +currEvent._embedded.venues[0]
+                                              .location.longitude,
+                                      }}
+                                  />
+                              );
+                          }
+                      })
+                    : null}
 
                 {state.isOpen && (
                     <InfoWindow

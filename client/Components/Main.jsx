@@ -34,7 +34,6 @@ const Main = () => {
         getUserData();
     }, []);
 
-
     return (
         <div>
             <Router>
