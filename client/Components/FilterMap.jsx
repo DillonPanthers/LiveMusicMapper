@@ -61,7 +61,7 @@ const Filter= ()=>{
     const venueName = event._embedded.venues[0].name; 
     if(!accum.hasOwnProperty(venueName)){
       const venueData = event._embedded.venues[0]; 
-      accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+      accum[venueName] = {venueData: venueData, venueEvents: [] }; 
     }
     return accum; 
   },{})
@@ -77,7 +77,7 @@ const Filter= ()=>{
    */
   ticketDataByLocation.data._embedded.events.forEach(event =>{
     const eventVenue = event._embedded.venues[0].name; 
-        venueObj[eventVenue].venueEvents.add(event)
+        venueObj[eventVenue].venueEvents.push(event);
       })
 
       setVenues(venueObj); 

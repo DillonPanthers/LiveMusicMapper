@@ -84,11 +84,10 @@ function Map() {
         if(!accum.hasOwnProperty(venueName)){
     //Here I am grabbing the venue data and setting it as that venues personal data. 
           const venueData = event._embedded.venues[0]; 
-          accum[venueName] = {venueData: venueData, venueEvents: new Set() }; 
+          accum[venueName] = {venueData: venueData, venueEvents: [] }; 
         }
         return accum; 
       },{})
-
 
       /**
        * Now that I have an object that would look something like 
@@ -102,7 +101,7 @@ function Map() {
 
       ticketDataByLocation.data._embedded.events.forEach(event =>{
         const eventVenue = event._embedded.venues[0].name; 
-        venueObj[eventVenue].venueEvents.add(event)
+        venueObj[eventVenue].venueEvents.push(event)
       })
       
             setVenues(venueObj); 
@@ -123,6 +122,8 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
+    console.log(venueDataObj, 'venue data obj')
+
     return (
       
         //TODO:Change color of our home marker 
@@ -131,7 +132,9 @@ function Map() {
         //TODO: Cleanup unnecessary code in this component - in progress
         //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it. 
         //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component. 
-
+        //TODO: Add venue address to infowindow marker
+        //TODO: Change card to Lizard card from material UI 
+        //TODO: Change set to array for venueEvents
         
         isLoading?  <Loading loading={isLoading}/> :
 
@@ -184,7 +187,7 @@ function Map() {
                     </InfoWindow>
                 )}
             </GoogleMap>
-            <ConcertCardList />
+            {/* <ConcertCardList /> */}
         </LoadScript>
     );
     

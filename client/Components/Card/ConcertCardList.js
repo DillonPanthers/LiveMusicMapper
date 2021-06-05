@@ -8,9 +8,7 @@ const ConcertCardList = () => {
     let venueData = null;
 
     if (Object.keys(currentVenue).length > 0) {
-        const setArr = [...currentVenue.venueEvents];
-        // console.log(setArr, 'set array here');
-        venueData = setArr.map((concert) => (
+        venueData = currentVenue.venueEvents.map((concert) => (
             <ConcertCard key={concert.id} concertData={concert} />
         ));
     }
