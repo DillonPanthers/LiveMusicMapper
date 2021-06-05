@@ -41,6 +41,7 @@ const NavBar = (props) => {
 
     const logOut = () => {
         window.localStorage.removeItem('token');
+        window.localStorage.removeItem('spotify_token');
         setUser({});
     };
 

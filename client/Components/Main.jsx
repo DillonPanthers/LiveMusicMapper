@@ -9,7 +9,7 @@ import Auth from './Login/Auth';
 import Dashboard from './Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
-import SingleVenue from './Venues/SingleVenue'
+import SingleVenue from './Venues/SingleVenue';
 
 import { GlobalState } from '../contexts/Store';
 
@@ -18,19 +18,43 @@ const Main = () => {
     const [user, setUser] = auth;
 
     useEffect(() => {
-        const token = window.localStorage.getItem('token');
+        const jwtToken = window.localStorage.getItem('token');
+        const spotifyToken = window.localStorage.getItem('spotify_token');
         const getUserData = async () => {
-            if (token) {
+            if (jwtToken) {
                 const response = await axios.get('/api/auth', {
                     headers: {
-                        authorization: token,
+                        authorization: jwtToken,
                     },
                 });
                 const userData = response.data;
+                console.log('MAIN:', userData);
                 if (userData.id) {
                     setUser(userData);
                 }
-            }
+            } /*
+
+            THIS MAY NOT BE NEEDED BECAUSE WE ARE GOING TO TRY TO CREATE/FIND A SPOTIFTY USER IN THE BACKEND
+
+                    else if (spotifyToken) {
+                // NOTE: axios request is formatted differently to fulfill OAuth 2.0 bearer token requirements
+                const response = await axios.get(
+                    'https://api.spotify.com/v1/me',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${spotifyToken}`,
+                        },
+                    }
+                );
+                const userData = response.data;
+                console.log('MAIN:', userData);
+                if (userData.id) {
+                    // grab email and make a call to backend
+                    const { email, id } = userData;
+                    //const response = await axios.post()
+                    setUser(userData);
+                }
+            }*/
         };
         getUserData();
     }, []);
@@ -49,7 +73,7 @@ const Main = () => {
                         component={SingleConcert}
                         path="/concert/:id"
                     />
-                    <Route exact component = {SingleVenue} path = "/venue/:id"/>
+                    <Route exact component={SingleVenue} path="/venue/:id" />
                     <Route exact component={Login} path="/login" />
                 </Switch>
             </Router>

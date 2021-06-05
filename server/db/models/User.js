@@ -34,10 +34,7 @@ const User = db.define('user', {
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
+        allowNull: true, // password is not required for OAuth login
     },
     fullName: {
         type: DataTypes.VIRTUAL,
@@ -58,6 +55,9 @@ const User = db.define('user', {
     isPublic: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+    },
+    spotifyId: {
+        type: DataTypes.STRING,
     },
 });
 
@@ -101,6 +101,18 @@ User.authenticate = async ({ email, password }) => {
     const error = Error('bad credentials');
     error.status = 401;
     throw error;
+};
+
+// generates token for a SpotifyUser & adds signature on the backend
+User.generateTokenForSpotifyAuth = async (id) => {
+    const user = await User.findOne({
+        where: {
+            spotifyId: id,
+        },
+    });
+    if (user) {
+        return jwt.sign({ id }, process.env.JWT_SECRET);
+    }
 };
 
 module.exports = { User };
