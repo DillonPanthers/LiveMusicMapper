@@ -187,7 +187,7 @@ function Map() {
                     </InfoWindow>
                 )}
             </GoogleMap>
-            {/* <ConcertCardList /> */}
+            <ConcertCardList />
         </LoadScript>
     );
     
