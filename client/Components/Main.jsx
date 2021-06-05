@@ -9,7 +9,8 @@ import Auth from './Login/Auth';
 import Dashboard from './Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
-import SingleVenue from './Venues/SingleVenue'
+import SingleVenue from './Venues/SingleVenue';
+import ConcertCard from './Card/ConcertCard'
 
 import { GlobalState } from '../contexts/Store';
 
@@ -54,6 +55,7 @@ const Main = () => {
                     <Route exact component={Login} path="/login" />
                 </Switch>
             </Router>
+            {/* <ConcertCard/> */}
         </div>
     );
 };

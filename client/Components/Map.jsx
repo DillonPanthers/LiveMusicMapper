@@ -11,7 +11,8 @@ import {
 import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
-import Loading from './Loading/Loading'
+import Loading from './Loading/Loading';
+import ConcertCardList from './Card/ConcertCardList';
 
 
 
@@ -37,6 +38,7 @@ function Map() {
     const onMarkerPopup = function (event) {
         setSingleVenue(event); 
 
+        
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;
@@ -182,6 +184,7 @@ function Map() {
                     </InfoWindow>
                 )}
             </GoogleMap>
+            <ConcertCardList />
         </LoadScript>
     );
     
