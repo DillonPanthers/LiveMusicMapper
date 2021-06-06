@@ -37,6 +37,7 @@ User.belongsToMany(User, {
 Friendship.belongsTo(User, { as: 'userInfo', foreignKey: 'userId' });
 Friendship.belongsTo(User, { as: 'friendInfo', foreignKey: 'friendId' });
 
+/*
 // Friend Request System
 
 // User.findAll({ include: 'invitees' })) -> find people User has invited/requested
@@ -61,6 +62,7 @@ User.belongsToMany(User, {
 // Use FriendRequest table to find info on invitee and requester
 FriendRequest.belongsTo(User, { as: 'invitee', foreignKey: 'inviteeId' });
 FriendRequest.belongsTo(User, { as: 'requestedBy', foreignKey: 'requesterId' });
+*/
 
 // After relationships are created, export them here into hooks.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
