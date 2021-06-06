@@ -13,6 +13,7 @@ import SingleVenue from './Venues/SingleVenue';
 
 import { GlobalState } from '../contexts/Store';
 
+// TODO: find out why regular login doesnot save on hard refresh
 const Main = () => {
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
@@ -22,39 +23,27 @@ const Main = () => {
         const spotifyToken = window.localStorage.getItem('spotify_token');
         const getUserData = async () => {
             if (jwtToken) {
-                const response = await axios.get('/api/auth', {
-                    headers: {
-                        authorization: jwtToken,
-                    },
-                });
-                const userData = response.data;
-                console.log('MAIN:', userData);
-                if (userData.id) {
-                    setUser(userData);
-                }
-            } /*
-
-            THIS MAY NOT BE NEEDED BECAUSE WE ARE GOING TO TRY TO CREATE/FIND A SPOTIFTY USER IN THE BACKEND
-
-                    else if (spotifyToken) {
-                // NOTE: axios request is formatted differently to fulfill OAuth 2.0 bearer token requirements
-                const response = await axios.get(
-                    'https://api.spotify.com/v1/me',
-                    {
+                let response;
+                if (spotifyToken) {
+                    response = await axios.get('/api/auth', {
                         headers: {
-                            Authorization: `Bearer ${spotifyToken}`,
+                            authorization: jwtToken,
+                            spotify: true,
                         },
-                    }
-                );
+                    });
+                } else {
+                    response = await axios.get('/api/auth', {
+                        headers: {
+                            authorization: jwtToken,
+                            spotify: false,
+                        },
+                    });
+                }
                 const userData = response.data;
-                console.log('MAIN:', userData);
                 if (userData.id) {
-                    // grab email and make a call to backend
-                    const { email, id } = userData;
-                    //const response = await axios.post()
                     setUser(userData);
                 }
-            }*/
+            }
         };
         getUserData();
     }, []);

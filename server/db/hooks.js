@@ -7,8 +7,9 @@ const {
     FriendRequest,
 } = require('./relationships');
 
-User.findUser = function (id) {
-    return User.findByPk(id, {
+// NOTE: added 'isSpotifyUser' as a variable to grab a User based on their spotifyId
+User.findUser = function (id, isSpotifyUser) {
+    const attributes = {
         attributes: { exlude: ['password'] },
         include: [
             {
@@ -18,7 +19,11 @@ User.findUser = function (id) {
             },
             'concerts',
         ],
-    });
+    };
+    if (isSpotifyUser) {
+        return User.findOne({ where: { spotifyId: id } }, attributes);
+    }
+    return User.findByPk(id, attributes);
 };
 
 //Export models here and into index.js

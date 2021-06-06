@@ -69,12 +69,10 @@ User.beforeCreate(async (user) => {
 });
 
 // verifies user by their token
-User.byToken = async (token) => {
+User.byToken = async (token, isSpotifyUser) => {
     try {
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        // TODO: separate logic
-        // TODO: attributes to exclude - email, password, isAdmin
-        const user = await User.findUser(id);
+        const user = await User.findUser(id, isSpotifyUser);
         if (user) {
             return user;
         }

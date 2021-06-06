@@ -13,11 +13,10 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// POST /api/auth/spotify - return token for spotify account
+/*
+POST /api/auth/spotify - return token for spotify account
 router.post('/spotify', async (req, res, next) => {
-    console.log(3);
     try {
-        console.log(4);
         const { id } = req.body;
         res.send({
             token: await User.generateTokenForSpotifyAuth(id),
@@ -26,6 +25,7 @@ router.post('/spotify', async (req, res, next) => {
         next(ex);
     }
 });
+*/
 
 // GET /api/auth
 router.get('/', requireToken, async (req, res, next) => {

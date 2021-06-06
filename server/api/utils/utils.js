@@ -3,7 +3,8 @@ const { User } = require('../../db/index');
 const requireToken = async (req, res, next) => {
     try {
         const token = req.headers.authorization; // checks if there is a header
-        const user = await User.byToken(token); // finds user on header
+        const isSpotifyUser = req.headers.spotify;
+        const user = await User.byToken(token, isSpotifyUser); // finds user on header
         req.user = user; // if user exists, add user to request
         next(); // allows request to move onto the next function
     } catch (error) {
