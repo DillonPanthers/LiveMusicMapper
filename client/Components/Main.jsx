@@ -13,7 +13,7 @@ import SingleVenue from './Venues/SingleVenue';
 
 import { GlobalState } from '../contexts/Store';
 
-// TODO: find out why regular login doesnot save on hard refresh
+// TODO: find out why regular login does not save on hard refresh
 const Main = () => {
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;

@@ -7,23 +7,29 @@ const {
     FriendRequest,
 } = require('./relationships');
 
-// NOTE: added 'isSpotifyUser' as a variable to grab a User based on their spotifyId
-User.findUser = function (id, isSpotifyUser) {
-    const attributes = {
-        attributes: { exlude: ['password'] },
-        include: [
-            {
-                model: User,
-                as: 'friends',
-                attributes: ['id', 'firstName', 'lastName', 'imageUrl'],
-            },
-            'concerts',
-        ],
-    };
-    if (isSpotifyUser) {
-        return User.findOne({ where: { spotifyId: id } }, attributes);
-    }
-    return User.findByPk(id, attributes);
+const attributes = {
+    attributes: { exclude: ['password'] },
+    include: [
+        {
+            model: User,
+            as: 'friends',
+            attributes: ['id', 'firstName', 'lastName', 'imageUrl'],
+        },
+        'concerts',
+    ],
+};
+
+// TODO: cleanup
+User.findUser = async (id) => {
+    console.log(3);
+    // NOTE: On hard refresh call to read user fails here
+    const person = await User.findByPk(id, attributes);
+    console.log(person);
+    return person;
+};
+
+User.findUserBySpotifyId = async (id) => {
+    return await User.findOne({ where: { spotifyId: id } }, attributes);
 };
 
 //Export models here and into index.js

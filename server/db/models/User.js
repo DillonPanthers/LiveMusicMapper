@@ -72,10 +72,19 @@ User.beforeCreate(async (user) => {
 User.byToken = async (token, isSpotifyUser) => {
     try {
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findUser(id, isSpotifyUser);
+        let user;
+        console.log(1);
+        if (isSpotifyUser) {
+            user = await User.findUserBySpotifyId(id);
+        } else {
+            // NOTE: code fails here and skips to line 92
+            console.log(2);
+            user = await User.findUser(id);
+        }
         if (user) {
             return user;
         }
+        console.log(4);
         const error = Error('bad credentials');
         error.status = 401;
         throw error;
