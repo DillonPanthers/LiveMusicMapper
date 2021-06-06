@@ -1,10 +1,5 @@
 import React, { createContext, useState } from 'react';
-const initialState = {
-    concerts: [],
-    singleConcert: {},
-    user: {},
-    location: {},
-};
+import axios from 'axios';
 
 export const GlobalState = createContext(null);
 const Store = ({ children }) => {
@@ -15,6 +10,21 @@ const Store = ({ children }) => {
     const [user, setUser] = useState({});
     const [location, setLocation] = useState({});
 
+    const getUserData = async () => {
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            const response = await axios.get('/api/auth', {
+                headers: {
+                    authorization: token,
+                },
+            });
+            const userData = response.data;
+            if (userData.id) {
+                setUser(userData);
+            }
+        }
+    };
+
     return (
         <GlobalState.Provider
             value={{
@@ -24,6 +34,7 @@ const Store = ({ children }) => {
                 auth: [user, setUser],
                 location: [location, setLocation],
                 venues: [venues, setVenues],
+                getUserData,
             }}
         >
             {children}
