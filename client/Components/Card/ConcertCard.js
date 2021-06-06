@@ -50,7 +50,7 @@ export default function ConcertCard({ concertData }) {
     //TODO: FIND OUT WHAT OTHER INFO YOU NEED FOR THE CONCERT
     //TODO: DECIDE WHAT WE WANT TO DO WITH THE HEART BUTTONS AND SHARE BUTTONS AS WELL AS ARIA LABELS, MAYBE WE CAN USE HEART AS A ADD CONCERT, ETC, IF NOT WE CAN JUST REMOVE IT
 
-    const { currSingleConcert, auth } = useContext(GlobalState);
+    const { currSingleConcert, auth, getUserData } = useContext(GlobalState);
     const [user] = auth;
     const [currConcert, setCurrConcert] = currSingleConcert;
     const classes = useStyles();
@@ -62,9 +62,8 @@ export default function ConcertCard({ concertData }) {
 
     const addConcert = async (concert) => {
         const userId = user.id;
-        console.log('Before await');
         await axios.post('/api/user/concert', { userId, concert });
-        console.log(auth, 'auth here');
+        await getUserData();
     };
 
     return (
