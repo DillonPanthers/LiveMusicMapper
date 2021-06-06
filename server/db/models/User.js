@@ -71,6 +71,7 @@ User.beforeCreate(async (user) => {
 // verifies user by their token
 User.byToken = async (token, isSpotifyUser) => {
     try {
+        console.log('User.byToken', token);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
         let user;
         console.log(1);

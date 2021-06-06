@@ -6,8 +6,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const router = require('./api');
 
-app.engine('html', require('ejs').renderFile);
-
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
