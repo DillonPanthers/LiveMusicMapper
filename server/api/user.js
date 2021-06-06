@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { User } = require('../db/index');
+const { User, Friendship } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
 // TODO: add a route to create a user
@@ -16,6 +16,9 @@ const { requireToken } = require('./utils/utils');
 //     }
 // });
 
+// TODO: Do we need to secure these routes? Is it just adding requireToken function
+
+// GET /api/user/id
 router.get('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -29,6 +32,19 @@ router.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
+
+// GET /api/user/id/friendrequests
+
+router.get('/:id/friendrequests', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const requests = await Friendship.getRequestedBy(id);
+        res.send(requests);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post('/concert', async (req, res, next) => {
     try {
         const { userId } = req.body;
