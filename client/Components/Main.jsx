@@ -17,7 +17,7 @@ import { GlobalState } from '../contexts/Store';
 const Main = () => {
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
-
+    
     useEffect(() => {
         const token = window.localStorage.getItem('token');
         const getUserData = async () => {

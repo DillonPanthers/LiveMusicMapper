@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-
-import {Link} from 'react-router-dom'
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -17,9 +17,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {GlobalState} from '../../contexts/Store'
-
-
+import { GlobalState } from '../../contexts/Store';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,13 +50,21 @@ export default function ConcertCard({ concertData }) {
     //TODO: FIND OUT WHAT OTHER INFO YOU NEED FOR THE CONCERT
     //TODO: DECIDE WHAT WE WANT TO DO WITH THE HEART BUTTONS AND SHARE BUTTONS AS WELL AS ARIA LABELS, MAYBE WE CAN USE HEART AS A ADD CONCERT, ETC, IF NOT WE CAN JUST REMOVE IT
 
-    const {currSingleConcert}= useContext(GlobalState)
-    const [currConcert, setCurrConcert]= currSingleConcert 
+    const { currSingleConcert, auth } = useContext(GlobalState);
+    const [user] = auth;
+    const [currConcert, setCurrConcert] = currSingleConcert;
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+
+    const addConcert = async (concert) => {
+        const userId = user.id;
+        console.log('Before await');
+        await axios.post('/api/user/concert', { userId, concert });
+        console.log(auth, 'auth here');
     };
 
     return (
@@ -89,11 +95,21 @@ export default function ConcertCard({ concertData }) {
                         color="textSecondary"
                         component="p"
                     >
-                        <Link to={`/concert/${concertData.id}`} onClick={()=>{setCurrConcert(concertData)}}>Enter Basic Concert Details Here</Link>
+                        <Link
+                            to={`/concert/${concertData.id}`}
+                            onClick={() => {
+                                setCurrConcert(concertData);
+                            }}
+                        >
+                            Enter Basic Concert Details Here
+                        </Link>
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton
+                        onClick={() => addConcert(concertData)}
+                        aria-label="add to favorites"
+                    >
                         <FavoriteIcon />
                     </IconButton>
                     <IconButton aria-label="share">

@@ -21,5 +21,14 @@ User.findUser = function (id) {
     });
 };
 
+User.attendConcert = async (id, concert) => {
+    const user = await User.findByPk(id);
+    let newConcert = await Concert.findByPk(concert.id);
+    if (!newConcert) {
+        newConcert = await Concert.create(concert);
+    }
+    await user.addConcert(newConcert);
+};
+
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
