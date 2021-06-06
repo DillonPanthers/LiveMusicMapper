@@ -1,13 +1,6 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios';
 
-const initialState = {
-    concerts: [],
-    singleConcert: {},
-    user: {},
-    location: {},
-};
-
 export const GlobalState = createContext(null);
 const Store = ({ children }) => {
     const [concerts, setConcerts] = useState({});
