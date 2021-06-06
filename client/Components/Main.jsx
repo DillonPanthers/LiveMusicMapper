@@ -10,8 +10,9 @@ import Dashboard from './Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
 import SingleVenue from './Venues/SingleVenue';
-import ConcertCard from './Card/ConcertCard';
 import SingleUser from './User/SingleUser';
+import FriendRequests from './User/FriendRequests';
+
 import { GlobalState } from '../contexts/Store';
 
 const Main = () => {
@@ -21,6 +22,7 @@ const Main = () => {
     useEffect(() => {
         const token = window.localStorage.getItem('token');
         getUserData();
+        console.log('running');
     }, []);
 
     return (
@@ -37,12 +39,16 @@ const Main = () => {
                     <Route exact component={SingleUser} path="/user/:id" />
                     <Route
                         exact
+                        component={FriendRequests}
+                        path="/friends/requests"
+                    />
+                    <Route
+                        exact
                         component={SingleConcert}
                         path="/concert/:id"
                     />
                 </Switch>
             </Router>
-            {/* <ConcertCard/> */}
         </div>
     );
 };

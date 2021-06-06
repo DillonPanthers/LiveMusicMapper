@@ -9,6 +9,7 @@ function SingleUser(props) {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
             setUser(user.data);
+            console.log(user);
         };
 
         getUser();
