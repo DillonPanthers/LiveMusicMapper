@@ -9,12 +9,18 @@ const {
 
 User.findUser = function (id) {
     return User.findByPk(id, {
-        attributes: { exlude: ['password'] },
+        attributes: { exclude: ['password'] },
         include: [
             {
                 model: User,
                 as: 'friends',
-                attributes: ['id', 'firstName', 'lastName', 'imageUrl'],
+                attributes: [
+                    'id',
+                    'firstName',
+                    'lastName',
+                    'imageUrl',
+                    'status',
+                ],
             },
             'concerts',
         ],

@@ -16,6 +16,19 @@ const { requireToken } = require('./utils/utils');
 //     }
 // });
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findUser(id);
+        if (user) {
+            res.status(200).send(user);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
 router.post('/concert', async (req, res, next) => {
     try {
         const { userId } = req.body;

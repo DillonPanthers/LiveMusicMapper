@@ -11,7 +11,7 @@ import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
 import SingleVenue from './Venues/SingleVenue';
 import ConcertCard from './Card/ConcertCard';
-
+import SingleUser from './User/SingleUser';
 import { GlobalState } from '../contexts/Store';
 
 const Main = () => {
@@ -32,13 +32,14 @@ const Main = () => {
                     <Route exact component={Map} path="/map" />
                     <Route exact component={Auth} path="/auth/:token" />
                     <Route exact component={Dashboard} path="/dashboard" />
+                    <Route exact component={Login} path="/login" />
+                    <Route exact component={SingleVenue} path="/venue/:id" />
+                    <Route exact component={SingleUser} path="/user/:id" />
                     <Route
                         exact
                         component={SingleConcert}
                         path="/concert/:id"
                     />
-                    <Route exact component={SingleVenue} path="/venue/:id" />
-                    <Route exact component={Login} path="/login" />
                 </Switch>
             </Router>
             {/* <ConcertCard/> */}

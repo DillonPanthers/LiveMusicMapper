@@ -59,6 +59,12 @@ const User = db.define('user', {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     },
+
+    status: {
+        type: DataTypes.ENUM(['pending', 'blocked', 'accepted']),
+        allowNull: false,
+        defaultValue: 'pending',
+    },
 });
 
 // encrypts password
