@@ -10,32 +10,18 @@ import Dashboard from './Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
 import SingleVenue from './Venues/SingleVenue';
-import ConcertCard from './Card/ConcertCard'
+import ConcertCard from './Card/ConcertCard';
 
 import { GlobalState } from '../contexts/Store';
 
 const Main = () => {
-    const { auth } = useContext(GlobalState);
+    const { auth, getUserData } = useContext(GlobalState);
     const [user, setUser] = auth;
-    
+
     useEffect(() => {
         const token = window.localStorage.getItem('token');
-        const getUserData = async () => {
-            if (token) {
-                const response = await axios.get('/api/auth', {
-                    headers: {
-                        authorization: token,
-                    },
-                });
-                const userData = response.data;
-                if (userData.id) {
-                    setUser(userData);
-                }
-            }
-        };
         getUserData();
     }, []);
-
 
     return (
         <div>
@@ -51,7 +37,7 @@ const Main = () => {
                         component={SingleConcert}
                         path="/concert/:id"
                     />
-                    <Route exact component = {SingleVenue} path = "/venue/:id"/>
+                    <Route exact component={SingleVenue} path="/venue/:id" />
                     <Route exact component={Login} path="/login" />
                 </Switch>
             </Router>
