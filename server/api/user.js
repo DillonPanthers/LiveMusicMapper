@@ -16,6 +16,8 @@ const { requireToken } = require('./utils/utils');
 //     }
 // });
 
+// TODO: Do we need to secure these routes? Is it just adding requireToken function
+
 // GET /api/user/id
 router.get('/:id', async (req, res, next) => {
     try {
