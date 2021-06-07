@@ -21,9 +21,8 @@ const attributes = {
 
 // TODO: cleanup
 User.findUser = async (id) => {
-    console.log(3, 'b');
-    console.log('----> id', id);
-    // NOTE: On hard refresh call to read user fails here
+    // console.log(3, 'b');
+    // console.log('----> id', id);
     const user = await User.findByPk(id, attributes);
     console.log('----> user', user);
     return user;

@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
         borderColor: '#1DE9B6',
         color: '#1DE9B6',
         width: '100%',
+        lineHeight: '125%',
     },
 }));
 

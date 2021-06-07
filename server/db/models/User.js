@@ -76,26 +76,26 @@ User.byToken = async (token, isSpotifyUser) => {
         // console.log('----> isSpotifyUser', isSpotifyUser);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
         let user;
-        // console.log('----> id', id);
         // console.log(2);
+        // console.log('----> id', id);
         // console.log(typeof isSpotifyUser);
         if (isSpotifyUser === 'true' || isSpotifyUser === true) {
+            // console.log(3, 'a', 'true');
             // console.log('----> IF, isSpotifyUser', typeof isSpotifyUser);
             // console.log(isSpotifyUser === undefined);
-            // console.log(3, 'a', 'true');
             user = await User.findUserBySpotifyId(id);
         }
         // NOTE: code fails here and skips to line 92
         else if (isSpotifyUser === 'false' || isSpotifyUser === undefined) {
-            console.log(3, 'a');
-            console.log(id);
+            //console.log(3, 'a');
+            //console.log(id);
             user = await User.findUser(id);
         }
         if (user) {
-            console.log(4);
+            //console.log(4);
             return user;
         }
-        console.log(5);
+        // console.log(5);
         const error = Error('bad credentials');
         error.status = 401;
         throw error;
