@@ -10,7 +10,6 @@ function Auth() {
         const loginThroughSpotify = () => {
             const token = qs.parse(location.hash);
 
-            console.log('AUTH: ', token);
             window.localStorage.setItem(
                 'spotify_token',
                 token['#/auth/access_token']

@@ -63,6 +63,7 @@ export default function ConcertCard({ concertData }) {
     const addConcert = async (concert) => {
         const userId = user.id;
         await axios.post('/api/user/concert', { userId, concert });
+        console.log('----> ConcertCard:', userId, concert);
         await getUserData();
     };
 

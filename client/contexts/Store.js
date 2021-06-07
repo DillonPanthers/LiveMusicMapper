@@ -32,7 +32,6 @@ const Store = ({ children }) => {
                 });
             }
             const userData = response.data;
-            console.log('----> userData', userData);
             if (userData.id) {
                 setUser(userData);
             }

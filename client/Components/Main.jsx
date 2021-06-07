@@ -20,7 +20,6 @@ const Main = () => {
 
     useEffect(() => {
         getUserData();
-        console.log('running');
     }, []);
 
     return (

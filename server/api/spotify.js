@@ -31,8 +31,6 @@ router.get('/login', (req, res, next) => {
 });
 
 // GET /api/spotify/callback
-// TODO: Get User Info and create user in the backend if that user doesn't exist
-// if user exists, prompt their info to display in the backend
 router.get('/callback', async (req, res, next) => {
     try {
         const code = req.query.code;
@@ -80,10 +78,6 @@ router.get('/callback', async (req, res, next) => {
                 lastName,
             });
         }
-
-        // RESUME: code stops running here
-        // const authResponse = await axios.post('/api/auth/spotify', { id });
-        // const { token } = authResponse.data;
 
         const jwtToken = await User.generateTokenForSpotifyAuth(id);
 

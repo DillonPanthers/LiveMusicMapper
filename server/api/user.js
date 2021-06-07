@@ -4,18 +4,7 @@ const { User, Friendship } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
 // TODO: add a route to create a user
-
 // NOTE: this may not be required bc we are eagerloading concerts with the user model
-
-// GET /api/user/:id/concerts
-// router.get('/:id/concerts', requireToken, async (req, res, next) => {
-//     try {
-//         res.send(await Concert.byToken(req.user, req.params.id));
-//     } catch (ex) {
-//         next(ex);
-//     }
-// });
-
 // TODO: Do we need to secure these routes? Is it just adding requireToken function
 
 // GET /api/user/id
@@ -45,6 +34,8 @@ router.get('/:id/friendrequests', async (req, res, next) => {
     }
 });
 
+// GET /api/user/concert
+
 router.post('/concert', async (req, res, next) => {
     try {
         const { userId } = req.body;
@@ -63,6 +54,7 @@ router.post('/concert', async (req, res, next) => {
             lat: latitude,
             lon: longitude,
         };
+        console.log('---->', userId, concert);
         await User.attendConcert(userId, concert);
         res.sendStatus(200);
     } catch (ex) {
