@@ -7,7 +7,9 @@ import {
     makeStyles,
     CardContent,
     CardActions,
+    Icon,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingTop: '2%',
     },
     card: {
         zIndex: '1000',
@@ -38,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
         background: '#1DE9B6',
         '&:hover': {
             background: '#5F285A',
-            color: 'white',
         },
         borderRadius: 50,
         width: '100%',
+        lineHeight: '125%',
     },
     link: {
         color: 'inherit',
@@ -55,10 +58,29 @@ const useStyles = makeStyles((theme) => ({
     title: {
         paddingBottom: '8%',
     },
+    label: {
+        paddingTop: '8%',
+    },
+    secondaryLink: {
+        color: 'inherit',
+    },
+    icon: {
+        width: '100%',
+        verticalAlign: 'top',
+        '&:hover': {
+            color: 'white',
+        },
+    },
 }));
 
 const Login = () => {
     const classes = useStyles();
+
+    const svgIcon = (
+        <Icon>
+            <img src="spotify.svg" className={classes.icon} />
+        </Icon>
+    );
 
     return (
         <>
@@ -69,7 +91,7 @@ const Login = () => {
                     </Typography>
 
                     <a href="/api/spotify/login" className={classes.link}>
-                        <Button className={classes.button}>
+                        <Button className={classes.button} startIcon={svgIcon}>
                             LOG IN WITH SPOTIFY ACCOUNT
                         </Button>
                     </a>
@@ -78,6 +100,12 @@ const Login = () => {
                         <p>or</p>
                     </div>
                     <EmailSignIn />
+                    <Typography className={classes.label}>
+                        Don't have an account?{' '}
+                        <Link to="/signup" className={classes.secondaryLink}>
+                            SIGN UP
+                        </Link>
+                    </Typography>
                 </Card>
             </Grid>
             <Background />

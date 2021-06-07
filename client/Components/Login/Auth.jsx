@@ -9,10 +9,12 @@ function Auth() {
     useEffect(() => {
         const loginThroughSpotify = () => {
             const token = qs.parse(location.hash);
+
             window.localStorage.setItem(
                 'spotify_token',
                 token['#/auth/access_token']
             );
+            window.localStorage.setItem('token', token.jwtToken);
         };
 
         loginThroughSpotify();
