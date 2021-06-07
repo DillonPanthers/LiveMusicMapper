@@ -54,7 +54,6 @@ router.post('/concert', async (req, res, next) => {
             lat: latitude,
             lon: longitude,
         };
-        console.log('---->', userId, concert);
         await User.attendConcert(userId, concert);
         res.sendStatus(200);
     } catch (ex) {
