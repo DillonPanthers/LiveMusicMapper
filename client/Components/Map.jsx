@@ -125,8 +125,6 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
-    console.log(venueDataObj, 'venue data obj');
-
     return (
         //TODO:Change color of our home marker
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.

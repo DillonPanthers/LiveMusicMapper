@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { User } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
-// POST /api/auth
+// POST /api/auth - returns token for email account
 router.post('/', async (req, res, next) => {
     try {
         const { email, password } = req.body;

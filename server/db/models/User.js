@@ -34,10 +34,7 @@ const User = db.define('user', {
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
+        allowNull: true, // password is not required for OAuth login
     },
     fullName: {
         type: DataTypes.VIRTUAL,
@@ -59,6 +56,9 @@ const User = db.define('user', {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     },
+    spotifyId: {
+        type: DataTypes.STRING,
+    },
 });
 
 // encrypts password
@@ -69,15 +69,33 @@ User.beforeCreate(async (user) => {
 });
 
 // verifies user by their token
-User.byToken = async (token) => {
+User.byToken = async (token, isSpotifyUser) => {
     try {
+        // console.log(1);
+        // console.log('----> User.byToken', token);
+        // console.log('----> isSpotifyUser', isSpotifyUser);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        // TODO: separate logic
-        // TODO: attributes to exclude - email, password, isAdmin
-        const user = await User.findUser(id);
+        let user;
+        // console.log(2);
+        // console.log('----> id', id);
+        // console.log(typeof isSpotifyUser);
+        if (isSpotifyUser === 'true' || isSpotifyUser === true) {
+            // console.log(3, 'a', 'true');
+            // console.log('----> IF, isSpotifyUser', typeof isSpotifyUser);
+            // console.log(isSpotifyUser === undefined);
+            user = await User.findUserBySpotifyId(id);
+        }
+        // NOTE: code fails here and skips to line 92
+        else if (isSpotifyUser === 'false' || isSpotifyUser === undefined) {
+            //console.log(3, 'a');
+            //console.log(id);
+            user = await User.findUser(id);
+        }
         if (user) {
+            //console.log(4);
             return user;
         }
+        // console.log(5);
         const error = Error('bad credentials');
         error.status = 401;
         throw error;
@@ -101,6 +119,18 @@ User.authenticate = async ({ email, password }) => {
     const error = Error('bad credentials');
     error.status = 401;
     throw error;
+};
+
+// generates token for a SpotifyUser & adds signature on the backend
+User.generateTokenForSpotifyAuth = async (id) => {
+    const user = await User.findOne({
+        where: {
+            spotifyId: id,
+        },
+    });
+    if (user) {
+        return jwt.sign({ id }, process.env.JWT_SECRET);
+    }
 };
 
 module.exports = { User };

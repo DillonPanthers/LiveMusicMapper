@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import axios from 'axios';
 
 import NavBar from './NavBar';
 import LandingPage from './LandingPage/LandingPage.jsx';
@@ -15,14 +14,12 @@ import FriendRequests from './User/FriendRequests';
 
 import { GlobalState } from '../contexts/Store';
 
+// TODO: find out why regular login does not save on hard refresh
 const Main = () => {
-    const { auth, getUserData } = useContext(GlobalState);
-    const [user, setUser] = auth;
+    const { getUserData } = useContext(GlobalState);
 
     useEffect(() => {
-        const token = window.localStorage.getItem('token');
         getUserData();
-        console.log('running');
     }, []);
 
     return (

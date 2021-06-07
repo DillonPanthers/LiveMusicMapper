@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import { GlobalState } from '../contexts/Store';
 
 const Dashboard = () => {
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
-
     user.friends = user.friends || [];
     user.concerts = user.concerts || [];
 
