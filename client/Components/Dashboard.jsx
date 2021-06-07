@@ -10,39 +10,38 @@ const Dashboard = () => {
     user.concerts = user.concerts || [];
 
     // TODO; decide to keep or delete
-    /*
-    useEffect(() => {
-        const jwtToken = window.localStorage.getItem('token');
-        const spotifyToken = window.localStorage.getItem('spotify_token');
-        const getUserData = async () => {
-            if (jwtToken) {
-                let response;
-                if (spotifyToken) {
-                    response = await axios.get('/api/auth', {
-                        headers: {
-                            authorization: jwtToken,
-                            spotify: true,
-                        },
-                    });
-                } else {
-                    response = await axios.get('/api/auth', {
-                        headers: {
-                            authorization: jwtToken,
-                            spotify: false,
-                        },
-                    });
-                }
-                const userData = response.data;
-                if (userData.id) {
-                    setUser(userData);
-                }
-            }
-        };
-        getUserData();
-    }, [user]);
-    */
 
-    console.log(user);
+    // useEffect(() => {
+    //     const jwtToken = window.localStorage.getItem('token');
+    //     const spotifyToken = window.localStorage.getItem('spotify_token');
+    //     const getUserData = async () => {
+    //         if (jwtToken) {
+    //             let response;
+    //             if (spotifyToken) {
+    //                 response = await axios.get('/api/auth', {
+    //                     headers: {
+    //                         authorization: jwtToken,
+    //                         spotify: true,
+    //                     },
+    //                 });
+    //             } else {
+    //                 response = await axios.get('/api/auth', {
+    //                     headers: {
+    //                         authorization: jwtToken,
+    //                         spotify: false,
+    //                     },
+    //                 });
+    //             }
+    //             const userData = response.data;
+    //             if (userData.id) {
+    //                 setUser(userData);
+    //             }
+    //         }
+    //     };
+    //     getUserData();
+    // }, []);
+
+    // console.log('----> DASHBOARD', user);
 
     return (
         <>

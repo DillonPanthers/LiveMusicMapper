@@ -19,6 +19,18 @@ const Friendship = db.define('friendship', {
             key: 'id',
         },
     },
+
+    status: {
+        type: DataTypes.ENUM(['pending', 'blocked', 'accepted']),
+        allowNull: false,
+        defaultValue: 'pending',
+    },
 });
 
+Friendship.getRequestedBy = (id) => {
+    return Friendship.findAll({
+        where: { friendId: id, status: 'pending' },
+        include: ['userInfo'],
+    });
+};
 module.exports = { Friendship };

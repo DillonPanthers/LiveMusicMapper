@@ -21,15 +21,28 @@ const attributes = {
 
 // TODO: cleanup
 User.findUser = async (id) => {
-    console.log(3);
+    console.log(3, 'b');
+    console.log('----> id', id);
     // NOTE: On hard refresh call to read user fails here
-    const person = await User.findByPk(id, attributes);
-    console.log(person);
-    return person;
+    const user = await User.findByPk(id, attributes);
+    console.log('----> user', user);
+    return user;
 };
 
 User.findUserBySpotifyId = async (id) => {
+    //console.log(3, 'b');
     return await User.findOne({ where: { spotifyId: id } }, attributes);
+};
+
+User.attendConcert = async (id, concert) => {
+    const user = await User.findByPk(id);
+    // console.log('---->User.attendConcert', user);
+    let newConcert = await Concert.findByPk(concert.id);
+    console.log('---->User.attendConcert, newConcert:', newConcert);
+    if (!newConcert) {
+        newConcert = await Concert.create(concert);
+    }
+    await user.addConcert(newConcert);
 };
 
 //Export models here and into index.js

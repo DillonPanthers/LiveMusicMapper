@@ -61,7 +61,7 @@ const Filter = () => {
                     const venueData = event._embedded.venues[0];
                     accum[venueName] = {
                         venueData: venueData,
-                        venueEvents: new Set(),
+                        venueEvents: [],
                     };
                 }
                 return accum;
@@ -80,59 +80,61 @@ const Filter = () => {
          */
         ticketDataByLocation.data._embedded.events.forEach((event) => {
             const eventVenue = event._embedded.venues[0].name;
-            venueObj[eventVenue].venueEvents.add(event);
+            venueObj[eventVenue].venueEvents.push(event);
         });
 
         setVenues(venueObj);
     };
 
-    return path === '/map' ? (
-        <React.Fragment>
-            <Button
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={recordButtonPosition}
-            >
-                Filter By Music Category
-            </Button>
-            <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(menuOpen)}
-                onClose={closeMenu}
-            >
-                <MenuItem
-                    data-my-value="KnvZfZ7vAeA"
-                    className={classes.container}
-                    onClick={filterMapData}
+    {
+        return path === '/map' ? (
+            <React.Fragment>
+                <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={recordButtonPosition}
                 >
-                    Rock
-                </MenuItem>
-                <MenuItem
-                    data-my-value="KnvZfZ7vAev"
-                    className={classes.container}
-                    onClick={filterMapData}
+                    Filter By Music Category
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(menuOpen)}
+                    onClose={closeMenu}
                 >
-                    Pop
-                </MenuItem>
-                <MenuItem
-                    data-my-value="KnvZfZ7vAvE"
-                    className={classes.container}
-                    onClick={filterMapData}
-                >
-                    Jazz
-                </MenuItem>
-                <MenuItem
-                    data-my-value="KnvZfZ7vAv6"
-                    className={classes.container}
-                    onClick={filterMapData}
-                >
-                    Country
-                </MenuItem>
-            </Menu>
-        </React.Fragment>
-    ) : null;
+                    <MenuItem
+                        data-my-value="KnvZfZ7vAeA"
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Rock
+                    </MenuItem>
+                    <MenuItem
+                        data-my-value="KnvZfZ7vAev"
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Pop
+                    </MenuItem>
+                    <MenuItem
+                        data-my-value="KnvZfZ7vAvE"
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Jazz
+                    </MenuItem>
+                    <MenuItem
+                        data-my-value="KnvZfZ7vAv6"
+                        className={classes.container}
+                        onClick={filterMapData}
+                    >
+                        Country
+                    </MenuItem>
+                </Menu>
+            </React.Fragment>
+        ) : null;
+    }
 };
 
 export default Filter;

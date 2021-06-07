@@ -71,21 +71,31 @@ User.beforeCreate(async (user) => {
 // verifies user by their token
 User.byToken = async (token, isSpotifyUser) => {
     try {
-        console.log('User.byToken', token);
+        // console.log(1);
+        // console.log('----> User.byToken', token);
+        // console.log('----> isSpotifyUser', isSpotifyUser);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
         let user;
-        console.log(1);
-        if (isSpotifyUser) {
+        // console.log('----> id', id);
+        // console.log(2);
+        // console.log(typeof isSpotifyUser);
+        if (isSpotifyUser === 'true' || isSpotifyUser === true) {
+            // console.log('----> IF, isSpotifyUser', typeof isSpotifyUser);
+            // console.log(isSpotifyUser === undefined);
+            // console.log(3, 'a', 'true');
             user = await User.findUserBySpotifyId(id);
-        } else {
-            // NOTE: code fails here and skips to line 92
-            console.log(2);
+        }
+        // NOTE: code fails here and skips to line 92
+        else if (isSpotifyUser === 'false' || isSpotifyUser === undefined) {
+            console.log(3, 'a');
+            console.log(id);
             user = await User.findUser(id);
         }
         if (user) {
+            console.log(4);
             return user;
         }
-        console.log(4);
+        console.log(5);
         const error = Error('bad credentials');
         error.status = 401;
         throw error;

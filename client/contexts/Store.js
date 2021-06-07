@@ -1,10 +1,5 @@
 import React, { createContext, useState } from 'react';
-const initialState = {
-    concerts: [],
-    singleConcert: {},
-    user: {},
-    location: {},
-};
+import axios from 'axios';
 
 export const GlobalState = createContext(null);
 const Store = ({ children }) => {
@@ -15,6 +10,35 @@ const Store = ({ children }) => {
     const [user, setUser] = useState({});
     const [location, setLocation] = useState({});
 
+    const getUserData = async () => {
+        const jwtToken = window.localStorage.getItem('token');
+        const spotifyToken = window.localStorage.getItem('spotify_token');
+
+        if (jwtToken) {
+            let response;
+            if (spotifyToken) {
+                response = await axios.get('/api/auth', {
+                    headers: {
+                        authorization: jwtToken,
+                        spotify: true,
+                    },
+                });
+            } else {
+                response = await axios.get('/api/auth', {
+                    headers: {
+                        authorization: jwtToken,
+                        spotify: false,
+                    },
+                });
+            }
+            const userData = response.data;
+            console.log('----> userData', userData);
+            if (userData.id) {
+                setUser(userData);
+            }
+        }
+    };
+
     return (
         <GlobalState.Provider
             value={{
@@ -24,6 +48,7 @@ const Store = ({ children }) => {
                 auth: [user, setUser],
                 location: [location, setLocation],
                 venues: [venues, setVenues],
+                getUserData,
             }}
         >
             {children}

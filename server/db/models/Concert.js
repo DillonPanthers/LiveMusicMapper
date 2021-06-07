@@ -42,14 +42,6 @@ const Concert = db.define(
             },
         },
 
-        venueAddress: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            validate: {
-                notEmpty: true,
-            },
-        },
-
         lat: {
             type: DataTypes.FLOAT,
             allowNull: false,
@@ -66,15 +58,7 @@ const Concert = db.define(
             },
         },
 
-        imageUrl: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            validate: {
-                isUrl: true,
-            },
-        },
-
-        eventUrl: {
+        url: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -93,19 +77,13 @@ module.exports = { Concert };
 /*
 https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/#event-details-v2
 //ID (attractions.id)
-//Artist Name (attractions.name)
-//Venue Name (venues.name)
-//Venue Address (venues.address.line1)
-//Venue City (venues.city.name)
-//Venue State (venues.state.stateCode)
-//Venue Zip Code (venues.country.countryCode)
-//Venue Country (venues.country.countryCode)
+//Event Name (attractions.name)
+//Venue Name (_embedded.venues[0].name)
 //Venue Lat (venues.country.latitude)
 //Venue Lon (venues.country.longitude)
 //Genres (classifications.id, classifications.name)
-//date (dates.localDate)
-//time (dates.localTime)
-//image (images[0].url)
+//date (dates.start.localDate)
+//time (dates.start.localTime)
 //url (url)
 */
 //#endregion

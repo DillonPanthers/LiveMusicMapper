@@ -12,6 +12,7 @@ import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
 import Loading from './Loading/Loading';
+import ConcertCardList from './Card/ConcertCardList';
 
 function Map() {
     const [state, setState] = useState({
@@ -83,7 +84,7 @@ function Map() {
                         const venueData = event._embedded.venues[0];
                         accum[venueName] = {
                             venueData: venueData,
-                            venueEvents: new Set(),
+                            venueEvents: [],
                         };
                     }
                     return accum;
@@ -103,7 +104,7 @@ function Map() {
 
             ticketDataByLocation.data._embedded.events.forEach((event) => {
                 const eventVenue = event._embedded.venues[0].name;
-                venueObj[eventVenue].venueEvents.add(event);
+                venueObj[eventVenue].venueEvents.push(event);
             });
 
             setVenues(venueObj);
@@ -124,6 +125,8 @@ function Map() {
         getUserLocation();
     }, [state.lat]);
 
+    console.log(venueDataObj, 'venue data obj');
+
     return (
         //TODO:Change color of our home marker
         //TODO:Extra feature -> Dragging the map and update location of where we drag to.
@@ -131,6 +134,9 @@ function Map() {
         //TODO: Cleanup unnecessary code in this component - in progress
         //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it.
         //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component.
+        //TODO: Add venue address to infowindow marker
+        //TODO: Change card to Lizard card from material UI
+        //TODO: Change set to array for venueEvents
 
         isLoading ? (
             <Loading loading={isLoading} />
@@ -177,8 +183,8 @@ function Map() {
                     {state.isOpen && (
                         <InfoWindow
                             position={{
-                                lat: +locationData.lat,
-                                lng: +locationData.lon,
+                                lat: state.selectedEventLat,
+                                lng: state.selectedEventLong,
                             }}
                         >
                             <div>
@@ -189,6 +195,7 @@ function Map() {
                         </InfoWindow>
                     )}
                 </GoogleMap>
+                <ConcertCardList />
             </LoadScript>
         )
     );
