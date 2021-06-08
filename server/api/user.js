@@ -7,7 +7,9 @@ const { requireToken } = require('./utils/utils');
 // NOTE: this may not be required bc we are eagerloading concerts with the user model
 // TODO: Do we need to secure these routes? Is it just adding requireToken function
 
-// GET /api/user/id/friendrequests
+//I set this path up to see grab the users in the database to display them in the search part of our frontend, if anyone see's any issues with this
+//please let me know and i will get rid of it. Is this not secure? Should more data be excluded for the res.send of this route? Maybe we just need the user id and
+//user's name so that we could attach a link to their name.
 
 router.get('/', requireToken, async (req, res, next) => {
     try {
@@ -20,6 +22,7 @@ router.get('/', requireToken, async (req, res, next) => {
     }
 });
 
+// GET /api/user/id/friendrequests
 router.get('/friendrequests', requireToken, async (req, res, next) => {
     try {
         const { user } = req;
