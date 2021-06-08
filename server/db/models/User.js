@@ -35,6 +35,7 @@ const User = db.define('user', {
     password: {
         type: DataTypes.STRING,
         allowNull: true, // password is not required for OAuth login
+        // TODO: do we need to validate based on the spotify id?
     },
     fullName: {
         type: DataTypes.VIRTUAL,

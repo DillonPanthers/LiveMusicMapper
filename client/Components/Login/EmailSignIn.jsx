@@ -46,6 +46,7 @@ const EmailSignIn = () => {
         loadAuthUser();
     };
 
+    // TODO: This can be dry
     const loadAuthUser = async () => {
         const token = window.localStorage.getItem('token');
         if (token) {
