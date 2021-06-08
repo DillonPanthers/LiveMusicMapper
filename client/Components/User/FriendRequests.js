@@ -10,9 +10,14 @@ function FriendRequests() {
     useEffect(() => {
         const getFriendRequests = async () => {
             console.log('first');
-            const requests = await axios.get(
-                `/api/user/${user.id}/friendrequests`
-            );
+            const jwtToken = window.localStorage.getItem('token');
+            const requests = await axios.get(`/api/user/friendrequests`, {
+                headers: {
+                    authorization: jwtToken,
+                    spotify: false,
+                },
+            });
+            console.log('Friends', requests.data);
             setFriendRequests(requests.data);
         };
         if (user.id) {

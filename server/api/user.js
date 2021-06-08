@@ -7,6 +7,18 @@ const { requireToken } = require('./utils/utils');
 // NOTE: this may not be required bc we are eagerloading concerts with the user model
 // TODO: Do we need to secure these routes? Is it just adding requireToken function
 
+// GET /api/user/id/friendrequests
+router.get('/friendrequests', requireToken, async (req, res, next) => {
+    try {
+        const { user } = req;
+        const { id } = user;
+        const requests = await Friendship.getRequestedBy(id);
+        res.send(requests);
+    } catch (error) {
+        next(error);
+    }
+});
+
 // GET /api/user/id
 router.get('/:id', async (req, res, next) => {
     try {
@@ -17,18 +29,6 @@ router.get('/:id', async (req, res, next) => {
         } else {
             res.sendStatus(404);
         }
-    } catch (error) {
-        next(error);
-    }
-});
-
-// GET /api/user/id/friendrequests
-
-router.get('/:id/friendrequests', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const requests = await Friendship.getRequestedBy(id);
-        res.send(requests);
     } catch (error) {
         next(error);
     }
