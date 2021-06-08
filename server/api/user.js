@@ -11,10 +11,18 @@ const { requireToken } = require('./utils/utils');
 //please let me know and i will get rid of it. Is this not secure? Should more data be excluded for the res.send of this route? Maybe we just need the user id and
 //user's name so that we could attach a link to their name.
 
-router.get('/', requireToken, async (req, res, next) => {
+//for now i will put a requiretoken here, because of this a non logged in user will not be able to search for users that have accounts
+
+//NOTE: Just to double check, the order of the paths below is fine right? as long as they are before the :id field, there shouldn't be any issues I presume
+router.get('/search', requireToken, async (req, res, next) => {
     try {
+        //I want to just send back users that have a public profile, if that's the case maybe we won't need a requiretoken to access that user data?
+        //we could again always send back some simple user data like the id and name and basic stuff for those that have the isPublic set to true.
         const users = await User.findAll({
             attributes: { exclude: 'password' },
+            where: {
+                isPublic: true,
+            },
         });
         res.send(users);
     } catch (err) {

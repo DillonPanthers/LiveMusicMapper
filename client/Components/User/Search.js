@@ -14,7 +14,7 @@ const Search = () => {
     const submitSearch = async (event) => {
         event.preventDefault();
         const token = window.localStorage.getItem('token');
-        const response = await axios.get('/api/user', {
+        const response = await axios.get('/api/user/search', {
             headers: {
                 authorization: token,
             },
@@ -28,6 +28,7 @@ const Search = () => {
         //make a call axios call to the backend now to get the users that exist in the database and see if we can get a list of them
         //NOTE: if you want users to populate on the page as the user is typing then we can change functionality similar to that
         //NOTE: Maybe we should have a search bar that has a dropdown of some users that show up as we start typing the names of users in
+        //NOTE: At the moment only logged in users have the ability to search because the require token in the backend.
     };
     return (
         <Container>

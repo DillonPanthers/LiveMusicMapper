@@ -63,6 +63,9 @@ function SingleUser(props) {
     console.log('user is here', user);
     //TODO: Update page view for if a user searches themselves up, and are logged in, to redirect them to a dashboard
     //TODO: Logic for if a user is searching someone up without logging
+    //TODO: What should show if a user has a friend request from someone pending, should the button view for someone viewing the profile
+    //of someone who has added them say something along the lines of "accept friend request" in the case of a pending friend request? Maybe we can get this specific as a bonus
+    //if time permits.
 
     //the reason why the else part of the ternary works without checking to see if a user exists is because on initial load, the user is
     //going to be an {} empty object, and then afterwards it gets populated, and technically user.fullName of an empty object would be undefined.
