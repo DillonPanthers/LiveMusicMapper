@@ -61,6 +61,18 @@ router.post('/concert', async (req, res, next) => {
     }
 });
 
-// POST /api/user/ - create user
+// POST /api/user/add-friend - add friend
 
+// POST /api/user/accept-friend - add friend
+router.post('/accept-friend', async (req, res, next) => {
+    try {
+        const { requesterId, inviteeId } = req.body;
+
+        await User.acceptFriend(requesterId, inviteeId);
+
+        res.sendStatus(201);
+    } catch (error) {
+        next(error);
+    }
+});
 module.exports = router;
