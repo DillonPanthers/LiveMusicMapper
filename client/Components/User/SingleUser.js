@@ -37,21 +37,20 @@ function SingleUser(props) {
 
         if (userData.id === user.id) {
             setIsProfile(true);
-        } else if (userData.id !== user.id) {
         }
 
-        let isFriend = false;
+        // let isFriend = false;
         userData.friends.forEach((friend) => {
+            //we map over the logged in users friends, and see if they have a friend id in their friends array equal to the current user page's id
             if (friend.id === user.id) {
-                isFriend = true;
+                setIsFriend(true);
             }
         });
 
-        if (window.localStorage.token) {
+        //using this to check to see if a user is logged in or not
+        if (token) {
             setIsLoggedIn(true);
         }
-
-        setIsFriend(isFriend);
     };
 
     const addFriend = (inviteeId, requesterId) => {
@@ -60,6 +59,7 @@ function SingleUser(props) {
     };
 
     checkIfFriend();
+
     console.log('user is here', user);
     //TODO: Update page view for if a user searches themselves up, and are logged in, to redirect them to a dashboard
     //TODO: Logic for if a user is searching someone up without logging
