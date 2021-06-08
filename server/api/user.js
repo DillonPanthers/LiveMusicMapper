@@ -8,6 +8,18 @@ const { requireToken } = require('./utils/utils');
 // TODO: Do we need to secure these routes? Is it just adding requireToken function
 
 // GET /api/user/id/friendrequests
+
+router.get('/', requireToken, async (req, res, next) => {
+    try {
+        const users = await User.findAll({
+            attributes: { exclude: 'password' },
+        });
+        res.send(users);
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.get('/friendrequests', requireToken, async (req, res, next) => {
     try {
         const { user } = req;

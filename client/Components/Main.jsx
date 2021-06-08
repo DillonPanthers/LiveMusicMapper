@@ -11,6 +11,7 @@ import Login from './Login/Login';
 import SingleVenue from './Venues/SingleVenue';
 import SingleUser from './User/SingleUser';
 import FriendRequests from './User/FriendRequests';
+import Search from './User/Search';
 
 import { GlobalState } from '../contexts/Store';
 
@@ -33,6 +34,7 @@ const Main = () => {
                     <Route exact component={Login} path="/login" />
                     <Route exact component={SingleVenue} path="/venue/:id" />
                     <Route exact component={SingleUser} path="/user/:id" />
+                    <Route exact component={Search} path="/search" />
                     <Route
                         exact
                         component={FriendRequests}

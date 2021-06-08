@@ -56,12 +56,11 @@ function SingleUser(props) {
 
     const addFriend = (inviteeId, requesterId) => {
         console.log('this is the page for', inviteeId);
-        console.log('requester ', requesterId);
+        console.log('the current requester is ', requesterId);
     };
 
     checkIfFriend();
-    // console.log(window.localStorage.token === undefined, 'token is');
-
+    console.log('user is here', user);
     //TODO: Update page view for if a user searches themselves up, and are logged in, to redirect them to a dashboard
     //TODO: Logic for if a user is searching someone up without logging
 
@@ -71,7 +70,7 @@ function SingleUser(props) {
 
     return (
         <Container>
-            {isLoggedIn ? (
+            {isLoggedIn && Object.keys(user).length > 0 ? (
                 <Container>
                     <Typography>{user.fullName}</Typography>
                     {isFriend ? (
