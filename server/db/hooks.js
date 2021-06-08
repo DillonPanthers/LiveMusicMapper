@@ -48,5 +48,11 @@ User.attendConcert = async (id, concert) => {
     await user.addConcert(newConcert);
 };
 
+User.acceptFriend = async (friendId, userId) => {
+    await Friendship.create({ userId, friendId, status: 'accepted' });
+
+    const addedFriend = await Friendship.findByPk(friendId);
+    await addedFriend.update({ status: 'accepted' });
+};
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
