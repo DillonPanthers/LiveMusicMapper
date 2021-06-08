@@ -59,6 +59,10 @@ const User = db.define('user', {
     spotifyId: {
         type: DataTypes.STRING,
     },
+    genres: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        defaultValue: [],
+    },
 });
 
 // encrypts password

@@ -64,10 +64,28 @@ router.get('/callback', async (req, res, next) => {
         // sanitize display name to separate first and last
         const [firstName, lastName] = display_name.split(' ');
 
+        // get Spotify user's top artists
+        const topArtists = await axios.get(
+            'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50&offset=0',
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
+
+        const { items } = topArtists.data;
+        const { genres } = items[0];
+        // TODO: add genre from frontend so the call is always up to date with a post route?
+        console.log('called from spotify.js', genres);
+
         // find Spotify user in the backend
         let user = await User.findOne({
             where: { spotifyId: id },
         });
+
+        // TODO: figure out how to post on the backend
+        user.genres = genres;
 
         // if Spotify user doesn't exist in the backend, create one
         if (!user) {
@@ -76,6 +94,7 @@ router.get('/callback', async (req, res, next) => {
                 email,
                 firstName,
                 lastName,
+                genres,
             });
         }
 
