@@ -3,12 +3,26 @@ import { Button, Container, Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 
 import axios from 'axios';
+import { GlobalState } from '../../contexts/Store';
 
 function SingleUser(props) {
+    const { auth } = useContext(GlobalState);
+    const [currentUser] = auth;
     const [user, setUser] = useState({});
     const [isFriend, setIsFriend] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { id } = props.match.params;
+            const user = await axios.get(`/api/user/${id}`);
+            setUser(user.data);
+            console.log(user.data);
+        };
+
+        getUser();
+    }, [props.match.params]);
 
     const checkIfFriend = async () => {
         //i dont want to set user since user is already set in useEffect hook
@@ -23,11 +37,10 @@ function SingleUser(props) {
 
         if (userData.id === user.id) {
             setIsProfile(true);
+        } else if (userData.id !== user.id) {
         }
 
         let isFriend = false;
-        // console.log(userData.friends, 'user data here');
-        //console.log(userData.friends)
         userData.friends.forEach((friend) => {
             if (friend.id === user.id) {
                 isFriend = true;
@@ -41,16 +54,10 @@ function SingleUser(props) {
         setIsFriend(isFriend);
     };
 
-    useEffect(() => {
-        const getUser = async () => {
-            const { id } = props.match.params;
-            const user = await axios.get(`/api/user/${id}`);
-            setUser(user.data);
-            console.log(user.data);
-        };
-
-        getUser();
-    }, [props.match.params]);
+    const addFriend = (inviteeId, requesterId) => {
+        console.log('this is the page for', inviteeId);
+        console.log('requester ', requesterId);
+    };
 
     checkIfFriend();
     // console.log(window.localStorage.token === undefined, 'token is');
@@ -72,11 +79,16 @@ function SingleUser(props) {
                     ) : isProfile ? (
                         <Redirect to="/dashboard" />
                     ) : (
-                        <Button variant="contained">Add Friend</Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => addFriend(user, currentUser)}
+                        >
+                            Add Friend
+                        </Button>
                     )}
                 </Container>
             ) : (
-                user.fullName
+                <Typography>{user.fullName}</Typography>
             )}
         </Container>
     );

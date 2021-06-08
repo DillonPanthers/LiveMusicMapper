@@ -42,6 +42,7 @@ function FriendRequests() {
         }
     }, [user]);
 
+    //should we change this function name to accept friend?
     const addFriend = async (requesterId, inviteeId) => {
         await axios.post('/api/user/accept-friend', {
             requesterId,
