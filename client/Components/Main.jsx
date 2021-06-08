@@ -14,7 +14,6 @@ import FriendRequests from './User/FriendRequests';
 
 import { GlobalState } from '../contexts/Store';
 
-// TODO: find out why regular login does not save on hard refresh
 const Main = () => {
     const { getUserData } = useContext(GlobalState);
 

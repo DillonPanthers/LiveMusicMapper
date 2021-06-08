@@ -11,30 +11,16 @@ const Store = ({ children }) => {
     const [location, setLocation] = useState({});
 
     const getUserData = async () => {
-        const jwtToken = window.localStorage.getItem('token');
-        const spotifyToken = window.localStorage.getItem('spotify_token');
-
-        if (jwtToken) {
-            let response;
-            if (spotifyToken) {
-                response = await axios.get('/api/auth', {
-                    headers: {
-                        authorization: jwtToken,
-                        spotify: true,
-                    },
-                });
-            } else {
-                response = await axios.get('/api/auth', {
-                    headers: {
-                        authorization: jwtToken,
-                        spotify: false,
-                    },
-                });
-            }
-            const userData = response.data;
-            if (userData.id) {
-                setUser(userData);
-            }
+        const token = window.localStorage.getItem('token');
+        const response = await axios.get('/api/auth', {
+            headers: {
+                authorization: token,
+            },
+        });
+        const userData = response.data;
+        console.log(userData);
+        if (userData.id) {
+            setUser(userData);
         }
     };
 
