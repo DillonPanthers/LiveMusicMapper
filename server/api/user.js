@@ -59,19 +59,6 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-// 2
-// PUT /api/user/:id - update user's genres using a backend axios call
-router.put('/:id', async (req, res, next) => {
-    try {
-        const user = await User.findUser(req.params.id);
-        const { genres } = req.body;
-        await user.update({ genres });
-        res.sendStatus(201);
-    } catch (error) {
-        next(error);
-    }
-});
-
 // GET /api/user/concert
 router.post('/concert', async (req, res, next) => {
     try {

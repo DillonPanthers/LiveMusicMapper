@@ -5,6 +5,16 @@ const users = [
         email: 'vikkiwchan@gmail.com',
         password: '1234',
         isAdmin: true,
+        genres: ['electronic', 'pop', 'soul', 'r&b', 'indie rock'],
+        artists: [
+            'Dua Lipa',
+            'Arlo Parks',
+            'Romy',
+            'Khruangbin',
+            'Leon Bridges',
+            'Sylvan Esso',
+            'Harry Styles',
+        ],
     },
     {
         firstName: 'Alejandra',

@@ -94,8 +94,27 @@ router.get('/callback', async (req, res, next) => {
         // Checks if user has not connected with Spotify and adds music preferences
         if (user && !user.spotifyId) {
             user.spotifyId = id;
-            user.genres = genres;
-            user.artists = artists;
+
+            // updates existing genres with latest genres listed first in array. existing genres array could look like ['pop'], but as spotify profile matures, place new genres in front of the array and pop of the older genres if the array length exceeds N length.
+            user.genres = [...genres, ...user.genres];
+            const consolidatedGenreArray = user.genres;
+            if (consolidatedGenreArray.length > 10) {
+                while (consolidatedGenreArray.length > 10) {
+                    consolidatedGenreArray.pop();
+                }
+            }
+            user.genres = consolidatedGenreArray;
+
+            // logic will be similar to consolidating the genres array
+            user.artists = [...artists, ...user.artists];
+            const consolidatedArtistsArray = user.artists;
+            if (consolidatedArtistsArray.length > 10) {
+                while (consolidatedArtistsArray.length > 10) {
+                    consolidatedArtistsArray.pop();
+                }
+            }
+            user.artists = consolidatedArtistsArray;
+
             await user.save();
             // Checks if user has been connected through Spotify already, if so, update latest genres and artists
         } else if (user) {
