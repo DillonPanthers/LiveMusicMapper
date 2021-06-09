@@ -14,4 +14,19 @@ const requireToken = async (req, res, next) => {
     }
 };
 
-module.exports = { requireToken };
+const consolidateArray = (existingArray, newArray, n) => {
+    // handles duplicate elements
+    newArray = newArray.reduce((acc, elem) => {
+        if (!existingArray.includes(elem)) acc.push(elem);
+        return acc;
+    }, []);
+    const consolidatedArray = [...newArray, ...existingArray];
+    if (consolidatedArray.length > n) {
+        while (consolidatedArray.length > n) {
+            consolidatedArray.pop();
+        }
+    }
+    return consolidatedArray;
+};
+
+module.exports = { requireToken, consolidateArray };

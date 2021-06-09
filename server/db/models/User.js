@@ -19,10 +19,7 @@ const User = db.define('user', {
     },
     lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
+        allowNull: true,
     },
     email: {
         type: DataTypes.STRING,
@@ -63,10 +60,15 @@ const User = db.define('user', {
         type: DataTypes.ARRAY(DataTypes.TEXT),
         defaultValue: [],
     },
+    artists: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        defaultValue: [],
+    },
 });
 
 // encrypts password
 User.beforeCreate(async (user) => {
+    user.email = user.email.toLowerCase();
     if (user._changed.has('password')) {
         user.password = await bcrypt.hash(user.password, 5);
     }

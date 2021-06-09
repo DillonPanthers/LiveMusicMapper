@@ -14,15 +14,7 @@ const init = async () => {
     try {
         await db.sync({ force: true });
         const [vikki, alejandra, inderprit, craig] = await Promise.all(
-            users.map((user) =>
-                User.create({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    password: user.password,
-                    isAdmin: user.isAdmin,
-                })
-            )
+            users.map((user) => User.create(user))
         );
 
         const [concert] = await Promise.all(

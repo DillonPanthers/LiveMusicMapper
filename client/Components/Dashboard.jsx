@@ -10,14 +10,6 @@ const Dashboard = () => {
     user.friends = user.friends || [];
     user.concerts = user.concerts || [];
 
-    // console.log(user, 'dashboard')
-
-    // useEffect(() => {
-    //     getUserData();
-    // }, []);
-
-    console.log(user.concerts); 
-
     return (
         <>
             <p>See {user.id ? user.firstName : 'User'}'s events</p>
