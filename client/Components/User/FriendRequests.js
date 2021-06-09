@@ -52,11 +52,17 @@ function FriendRequests() {
         await getUserData();
     };
 
-    const ignoreFriend = () => {
-        console.log('IGNORE ME');
+    const rejectFriend = async (requesterId, inviteeId) => {
+        await axios.delete('/api/user/reject-friend', {
+            data: { requesterId, inviteeId },
+        });
+
+        getFriendRequests();
+        await getUserData();
     };
     const blockFriend = () => {
         console.log('BLOCK ME');
+        //TO DO: Blocking is extra feature
     };
 
     //TODO: Get button css working
@@ -77,17 +83,19 @@ function FriendRequests() {
                             Add
                         </Button>
                         <Button
-                            onClick={() => ignoreFriend()}
+                            onClick={() =>
+                                rejectFriend(request.userId, user.id)
+                            }
                             className={classes.button}
                         >
-                            Ignore
+                            Reject
                         </Button>
-                        <Button
+                        {/* <Button
                             onClick={() => blockFriend()}
                             className={classes.button}
                         >
                             Block
-                        </Button>
+                        </Button> */}
                     </Container>
                 );
             })}

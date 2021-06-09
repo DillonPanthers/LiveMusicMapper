@@ -87,7 +87,14 @@ router.post('/concert', async (req, res, next) => {
 });
 
 // POST /api/user/add-friend - add friend
-
+router.post('/add-friend', async (req, res, next) => {
+    try {
+        const { userId, friendId } = req.body;
+        await User.sendFriendRequest(userId, friendId);
+    } catch (error) {
+        next(error);
+    }
+});
 // POST /api/user/accept-friend - add friend
 router.post('/accept-friend', async (req, res, next) => {
     try {
@@ -96,6 +103,16 @@ router.post('/accept-friend', async (req, res, next) => {
         await User.acceptFriend(requesterId, inviteeId);
 
         res.sendStatus(201);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete('/reject-friend', async (req, res, next) => {
+    try {
+        const { requesterId, inviteeId } = req.body;
+        await User.rejectFriendRequest(requesterId, inviteeId);
+        res.sendStatus(204);
     } catch (error) {
         next(error);
     }
