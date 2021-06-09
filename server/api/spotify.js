@@ -33,8 +33,11 @@ router.get('/login', (req, res, next) => {
 // GET /api/spotify/callback
 router.get('/callback', async (req, res, next) => {
     try {
+        console.log(1);
+
         const code = req.query.code;
         const grant_type = 'authorization_code';
+
         let response = await axios({
             method: 'post',
             url: 'https://accounts.spotify.com/api/token',
@@ -52,6 +55,9 @@ router.get('/callback', async (req, res, next) => {
 
         const { access_token, refresh_token } = response.data;
 
+        console.log(access_token, refresh_token);
+        console.log(2);
+
         // get Spotify user data to find or create one in the backend
         response = await axios.get('https://api.spotify.com/v1/me', {
             headers: {
@@ -59,14 +65,14 @@ router.get('/callback', async (req, res, next) => {
             },
         });
         const userData = response.data;
-        const { email, id, display_name } = userData;
+        let { email, id, display_name } = userData;
+        email = email.toLowerCase();
 
-        // sanitize display name to separate first and last
-        const [firstName, lastName] = display_name.split(' ');
+        console.log(userData);
 
         // get Spotify user's top artists
         const topArtists = await axios.get(
-            'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50&offset=0',
+            'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=10&offset=0',
             {
                 headers: {
                     Authorization: `Bearer ${access_token}`,
@@ -74,33 +80,47 @@ router.get('/callback', async (req, res, next) => {
             }
         );
 
-        const { items } = topArtists.data;
-        const { genres } = items[0];
-        // TODO: add genre from frontend so the call is always up to date with a post route?
-        console.log('called from spotify.js', genres);
+        let { items } = topArtists.data;
+        let genres;
+        let artists;
+        if (!items.length) {
+            genres = [];
+            artists = [];
+        } else {
+            genres = items.reduce((acc, artist) => {
+                return [...acc, ...artist.genres];
+            }, []);
+            artists = items.reduce((acc, artist) => {
+                return [...acc, artist.name];
+            }, []);
+        }
 
-        // find Spotify user in the backend
-        let user;
+        // Logic for connecting existing user with an email that matches email in Spotify user account
+        let user = await User.findOne({ where: { email } });
 
-        user = await User.findOne({
-            where: { spotifyId: id },
-        });
-
-        // TODO: figure out how to post on the backend
-        //user.genres = genres;
-
-        // if Spotify user doesn't exist in the backend, create one
-        if (!user) {
+        // Checks if user has not connected with Spotify and adds music preferences
+        if (user && !user.spotifyId) {
+            user.spotifyId = id;
+            user.genres = genres;
+            user.artists = artists;
+            await user.save();
+            // Checks if user has been connected through Spotify already, if so, update latest genres and artists
+        } else if (user) {
+            user.genres = genres;
+            user.artists = artists;
+            await user.save();
+        } else if (!user) {
+            // Checks if user does not exist and if so, create spotify user
+            // sanitize display name to separate first and last
+            let [firstName, lastName] = display_name.split(' ');
+            if (!lastName) lastName = '';
             user = await User.create({
                 spotifyId: id,
                 email,
                 firstName,
                 lastName,
                 genres,
-            });
-
-            user = await User.findOne({
-                where: { spotifyId: id },
+                artists,
             });
         }
 
