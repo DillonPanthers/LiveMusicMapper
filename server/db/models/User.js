@@ -34,10 +34,7 @@ const User = db.define('user', {
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
+        allowNull: true, // password is not required for OAuth login
     },
     fullName: {
         type: DataTypes.VIRTUAL,
@@ -59,6 +56,13 @@ const User = db.define('user', {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     },
+    spotifyId: {
+        type: DataTypes.STRING,
+    },
+    genres: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        defaultValue: [],
+    },
 });
 
 // encrypts password
@@ -71,11 +75,13 @@ User.beforeCreate(async (user) => {
 // verifies user by their token
 User.byToken = async (token) => {
     try {
+        // console.log('----> User.byToken', token);
+        // console.log(1);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
-        // TODO: separate logic
-        // TODO: attributes to exclude - email, password, isAdmin
-        const user = await User.findUser(id);
+        let user = await User.findUser(id);
+        // console.log(2);
         if (user) {
+            // console.log(3);
             return user;
         }
         const error = Error('bad credentials');
@@ -101,6 +107,14 @@ User.authenticate = async ({ email, password }) => {
     const error = Error('bad credentials');
     error.status = 401;
     throw error;
+};
+
+// generates token for a Spotify OAuth login & adds signature on the backend
+User.generateToken = async (id) => {
+    const user = await User.findByPk(id);
+    if (user) {
+        return jwt.sign({ id }, process.env.JWT_SECRET);
+    }
 };
 
 module.exports = { User };

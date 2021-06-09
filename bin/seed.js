@@ -27,7 +27,6 @@ const init = async () => {
 
         const [concert] = await Promise.all(
             concerts.map((concert) => {
-                console.log('-----> seed:', concert);
                 return Concert.create(concert);
             })
         );

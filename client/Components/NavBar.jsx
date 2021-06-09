@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
     makeStyles,
     AppBar,
@@ -34,13 +34,14 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: ADD LINKS TO TITLE & BUTTONS
 const NavBar = (props) => {
+    const location = useLocation();
     const classes = useStyles();
-
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
 
     const logOut = () => {
         window.localStorage.removeItem('token');
+        window.localStorage.removeItem('spotify_token');
         setUser({});
     };
 
@@ -54,14 +55,23 @@ const NavBar = (props) => {
                         </Link>
                     </Typography>
                     <Filter />
+                    {location.pathname !== '/map' && (
+                        <Button className={classes.button}>
+                            <Link to="/map" className={classes.link}>
+                                View&nbsp;Map
+                            </Link>
+                        </Button>
+                    )}
                     {!user.id && (
                         <>
                             <Button className={classes.button}>
                                 <Link to="/login" className={classes.link}>
-                                    Log in
+                                    Log&nbsp;in
                                 </Link>
                             </Button>
-                            <Button className={classes.button}>Sign up</Button>
+                            <Button className={classes.button}>
+                                Sign&nbsp;up
+                            </Button>
                         </>
                     )}
                     {user.id && (

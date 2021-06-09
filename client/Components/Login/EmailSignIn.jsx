@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
         borderColor: '#1DE9B6',
         color: '#1DE9B6',
         width: '100%',
+        lineHeight: '125%',
     },
 }));
 
@@ -34,30 +35,16 @@ const EmailSignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { auth } = useContext(GlobalState);
-    const [user, setUser] = auth;
+    const { auth, getUserData } = useContext(GlobalState);
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
         let response = await axios.post('/api/auth', { email, password });
         const { token } = response.data;
         window.localStorage.setItem('token', token);
-        loadAuthUser();
-    };
-
-    const loadAuthUser = async () => {
-        const token = window.localStorage.getItem('token');
+        getUserData();
         if (token) {
-            const response = await axios.get('/api/auth', {
-                headers: {
-                    authorization: token,
-                },
-            });
-            const userData = response.data;
-            if (userData.id) {
-                setUser(userData);
-                history.push('/dashboard');
-            }
+            history.push('/dashboard');
         }
     };
 

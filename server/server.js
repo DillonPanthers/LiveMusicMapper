@@ -15,22 +15,22 @@ app.use(morgan('dev'));
 // Static Files
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
 app.listen(port, () => {
-  console.log(`app is listening at port ${port}!`);
+    console.log(`app is listening at port ${port}!`);
 });
 
 app.use('/api', router);
 
 // Error hander
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).send({ error: err.message });
+    console.error(err.stack);
+    res.status(err.status || 500).send({ error: err.message });
 });
 
 // Handle 404
 app.use((req, res, next) => {
-  res.status(404).send('<h1> Page not found</h1>');
+    res.status(404).send('<h1> Page not found</h1>');
 });

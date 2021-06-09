@@ -3,13 +3,13 @@ const router = require('express').Router();
 const { User } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
-// POST /api/auth
+// POST /api/auth - returns token for email account
 router.post('/', async (req, res, next) => {
     try {
         const { email, password } = req.body;
         res.send({ token: await User.authenticate({ email, password }) });
-    } catch (ex) {
-        next(ex);
+    } catch (err) {
+        next(err);
     }
 });
 
@@ -28,8 +28,9 @@ router.get('/', requireToken, async (req, res, next) => {
             isPublic,
             friends,
             concerts,
+            genres,
         } = user;
-        const newUser = {
+        res.send({
             id,
             firstName,
             lastName,
@@ -40,10 +41,10 @@ router.get('/', requireToken, async (req, res, next) => {
             isPublic,
             friends,
             concerts,
-        };
-        res.send(newUser);
-    } catch (ex) {
-        next(ex);
+            genres,
+        });
+    } catch (err) {
+        next(err);
     }
 });
 
