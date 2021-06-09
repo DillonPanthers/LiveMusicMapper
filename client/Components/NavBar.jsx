@@ -7,6 +7,7 @@ import {
     Typography,
     Button,
 } from '@material-ui/core';
+import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Filter from './FilterMap';
 
@@ -76,6 +77,9 @@ const NavBar = (props) => {
                     )}
                     {user.id && (
                         <>
+                        <Link to = '/friends/requests'>
+                        <PeopleAltTwoToneIcon style = {{fill:"red"}}/>
+                        </Link>
                             <Button className={classes.button}>
                                 <Link to="/dashboard" className={classes.link}>
                                     Hello, {user.firstName}

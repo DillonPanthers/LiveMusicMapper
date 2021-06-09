@@ -6,11 +6,14 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import UserInfo from './UserInfo';
 
+//TODO: Add a sidebar for concerts to be viewed on once a venue is clicked
+//TODO: update some css and make look better
+//TODO: Is public and private views
+//TODO: do we want to ?  Getting the friend request to show up immediately for other person who logged in : dont do it.
+
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
-    // console.log(useContext(GlobalState), 'use context here');
     const [currentUser] = auth;
-    // console.log(currentUser, 'here is auth first time sfljasdfljasf');
     const [user, setUser] = useState({});
     const [friendship, setFriendship] = useState(false);
     const [isProfile, setIsProfile] = useState(false);
@@ -18,7 +21,7 @@ function SingleUser(props) {
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
-        console.log('auth here useeffect', currentUser);
+        // console.log('auth here useeffect', currentUser);
         const { id } = props.match.params;
         if (id === currentUser.id) {
             setIsProfile(true);
@@ -31,6 +34,7 @@ function SingleUser(props) {
             setFriends(user.data.friends);
             if (currentUser.id) {
                 setFriendship(checkStatus());
+                setIsLoggedIn(true);
             }
         };
 
@@ -74,7 +78,6 @@ function SingleUser(props) {
                 userId,
             });
             getUserData();
-            //TODO: make sure that the post
         } else if (action === 'accept friend') {
             await axios.post('/api/user/accept-friend', {
                 requesterId: friendId,
@@ -92,7 +95,6 @@ function SingleUser(props) {
         });
         const user = await axios.get(`/api/user/${requesterId}`);
         setUser(user.data);
-        console.log(user.data.friends, 'user data friends');
         setFriends(user.data.friends);
     };
 
@@ -102,13 +104,13 @@ function SingleUser(props) {
     //4) logged in user sent a friend request - show requested instead of add friend on button
     //5) other user sent logged in user a friend request - show accept/reject
 
-    return (
-        <div>
-            <div>{user.fullName ? user.fullName : null}</div>
+    return isLoggedIn ? (
+        <Container>
+            <Container>{user.fullName ? user.fullName : null}</Container>
             {friendship === 'friends' ? (
-                <div>you are friends!</div>
+                <Container>you are friends!</Container>
             ) : (
-                <div>
+                <Container>
                     <Button onClick={onButtonClick} variant="contained">
                         {friendship === 'notFriends'
                             ? 'add friend'
@@ -124,7 +126,7 @@ function SingleUser(props) {
                             Reject
                         </Button>
                     ) : null}
-                </div>
+                </Container>
             )}
             {isProfile ? (
                 <Redirect to="/dashboard" />
@@ -133,7 +135,9 @@ function SingleUser(props) {
             ) : (
                 'Not Friends'
             )}
-        </div>
+        </Container>
+    ) : (
+        'no one is logged in'
     );
 }
 
