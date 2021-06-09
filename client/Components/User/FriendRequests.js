@@ -42,7 +42,8 @@ function FriendRequests() {
         }
     }, [user]);
 
-    const addFriend = async (requesterId, inviteeId) => {
+    //should we change this function name to accept friend?
+    const acceptFriend = async (requesterId, inviteeId) => {
         await axios.post('/api/user/accept-friend', {
             requesterId,
             inviteeId,
@@ -69,7 +70,9 @@ function FriendRequests() {
                         <Typography>{request.userInfo.fullName}</Typography>
                         <Button
                             className={classes.button}
-                            onClick={() => addFriend(request.userId, user.id)}
+                            onClick={() =>
+                                acceptFriend(request.userId, user.id)
+                            }
                         >
                             Add
                         </Button>
