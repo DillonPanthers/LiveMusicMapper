@@ -52,9 +52,11 @@ function SingleUser(props) {
         }
     };
 
-    const addFriend = (inviteeId, requesterId) => {
-        console.log('this is the page for', inviteeId);
-        console.log('the current requester is ', requesterId);
+    const addFriend = async (friendId, userId) => {
+        await axios.post('/api/user/add-friend', {
+            friendId,
+            userId,
+        });
     };
 
     checkIfFriend();
@@ -83,7 +85,7 @@ function SingleUser(props) {
                     ) : (
                         <Button
                             variant="contained"
-                            onClick={() => addFriend(user, currentUser)}
+                            onClick={() => addFriend(user.id, currentUser.id)}
                         >
                             Add Friend
                         </Button>

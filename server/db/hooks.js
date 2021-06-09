@@ -7,8 +7,8 @@ const {
     FriendRequest,
 } = require('./relationships');
 
-User.findUser = async (id) => {
-    return await User.findByPk(id, {
+User.findUser = (id) => {
+    return User.findByPk(id, {
         attributes: { exclude: ['password'] },
         include: [
             {
@@ -37,6 +37,17 @@ User.acceptFriend = async (friendId, userId) => {
 
     const addedFriend = await Friendship.findByPk(friendId);
     await addedFriend.update({ status: 'accepted' });
+};
+
+User.sendFriendRequest = async (userId, friendId) => {
+    await Friendship.create({ userId, friendId });
+};
+
+User.rejectFriendRequest = async (userId, friendId) => {
+    const friendship = await Friendship.findOne({
+        where: { userId, friendId },
+    });
+    friendship.destroy();
 };
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
