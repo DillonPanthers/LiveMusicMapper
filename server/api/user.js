@@ -15,16 +15,13 @@ const { requireToken } = require('./utils/utils');
 
 //NOTE: Just to double check, the order of the paths below is fine right? as long as they are before the :id field, there shouldn't be any issues I presume
 
-router.get('/search', async (req, res, next) => {
+router.get('/search', requireToken, async (req, res, next) => {
     try {
         //I want to just send back users that have a public profile, if that's the case maybe we won't need a requiretoken to access that user data?
         //we could again always send back some simple user data like the id and name and basic stuff for those that have the isPublic set to true.
         const users = await User.findAll({
             attributes: {
                 exclude: ['password', 'email', 'isAdmin', 'spotifyId'],
-            },
-            where: {
-                isPublic: true,
             },
         });
         res.send(users);

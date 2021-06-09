@@ -25,7 +25,7 @@ function SingleUser(props) {
     }, [props.match.params]);
 
     const checkIfFriend = async () => {
-        //i dont want to set user since user is already set in useEffect hook
+        //Would this technically just be the current user from the auth?
         const token = window.localStorage.getItem('token');
         const response = await axios.get('/api/auth', {
             headers: {
@@ -39,7 +39,6 @@ function SingleUser(props) {
             setIsProfile(true);
         }
 
-        // let isFriend = false;
         userData.friends.forEach((friend) => {
             //we map over the logged in users friends, and see if they have a friend id in their friends array equal to the current user page's id
             if (friend.id === user.id) {
@@ -66,6 +65,7 @@ function SingleUser(props) {
     //TODO: What should show if a user has a friend request from someone pending, should the button view for someone viewing the profile
     //of someone who has added them say something along the lines of "accept friend request" in the case of a pending friend request? Maybe we can get this specific as a bonus
     //if time permits.
+    //TODO: Friends View Component for if users are friends already
 
     //the reason why the else part of the ternary works without checking to see if a user exists is because on initial load, the user is
     //going to be an {} empty object, and then afterwards it gets populated, and technically user.fullName of an empty object would be undefined.
