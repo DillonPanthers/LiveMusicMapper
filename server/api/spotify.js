@@ -4,6 +4,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 
 const { User } = require('../db/index');
+const { consolidateArray } = require('./utils/utils');
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ router.get('/callback', async (req, res, next) => {
     try {
         const code = req.query.code;
         const grant_type = 'authorization_code';
+
         let response = await axios({
             method: 'post',
             url: 'https://accounts.spotify.com/api/token',
@@ -59,14 +61,12 @@ router.get('/callback', async (req, res, next) => {
             },
         });
         const userData = response.data;
-        const { email, id, display_name } = userData;
-
-        // sanitize display name to separate first and last
-        const [firstName, lastName] = display_name.split(' ');
+        let { email, id, display_name } = userData;
+        email = email.toLowerCase();
 
         // get Spotify user's top artists
         const topArtists = await axios.get(
-            'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50&offset=0',
+            'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=10&offset=0',
             {
                 headers: {
                     Authorization: `Bearer ${access_token}`,
@@ -74,33 +74,51 @@ router.get('/callback', async (req, res, next) => {
             }
         );
 
-        const { items } = topArtists.data;
-        const { genres } = items[0];
-        // TODO: add genre from frontend so the call is always up to date with a post route?
-        console.log('called from spotify.js', genres);
+        let { items } = topArtists.data;
+        let genres;
+        let artists;
 
-        // find Spotify user in the backend
-        let user;
+        // consolidate spotify data into distinct genres and artists array
+        if (!items.length) {
+            genres = [];
+            artists = [];
+        } else {
+            genres = items.reduce((acc, artist) => {
+                return [...acc, ...artist.genres];
+            }, []);
+            artists = items.reduce((acc, artist) => {
+                return [...acc, artist.name];
+            }, []);
+        }
 
-        user = await User.findOne({
-            where: { spotifyId: id },
-        });
+        // Logic for connecting existing user with an email that matches email in Spotify user account
+        let user = await User.findOne({ where: { email } });
 
-        // TODO: figure out how to post on the backend
-        //user.genres = genres;
+        // Checks if user has not connected with Spotify and adds music preferences
+        if (user) {
+            if (!user.spotifyId) user.spotifyId = id;
 
-        // if Spotify user doesn't exist in the backend, create one
-        if (!user) {
+            // updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N length.
+            // EX: existingArray = ['electronic', 'pop', 'soul', 'r&b', 'indie rock']
+            // EX: newArray = ['new wave', 'folk', 'blues', 'country', 'classical','latin', 'electronic', 'pop', 'soul', 'r&b' ]
+            // NOTE: may need to increase N value for genres because mutiple genres may be attached to a single artist from spotify data
+            user.genres = consolidateArray(user.genres, genres, 10);
+
+            // logic will be similar to consolidating the genres array
+            user.artists = consolidateArray(user.artists, artists, 10);
+            await user.save();
+        } else if (!user) {
+            // Checks if user does not exist and if so, create spotify user
+            // sanitize display name to separate first and last
+            let [firstName, lastName] = display_name.split(' ');
+            if (!lastName) lastName = '';
             user = await User.create({
                 spotifyId: id,
                 email,
                 firstName,
                 lastName,
                 genres,
-            });
-
-            user = await User.findOne({
-                where: { spotifyId: id },
+                artists,
             });
         }
 

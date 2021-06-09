@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '125%',
     },
 }));
-
+// TODO: Figure out how to force some one to sign in with spotify if they already connected their account
 const EmailSignIn = () => {
     const classes = useStyles();
 
