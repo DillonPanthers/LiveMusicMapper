@@ -42,7 +42,8 @@ function FriendRequests() {
         }
     }, [user]);
 
-    const addFriend = async (requesterId, inviteeId) => {
+    //should we change this function name to accept friend?
+    const acceptFriend = async (requesterId, inviteeId) => {
         await axios.post('/api/user/accept-friend', {
             requesterId,
             inviteeId,
@@ -51,11 +52,17 @@ function FriendRequests() {
         await getUserData();
     };
 
-    const ignoreFriend = () => {
-        console.log('IGNORE ME');
+    const rejectFriend = async (requesterId, inviteeId) => {
+        await axios.delete('/api/user/reject-friend', {
+            data: { requesterId, inviteeId },
+        });
+
+        getFriendRequests();
+        await getUserData();
     };
     const blockFriend = () => {
         console.log('BLOCK ME');
+        //TO DO: Blocking is extra feature
     };
 
     //TODO: Get button css working
@@ -69,22 +76,26 @@ function FriendRequests() {
                         <Typography>{request.userInfo.fullName}</Typography>
                         <Button
                             className={classes.button}
-                            onClick={() => addFriend(request.userId, user.id)}
+                            onClick={() =>
+                                acceptFriend(request.userId, user.id)
+                            }
                         >
                             Add
                         </Button>
                         <Button
-                            onClick={() => ignoreFriend()}
+                            onClick={() =>
+                                rejectFriend(request.userId, user.id)
+                            }
                             className={classes.button}
                         >
-                            Ignore
+                            Reject
                         </Button>
-                        <Button
+                        {/* <Button
                             onClick={() => blockFriend()}
                             className={classes.button}
                         >
                             Block
-                        </Button>
+                        </Button> */}
                     </Container>
                 );
             })}

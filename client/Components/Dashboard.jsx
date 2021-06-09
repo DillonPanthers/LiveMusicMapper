@@ -14,9 +14,13 @@ const Dashboard = () => {
             <p>See {user.id ? user.firstName : 'User'}'s events</p>
             <p>Friends:</p>
             <ul>
-                {user.friends.map((friend) => (
-                    <li key={friend.id}>{friend.firstName}</li>
-                ))}
+                {user.friends.map((friend) =>
+                    friend.friendship.status === 'accepted' ? (
+                        <li key={friend.id}>{friend.firstName}</li>
+                    ) : (
+                        <div key={friend.id}></div>
+                    )
+                )}
             </ul>
             <p>Upcoming Concerts:</p>
             <ul>

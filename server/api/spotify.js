@@ -33,8 +33,6 @@ router.get('/login', (req, res, next) => {
 // GET /api/spotify/callback
 router.get('/callback', async (req, res, next) => {
     try {
-        console.log(1);
-
         const code = req.query.code;
         const grant_type = 'authorization_code';
 
@@ -55,9 +53,6 @@ router.get('/callback', async (req, res, next) => {
 
         const { access_token, refresh_token } = response.data;
 
-        console.log(access_token, refresh_token);
-        console.log(2);
-
         // get Spotify user data to find or create one in the backend
         response = await axios.get('https://api.spotify.com/v1/me', {
             headers: {
@@ -67,8 +62,6 @@ router.get('/callback', async (req, res, next) => {
         const userData = response.data;
         let { email, id, display_name } = userData;
         email = email.toLowerCase();
-
-        console.log(userData);
 
         // get Spotify user's top artists
         const topArtists = await axios.get(
