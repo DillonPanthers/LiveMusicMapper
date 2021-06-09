@@ -4,6 +4,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 
 const { User } = require('../db/index');
+const { consolidateArray } = require('./utils/utils');
 
 dotenv.config();
 
@@ -76,6 +77,8 @@ router.get('/callback', async (req, res, next) => {
         let { items } = topArtists.data;
         let genres;
         let artists;
+
+        // consolidate spotify data into distinct genres and artists array
         if (!items.length) {
             genres = [];
             artists = [];
@@ -92,34 +95,16 @@ router.get('/callback', async (req, res, next) => {
         let user = await User.findOne({ where: { email } });
 
         // Checks if user has not connected with Spotify and adds music preferences
-        if (user && !user.spotifyId) {
-            user.spotifyId = id;
+        if (user) {
+            if (!user.spotifyId) user.spotifyId = id;
 
-            // updates existing genres with latest genres listed first in array. existing genres array could look like ['pop'], but as spotify profile matures, place new genres in front of the array and pop of the older genres if the array length exceeds N length.
-            user.genres = [...genres, ...user.genres];
-            const consolidatedGenreArray = user.genres;
-            if (consolidatedGenreArray.length > 10) {
-                while (consolidatedGenreArray.length > 10) {
-                    consolidatedGenreArray.pop();
-                }
-            }
-            user.genres = consolidatedGenreArray;
+            // updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N length.
+            // EX: existingArray = ['electronic', 'pop', 'soul', 'r&b', 'indie rock']
+            // EX: newArray = ['new wave', 'folk', 'blues', 'country', 'classical','latin', 'electronic', 'pop', 'soul', 'r&b' ]
+            user.genres = consolidateArray(user.genres, genres, 10);
 
             // logic will be similar to consolidating the genres array
-            user.artists = [...artists, ...user.artists];
-            const consolidatedArtistsArray = user.artists;
-            if (consolidatedArtistsArray.length > 10) {
-                while (consolidatedArtistsArray.length > 10) {
-                    consolidatedArtistsArray.pop();
-                }
-            }
-            user.artists = consolidatedArtistsArray;
-
-            await user.save();
-            // Checks if user has been connected through Spotify already, if so, update latest genres and artists
-        } else if (user) {
-            user.genres = genres;
-            user.artists = artists;
+            user.artists = consolidateArray(user.artists, artists, 10);
             await user.save();
         } else if (!user) {
             // Checks if user does not exist and if so, create spotify user
