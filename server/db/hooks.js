@@ -49,5 +49,9 @@ User.rejectFriendRequest = async (userId, friendId) => {
     });
     friendship.destroy();
 };
+
+User.findFriendship = async (userId, friendId) => {
+    //userId is going to be the id of the logged in user
+};
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };

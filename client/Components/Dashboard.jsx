@@ -9,6 +9,8 @@ const Dashboard = () => {
     user.friends = user.friends || [];
     user.concerts = user.concerts || [];
 
+    // console.log(user, 'dashboard')
+
     // useEffect(() => {
     //     getUserData();
     // }, []);

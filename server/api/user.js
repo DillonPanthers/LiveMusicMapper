@@ -91,6 +91,7 @@ router.post('/add-friend', async (req, res, next) => {
     try {
         const { userId, friendId } = req.body;
         await User.sendFriendRequest(userId, friendId);
+        res.sendStatus(200);
     } catch (error) {
         next(error);
     }
