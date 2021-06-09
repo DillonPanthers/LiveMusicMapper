@@ -101,6 +101,7 @@ router.get('/callback', async (req, res, next) => {
             // updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N length.
             // EX: existingArray = ['electronic', 'pop', 'soul', 'r&b', 'indie rock']
             // EX: newArray = ['new wave', 'folk', 'blues', 'country', 'classical','latin', 'electronic', 'pop', 'soul', 'r&b' ]
+            // NOTE: may need to increase N value for genres because mutiple genres may be attached to a single artist from spotify data
             user.genres = consolidateArray(user.genres, genres, 10);
 
             // logic will be similar to consolidating the genres array
