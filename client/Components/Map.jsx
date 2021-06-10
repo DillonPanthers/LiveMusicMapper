@@ -166,7 +166,7 @@ function Map() {
         if (this.getBounds()) {
             const lat1 = this.getCenter().lat();
             const lng1 = this.getCenter().lng();
-            const lat2 = this.getBounds().oc.g;
+            const lat2 = this.getBounds().lc.g;
             const lng2 = this.getBounds().Eb.g;
             const newRadius = distance(lat1, lng1, lat2, lng2);
             setRadius(newRadius);
@@ -186,7 +186,7 @@ function Map() {
         ) : (
             <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
                 <GoogleMap
-                    zoom={13}
+                    zoom={10}
                     center={{ lat: state.lat, lng: state.lon }}
                     mapContainerStyle={{ height: '100vh', width: '100vw' }}
                     onDragEnd={newLocation}

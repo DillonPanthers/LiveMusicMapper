@@ -96,7 +96,7 @@ router.get('/callback', async (req, res, next) => {
 
         /* get 20 artist recommendations based on user's top Spotify artists */
         let recommendedArtistsArray = [];
-        if (artists !== {}) {
+        if (Object.keys(artists).length) {
             await Promise.all(
                 Object.entries(artists).map(async ([artist, id]) => {
                     const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
