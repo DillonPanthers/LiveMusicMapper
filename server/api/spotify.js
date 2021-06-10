@@ -4,7 +4,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 
 const { User } = require('../db/index');
-const { consolidateArray } = require('./utils/utils');
+const { consolidateArray, consolidateObj } = require('./utils/utils');
 
 dotenv.config();
 
@@ -77,35 +77,87 @@ router.get('/callback', async (req, res, next) => {
         let { items } = topArtists.data;
         let genres;
         let artists;
+        let recommendedArtists;
 
         // consolidate spotify data into distinct genres and artists array
         if (!items.length) {
             genres = [];
-            artists = [];
+            artists = {};
+            recommendedArtists = {};
         } else {
             genres = items.reduce((acc, artist) => {
                 return [...acc, ...artist.genres];
             }, []);
             artists = items.reduce((acc, artist) => {
-                return [...acc, artist.name];
-            }, []);
+                return { ...acc, [artist.name]: artist.id };
+            }, {});
         }
 
         // Logic for connecting existing user with an email that matches email in Spotify user account
         let user = await User.findOne({ where: { email } });
 
+        // RESUME HERE:
+        // Get related artists - this will be helpful for finding additional events in the area if preferred artists are not playing locally
+        const relatedArtistsAPI = async (id) => {
+            const { data } = await axios.get(
+                `https://api.spotify.com/v1/artists/${id}/related-artists`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            );
+            return data.artists;
+        };
+
+        // if (artists !== {}) {
+        //     recommendedArtists = Object.entries(artists).reduce(
+        //         async (acc, [artist, id]) => {
+        //             console.log(112);
+        //             let relatedArtistData = await relatedArtistsAPI(id);
+        //             console.log('relatedArtistData', relatedArtistData);
+        //             console.log(115);
+        //             acc = relatedArtistData.splice(0, 2).forEach((elem) => {
+        //                 acc = { ...acc, [elem.name]: elem.id };
+        //             });
+        //             return acc;
+        //         },
+        //         {}
+        //     );
+        // }
+        // console.log(124);
+        // console.log(recommendedArtists.length, recommendedArtists);
+
+        if (artists !== {}) {
+            await Promise.all(
+                Object.entries(artists).reduce(async (acc, [artist, id]) => {
+                    console.log(artist, id);
+                    const { data } = await axios.get(
+                        `https://api.spotify.com/v1/artists/${id}/related-artists`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${access_token}`,
+                            },
+                        }
+                    );
+                    console.log(131, data);
+                    return acc;
+                }, {})
+            );
+        }
+
         // Checks if user has not connected with Spotify and adds music preferences
         if (user) {
             if (!user.spotifyId) user.spotifyId = id;
 
-            // updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N length.
+            // updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N.
             // EX: existingArray = ['electronic', 'pop', 'soul', 'r&b', 'indie rock']
             // EX: newArray = ['new wave', 'folk', 'blues', 'country', 'classical','latin', 'electronic', 'pop', 'soul', 'r&b' ]
             // NOTE: may need to increase N value for genres because mutiple genres may be attached to a single artist from spotify data
-            user.genres = consolidateArray(user.genres, genres, 10);
+            user.genres = consolidateArray(user.genres, genres, 20);
 
             // logic will be similar to consolidating the genres array
-            user.artists = consolidateArray(user.artists, artists, 10);
+            user.artists = consolidateObj(user.artists, artists, 10);
             await user.save();
         } else if (!user) {
             // Checks if user does not exist and if so, create spotify user
@@ -119,6 +171,7 @@ router.get('/callback', async (req, res, next) => {
                 lastName,
                 genres,
                 artists,
+                recommendedArtists,
             });
         }
 

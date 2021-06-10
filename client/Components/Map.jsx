@@ -143,7 +143,7 @@ function Map() {
         ) : (
             <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
                 <GoogleMap
-                    zoom={10}
+                    zoom={13}
                     center={{ lat: state.lat, lng: state.lon }}
                     mapContainerStyle={{ height: '100vh', width: '100vw' }}
                 >
