@@ -31,6 +31,8 @@ function Map() {
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
+    const [initialCall, setInitialCall] = useState(true);
+    const [radius, setRadius] = useState(40);
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event);
@@ -60,13 +62,14 @@ function Map() {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 });
+                setInitialCall(false);
             });
         };
 
         const getVenueData = async () => {
             const latlong = state.lat + ',' + state.lon;
             const ticketDataByLocation = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+                `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
             );
 
             /**
@@ -122,21 +125,61 @@ function Map() {
                 setIsLoading(false);
             }, 2000);
         }
-        getUserLocation();
-    }, [state.lat]);
+        if (initialCall) {
+            getUserLocation();
+        }
+    }, [state.lat, radius]);
 
-    console.log(venueDataObj, 'venue data obj');
+    const newLocation = function () {
+        const lat = this.getCenter().lat();
+        const lon = this.getCenter().lng();
+        setState({
+            ...state,
+            lat,
+            lon,
+        });
+    };
+
+    function distance(lat1, lon1, lat2, lon2, unit) {
+        if (lat1 == lat2 && lon1 == lon2) {
+            return 0;
+        } else {
+            var radlat1 = (Math.PI * lat1) / 180;
+            var radlat2 = (Math.PI * lat2) / 180;
+            var theta = lon1 - lon2;
+            var radtheta = (Math.PI * theta) / 180;
+            var dist =
+                Math.sin(radlat1) * Math.sin(radlat2) +
+                Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist);
+            dist = (dist * 180) / Math.PI;
+            dist = dist * 60 * 1.1515;
+
+            return Math.round(dist);
+        }
+    }
+
+    const newZoom = function () {
+        if (this.getBounds()) {
+            const lat1 = this.getCenter().lat();
+            const lng1 = this.getCenter().lng();
+            const lat2 = this.getBounds().oc.g;
+            const lng2 = this.getBounds().Eb.g;
+            const newRadius = distance(lat1, lng1, lat2, lng2);
+            setRadius(newRadius);
+        }
+    };
 
     return (
-        //TODO:Change color of our home marker
-        //TODO:Extra feature -> Dragging the map and update location of where we drag to.
         //TODO: Do we need location data in global state? Double check.
         //TODO: Cleanup unnecessary code in this component - in progress
         //NOTE: Are we using ticketDataByLocation in the state here in line 23 at all? If not let's get rid of it.
         //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component.
         //TODO: Add venue address to infowindow marker
         //TODO: Change card to Lizard card from material UI
-        //TODO: Change set to array for venueEvents
 
         isLoading ? (
             <Loading loading={isLoading} />
@@ -146,13 +189,15 @@ function Map() {
                     zoom={10}
                     center={{ lat: state.lat, lng: state.lon }}
                     mapContainerStyle={{ height: '100vh', width: '100vw' }}
+                    onDragEnd={newLocation}
+                    onZoomChanged={newZoom}
                 >
-                    <Marker
+                    {/* <Marker
                         position={{
                             lat: +locationData.lat,
                             lng: +locationData.lon,
                         }}
-                    />
+                    /> */}
 
                     {venueDataObj
                         ? Object.keys(venueDataObj).map((currEvent) => {
