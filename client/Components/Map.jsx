@@ -31,6 +31,7 @@ function Map() {
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
+    const [initialCall, setInitialCall] = useState(true);
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event);
@@ -60,6 +61,7 @@ function Map() {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 });
+                setInitialCall(false);
             });
         };
 
@@ -122,10 +124,22 @@ function Map() {
                 setIsLoading(false);
             }, 2000);
         }
-        getUserLocation();
+        if (initialCall) {
+            getUserLocation();
+        }
     }, [state.lat]);
 
-    console.log(venueDataObj, 'venue data obj');
+    const newLocation = function () {
+        console.log(this.getCenter());
+        const lat = this.getCenter().lat();
+        const lon = this.getCenter().lng();
+        setState({
+            ...state,
+            lat,
+            lon,
+        });
+    };
+    //console.log(venueDataObj, 'venue data obj');
 
     return (
         //TODO:Change color of our home marker
@@ -146,6 +160,7 @@ function Map() {
                     zoom={10}
                     center={{ lat: state.lat, lng: state.lon }}
                     mapContainerStyle={{ height: '100vh', width: '100vw' }}
+                    onDragEnd={newLocation}
                 >
                     <Marker
                         position={{
