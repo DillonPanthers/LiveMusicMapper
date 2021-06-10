@@ -61,8 +61,22 @@ const User = db.define('user', {
         defaultValue: [],
     },
     artists: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
-        defaultValue: [],
+        type: DataTypes.TEXT,
+        get() {
+            return JSON.parse(this.getDataValue('artists'));
+        },
+        set(value) {
+            this.setDataValue('artists', JSON.stringify(value));
+        },
+    },
+    recommendedArtists: {
+        type: DataTypes.TEXT,
+        get() {
+            return JSON.parse(this.getDataValue('recommendedArtists'));
+        },
+        set(value) {
+            this.setDataValue('recommendedArtists', JSON.stringify(value));
+        },
     },
 });
 

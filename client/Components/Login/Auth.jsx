@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import qs from 'qs';
 
+// NOTE: This component is not used anywhere. delete?
 function Auth() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [called, setCalled] = useState(false);

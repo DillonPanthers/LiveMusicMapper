@@ -30,6 +30,7 @@ router.get('/', requireToken, async (req, res, next) => {
             concerts,
             genres,
             artists,
+            recommendedArtists,
         } = user;
         res.send({
             id,
@@ -44,6 +45,7 @@ router.get('/', requireToken, async (req, res, next) => {
             concerts,
             genres,
             artists,
+            recommendedArtists,
         });
     } catch (err) {
         next(err);
