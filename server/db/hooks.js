@@ -49,5 +49,6 @@ User.rejectFriendRequest = async (userId, friendId) => {
     });
     friendship.destroy();
 };
+
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };

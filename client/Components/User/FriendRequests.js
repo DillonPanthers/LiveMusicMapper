@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Typography, Button, Container, makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
@@ -69,11 +70,13 @@ function FriendRequests() {
     return (
         <Container>
             {friendRequests.map((request) => {
-                console.log(request);
-
                 return (
                     <Container key={request.userId}>
-                        <Typography>{request.userInfo.fullName}</Typography>
+                        <Typography>
+                            <Link to={`/user/${request.userId}`}>
+                                {request.userInfo.fullName}
+                            </Link>
+                        </Typography>
                         <Button
                             className={classes.button}
                             onClick={() =>
