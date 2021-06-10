@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import { GlobalState } from '../contexts/Store';
 
@@ -9,6 +10,8 @@ const Dashboard = () => {
     user.friends = user.friends || [];
     user.concerts = user.concerts || [];
 
+    console.log(user);
+
     return (
         <>
             <p>See {user.id ? user.firstName : 'User'}'s events</p>
@@ -16,7 +19,11 @@ const Dashboard = () => {
             <ul>
                 {user.friends.map((friend) =>
                     friend.friendship.status === 'accepted' ? (
-                        <li key={friend.id}>{friend.firstName}</li>
+                        <li key={friend.id}>
+                            <Link to={`/user/${friend.id}`}>
+                                {friend.firstName}
+                            </Link>
+                        </li>
                     ) : (
                         <div key={friend.id}></div>
                     )
@@ -25,7 +32,9 @@ const Dashboard = () => {
             <p>Upcoming Concerts:</p>
             <ul>
                 {user.concerts.map((concert) => (
-                    <li key={concert.id}>{concert.name}</li>
+                    <li
+                        key={concert.id}
+                    >{`${concert.name} (${concert.date})`}</li>
                 ))}
             </ul>
         </>
