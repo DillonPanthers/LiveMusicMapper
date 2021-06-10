@@ -70,7 +70,7 @@ const User = db.define('user', {
         },
     },
     recommendedArtists: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+        type: DataTypes.TEXT,
         get() {
             return JSON.parse(this.getDataValue('recommendedArtists'));
         },
