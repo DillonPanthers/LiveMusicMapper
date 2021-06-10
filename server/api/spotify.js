@@ -94,8 +94,8 @@ router.get('/callback', async (req, res, next) => {
         /* Find user with an email that matches the email in Spotify account */
         let user = await User.findOne({ where: { email } });
 
+        /* get 20 artist recommendations based on user's top Spotify artists */
         let recommendedArtistsArray = [];
-
         if (artists !== {}) {
             await Promise.all(
                 Object.entries(artists).map(async ([artist, id]) => {
@@ -109,7 +109,6 @@ router.get('/callback', async (req, res, next) => {
                 })
             );
         }
-
         recommendedArtists = recommendedArtistsArray.reduce(
             (acc, [name, id]) => {
                 acc[name] = id;
