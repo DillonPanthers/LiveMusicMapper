@@ -29,6 +29,7 @@ const users = [
         email: 'ferreira.craig@gmail.com',
         password: '1234',
         isAdmin: true,
+        isPublic: false,
     },
     {
         firstName: 'Inderprit',

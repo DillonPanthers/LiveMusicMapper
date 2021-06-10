@@ -108,8 +108,10 @@ function SingleUser(props) {
         <Container>
             <Container>{user.fullName ? user.fullName : null}</Container>
             {friendship === 'friends' ? (
-                <Container>you are friends!</Container>
+                <Typography>you are friends!</Typography>
             ) : (
+                //BUTTONS
+
                 <Container>
                     <Button onClick={onButtonClick} variant="contained">
                         {friendship === 'notFriends'
@@ -128,16 +130,17 @@ function SingleUser(props) {
                     ) : null}
                 </Container>
             )}
+            {/*user profile */}
             {isProfile ? (
                 <Redirect to="/dashboard" />
-            ) : friendship === 'friends' ? (
+            ) : friendship === 'friends' || user.isPublic ? (
                 <UserInfo />
             ) : (
-                'Not Friends'
+                <div>Private Profile</div>
             )}
         </Container>
     ) : (
-        'no one is logged in'
+        <div>Private Profile</div>
     );
 }
 
