@@ -35,22 +35,6 @@ function Map() {
     const [radius, setRadius] = useState(40);
     const [user, setUser] = auth;
 
-    const onMarkerPopup = function (event) {
-        setSingleVenue(event);
-
-        const selectedEventLat = +event.venueData.location.latitude;
-        const selectedEventLong = +event.venueData.location.longitude;
-        const selectedEventName = event.venueData.name;
-
-        setState({
-            ...state,
-            selectedEventLat,
-            selectedEventLong,
-            selectedEventName,
-            isOpen: !state.isOpen,
-        });
-    };
-
     useEffect(() => {
         const getUserLocation = async () => {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -192,6 +176,27 @@ function Map() {
         }
     };
 
+    const onMarkerPopup = function (event) {
+        setSingleVenue(event);
+
+        const selectedEventLat = +event.venueData.location.latitude;
+        const selectedEventLong = +event.venueData.location.longitude;
+        const selectedEventName = event.venueData.name;
+
+        setState({
+            ...state,
+            selectedEventLat,
+            selectedEventLong,
+            selectedEventName,
+            isOpen: true,
+        });
+    };
+
+    const onMapClick = ()=>{
+        setState({...state, isOpen: false});
+    }
+
+
     return (
         //TODO: Do we need location data in global state? Double check.
         //TODO: Cleanup unnecessary code in this component - in progress
@@ -210,6 +215,7 @@ function Map() {
                     mapContainerStyle={{ height: '100vh', width: '100vw' }}
                     onDragEnd={newLocation}
                     onZoomChanged={newZoom}
+                    onClick ={onMapClick}
                 >
                     {/* <Marker
                         position={{
