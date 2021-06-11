@@ -27,12 +27,13 @@ function Map() {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const { currSingleVenue, location, venues } = useContext(GlobalState); //update
+    const { currSingleVenue, location, venues, auth } = useContext(GlobalState); //update
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
     const [initialCall, setInitialCall] = useState(true);
     const [radius, setRadius] = useState(40);
+    const [user, setUser] = auth;
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event);
@@ -68,10 +69,21 @@ function Map() {
 
         const getVenueData = async () => {
             const latlong = state.lat + ',' + state.lon;
-            const ticketDataByLocation = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
-            );
-
+            let ticketDataByLocation;
+            // if user is not logged in
+            if (!user.id) {
+                ticketDataByLocation = await axios.get(
+                    `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+                );
+            } else {
+                // RESUME HERE:
+                // logic for accessing events relevant to a user's artists/recommended Artists
+                // logic for accessing events relevant to a user's genres
+                console.log('USER LOGGED IN');
+                ticketDataByLocation = await axios.get(
+                    `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&classificationName=country&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+                );
+            }
             /**
              * I am taking the json from the ticketmaster data, manipulating it and setting our global state concerts field, which we should probably rename venues.
              *
@@ -166,7 +178,7 @@ function Map() {
         if (this.getBounds()) {
             const lat1 = this.getCenter().lat();
             const lng1 = this.getCenter().lng();
-            const lat2 = this.getBounds().lc.g;
+            const lat2 = this.getBounds().oc.g;
             const lng2 = this.getBounds().Eb.g;
             const newRadius = distance(lat1, lng1, lat2, lng2);
             setRadius(newRadius);

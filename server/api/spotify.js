@@ -8,7 +8,8 @@ const {
     consolidateArray,
     consolidateObj,
     spotifyApiCall,
-} = require('./utils/utils');
+    getPersonalizedTMGenres,
+} = require('./utils/spotify');
 
 dotenv.config();
 
@@ -76,12 +77,14 @@ router.get('/callback', async (req, res, next) => {
         let genres;
         let artists;
         let recommendedArtists;
+        let ticketmasterGenres;
 
         /* Store spotify data into distinct genres and artists array */
         if (!items.length) {
             genres = [];
             artists = {};
             recommendedArtists = {};
+            ticketmasterGenres = {};
         } else {
             genres = items.reduce((acc, artist) => {
                 return [...acc, ...artist.genres];
@@ -93,6 +96,12 @@ router.get('/callback', async (req, res, next) => {
 
         /* Find user with an email that matches the email in Spotify account */
         let user = await User.findOne({ where: { email } });
+
+        /* Gets user's latest genres, includes older ones if the API only fetches a few new ones*/
+        let consolidatedGenres = consolidateArray(user.genres, genres, 20);
+
+        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls*/
+        ticketmasterGenres = await getPersonalizedTMGenres(consolidatedGenres);
 
         /* get 20 artist recommendations based on user's top Spotify artists */
         let recommendedArtistsArray = [];
@@ -118,16 +127,13 @@ router.get('/callback', async (req, res, next) => {
         );
 
         if (user) {
-            /* Add spotifyId to user account */
             if (!user.spotifyId) user.spotifyId = id;
-            /*
-            Consolidates user's latest genres. See comments on how this function work in ./utils/utils.js file
-            */
-            user.genres = consolidateArray(user.genres, genres, 20);
+            user.genres = consolidatedGenres;
 
-            /* Logic will be similar to above */
+            /* See comments on how this function work in ./utils/spotify.js file */
             user.artists = consolidateObj(user.artists, artists, 10);
             user.recommendedArtists = recommendedArtists;
+            user.ticketmasterGenres = ticketmasterGenres;
             await user.save();
         } else if (!user) {
             /*
@@ -143,6 +149,7 @@ router.get('/callback', async (req, res, next) => {
                 genres,
                 artists,
                 recommendedArtists,
+                ticketmasterGenres,
             });
         }
 

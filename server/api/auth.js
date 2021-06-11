@@ -29,6 +29,7 @@ router.get('/', requireToken, async (req, res, next) => {
             friends,
             concerts,
             genres,
+            ticketmasterGenres,
             artists,
             recommendedArtists,
         } = user;
@@ -44,6 +45,7 @@ router.get('/', requireToken, async (req, res, next) => {
             friends,
             concerts,
             genres,
+            ticketmasterGenres,
             artists,
             recommendedArtists,
         });
