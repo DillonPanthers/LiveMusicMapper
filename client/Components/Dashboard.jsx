@@ -18,11 +18,8 @@ import { REACT_APP_GOOGLEAPIKEY } from '../secret';
 //maybe move to utils folder later
 
 const compareDate = (dateOne, dateTwo) =>{
-    // console.log(dateOne.date, 'first date here')
     const d1 = Date.parse(dateOne.date);
     const d2 = Date.parse(dateTwo.date);
-    console.log('d1', d1);
-    console.log('d2', d2);
     return d1-d2; 
 }
 
@@ -78,10 +75,8 @@ const Dashboard = () => {
         setNumConcerts(user.concerts.length);
         setConcerts(user.concerts.sort(compareDate));
         setText("Upcoming Concerts")
-      //  console.log(event.target,'on page click');
     }
 
-    console.log('venues', venues);
     return (
         <div style={{display:"flex"}}>
             {/*TO DO: USER LOADING SCREEN*/}
