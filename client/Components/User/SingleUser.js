@@ -31,6 +31,7 @@ function SingleUser(props) {
         const getUser = async () => {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
+            console.log(user.data);
             setUser(user.data);
             setFriends(user.data.friends);
             if (currentUser.id) {

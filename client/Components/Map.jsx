@@ -176,6 +176,7 @@ function Map() {
 
     const newZoom = function () {
         if (this.getBounds()) {
+            console.log(this.getBounds());
             const lat1 = this.getCenter().lat();
             const lng1 = this.getCenter().lng();
             const lat2 = this.getBounds().oc.g;
