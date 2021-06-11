@@ -75,10 +75,7 @@ router.get('/callback', async (req, res, next) => {
         );
         let { items } = topArtists;
 
-        let genres;
-        let artists;
-        let recommendedArtists;
-        let ticketmasterGenres;
+        let genres, artists, recommendedArtists, ticketmasterGenres;
 
         /* Store spotify data into distinct genres and artists array */
         if (!items.length) {
