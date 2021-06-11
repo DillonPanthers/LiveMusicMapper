@@ -6,4 +6,5 @@ node_modules
 public/main.js
 public/main.js.map
 client/secret.js
+indysLinter.js
 
