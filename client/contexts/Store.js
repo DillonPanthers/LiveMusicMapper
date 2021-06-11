@@ -8,7 +8,7 @@ const Store = ({ children }) => {
     const [singleConcert, setSingleConcert] = useState({});
     const [singleVenue, setSingleVenue] = useState({});
     const [user, setUser] = useState({});
-    const [location, setLocation] = useState({});
+    const [location, setLocation] = useState({ lat: 0, lon: 0 });
 
     const getUserData = async () => {
         const token = window.localStorage.getItem('token');
@@ -24,6 +24,15 @@ const Store = ({ children }) => {
         }
     };
 
+    const getUserLocation = async () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setLocation({
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+            });
+        });
+    };
+
     return (
         <GlobalState.Provider
             value={{
@@ -34,6 +43,7 @@ const Store = ({ children }) => {
                 location: [location, setLocation],
                 venues: [venues, setVenues],
                 getUserData,
+                getUserLocation,
             }}
         >
             {children}
