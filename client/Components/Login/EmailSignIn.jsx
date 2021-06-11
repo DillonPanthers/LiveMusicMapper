@@ -44,7 +44,8 @@ const EmailSignIn = () => {
         window.localStorage.setItem('token', token);
         getUserData();
         if (token) {
-            history.push('/dashboard');
+            //NOTE: Temporarily redirects to home to save google maps api calls, we can change it back to /dashboard later once we finish
+            history.push('/');
         }
     };
 

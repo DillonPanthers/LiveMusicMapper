@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import qs from 'qs';
 
-// NOTE: This component is not used anywhere. delete?
+//NOTE: Temporarily redirects to home to save google maps api calls, we can change it back to /dashboard later once we finish
 function Auth() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [called, setCalled] = useState(false);
@@ -24,7 +24,7 @@ function Auth() {
             setCalled(true);
         }
     }, []);
-    return loggedIn && called ? <Redirect to="/dashboard" /> : null;
+    return loggedIn && called ? <Redirect to="/" /> : null;
 }
 
 export default Auth;

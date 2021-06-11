@@ -67,7 +67,7 @@ function FriendRequests() {
     };
 
     //TODO: Get button css working
-    return (
+    return friendRequests.length > 0 ? (
         <Container>
             {friendRequests.map((request) => {
                 return (
@@ -103,6 +103,8 @@ function FriendRequests() {
                 );
             })}
         </Container>
+    ) : (
+        <Typography>No pending friend Requests</Typography>
     );
 }
 
