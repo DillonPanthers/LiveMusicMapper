@@ -71,7 +71,8 @@ function Map() {
             const latlong = state.lat + ',' + state.lon;
             let ticketDataByLocation;
             // if user is not logged in
-            if (!user.id) {
+            if (!user.id || !user.artists) {
+                console.log('MAP - user.artists, empty', user.artists);
                 ticketDataByLocation = await axios.get(
                     `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
                 );
@@ -80,7 +81,11 @@ function Map() {
                 // logic for accessing events relevant to a user's artists/recommended Artists
                 // logic for accessing events relevant to a user's genres
                 console.log('USER LOGGED IN');
-                console.log(user);
+                const { ticketmasterGenres, artists, recommendedArtists } =
+                    user;
+                console.log(ticketmasterGenres, artists, recommendedArtists);
+                // use names instead of ids bc it is more dynamic
+                // country is currently hard coded in, will change this
                 ticketDataByLocation = await axios.get(
                     `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&classificationName=country&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
                 );

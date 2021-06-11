@@ -47,7 +47,6 @@ const User = db.define('user', {
         type: DataTypes.STRING,
         defaultValue: 'public/profile_pic_placeholder.png',
     },
-
     isPublic: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
