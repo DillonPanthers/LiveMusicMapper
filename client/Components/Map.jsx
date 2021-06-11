@@ -80,6 +80,7 @@ function Map() {
                 // logic for accessing events relevant to a user's artists/recommended Artists
                 // logic for accessing events relevant to a user's genres
                 console.log('USER LOGGED IN');
+                console.log(user);
                 ticketDataByLocation = await axios.get(
                     `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&classificationName=country&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
                 );

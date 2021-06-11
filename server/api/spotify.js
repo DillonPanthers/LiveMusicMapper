@@ -16,7 +16,6 @@ dotenv.config();
 
 const redirect_uri =
     process.env.REDIRECT_URI || 'http://localhost:3000/api/spotify/callback';
-
 const SPOTIFY_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SCOPES = process.env.SCOPES;
@@ -60,13 +59,16 @@ router.get('/callback', async (req, res, next) => {
         });
         const { access_token, refresh_token } = response.data;
 
-        /* get Spotify user data to find or create one in the backend */
+        /* get exisitng Spotify user data or create a new one in the backend */
         const userData = await spotifyApiCall(
             'https://api.spotify.com/v1/me',
             access_token
         );
         let { email, id, display_name } = userData;
         email = email.toLowerCase();
+
+        /* Find user with an email that matches one used in Spotify account */
+        let user = await User.findOne({ where: { email } });
 
         /* get Spotify user's top artists */
         const topArtists = await spotifyApiCall(
@@ -94,16 +96,13 @@ router.get('/callback', async (req, res, next) => {
             );
         }
 
-        /* Find user with an email that matches one used in Spotify account */
-        let user = await User.findOne({ where: { email } });
-
-        /* Gets user's latest genres & includes older ones if API call only fetches a few new ones*/
+        /* Gets user's latest genres & includes older ones if API call only fetches a few new ones */
         genres = consolidateArray(user.genres, genres, 20);
 
-        /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones*/
+        /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones */
         artists = consolidateObj(user.artists, artists, 10);
 
-        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls*/
+        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
         ticketmasterGenres = await getPersonalizedTMGenres(genres);
 
         /* get 20 artist recommendations based on user's top Spotify artists */
