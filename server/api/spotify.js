@@ -9,6 +9,7 @@ const {
     consolidateObj,
     spotifyApiCall,
     getPersonalizedTMGenres,
+    getRecommendedArtists,
 } = require('./utils/spotify');
 
 dotenv.config();
@@ -17,6 +18,7 @@ const redirect_uri =
     process.env.REDIRECT_URI || 'http://localhost:3000/api/spotify/callback';
 
 const SPOTIFY_ID = process.env.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SCOPES = process.env.SCOPES;
 
 // GET /api/spotify/login
@@ -46,8 +48,8 @@ router.get('/callback', async (req, res, next) => {
             method: 'post',
             url: 'https://accounts.spotify.com/api/token',
             params: {
-                client_id: process.env.SPOTIFY_CLIENT_ID,
-                client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+                client_id: SPOTIFY_ID,
+                client_secret: SPOTIFY_CLIENT_SECRET,
                 code,
                 grant_type,
                 redirect_uri,
@@ -56,7 +58,6 @@ router.get('/callback', async (req, res, next) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-
         const { access_token, refresh_token } = response.data;
 
         /* get Spotify user data to find or create one in the backend */
@@ -86,59 +87,40 @@ router.get('/callback', async (req, res, next) => {
             recommendedArtists = {};
             ticketmasterGenres = {};
         } else {
-            genres = items.reduce((acc, artist) => {
-                return [...acc, ...artist.genres];
-            }, []);
-            artists = items.reduce((acc, artist) => {
-                return { ...acc, [artist.name]: artist.id };
-            }, {});
-        }
-
-        /* Find user with an email that matches the email in Spotify account */
-        let user = await User.findOne({ where: { email } });
-
-        /* Gets user's latest genres, includes older ones if the API only fetches a few new ones*/
-        let consolidatedGenres = consolidateArray(user.genres, genres, 20);
-
-        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls*/
-        ticketmasterGenres = await getPersonalizedTMGenres(consolidatedGenres);
-
-        /* get 20 artist recommendations based on user's top Spotify artists */
-        let recommendedArtistsArray = [];
-        if (Object.keys(artists).length) {
-            await Promise.all(
-                Object.entries(artists).map(async ([artist, id]) => {
-                    const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
-                    const { artists } = await spotifyApiCall(url, access_token);
-                    let [artist1, artist2] = artists.slice(0, 2);
-                    recommendedArtistsArray.push(
-                        [artist1.name, artist1.id],
-                        [artist2.name, artist2.id]
-                    );
-                })
+            genres = items.reduce(
+                (acc, artist) => [...acc, ...artist.genres],
+                []
+            );
+            artists = items.reduce(
+                (acc, artist) => ({ ...acc, [artist.name]: artist.id }),
+                {}
             );
         }
-        recommendedArtists = recommendedArtistsArray.reduce(
-            (acc, [name, id]) => {
-                acc[name] = id;
-                return acc;
-            },
-            {}
-        );
 
+        /* Find user with an email that matches one used in Spotify account */
+        let user = await User.findOne({ where: { email } });
+
+        /* Gets user's latest genres & includes older ones if API call only fetches a few new ones*/
+        genres = consolidateArray(user.genres, genres, 20);
+
+        /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones*/
+        artists = consolidateObj(user.artists, artists, 10);
+
+        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls*/
+        ticketmasterGenres = await getPersonalizedTMGenres(genres);
+
+        /* get 20 artist recommendations based on user's top Spotify artists */
+        recommendedArtists = await getRecommendedArtists(artists, access_token);
+
+        /* Conditions for an existing user with/without a spotify account & for creating a new user */
         if (user) {
             if (!user.spotifyId) user.spotifyId = id;
-            user.genres = consolidatedGenres;
-
-            /* See comments on how this function work in ./utils/spotify.js file */
-            user.artists = consolidateObj(user.artists, artists, 10);
+            user.genres = genres;
+            user.artists = artists;
             user.recommendedArtists = recommendedArtists;
             user.ticketmasterGenres = ticketmasterGenres;
             await user.save();
         } else if (!user) {
-            /*
-            If user does not exist create spotify user in database. Sanitize display name to separate first and last.
-            */
             let [firstName, lastName] = display_name.split(' ');
             if (!lastName) lastName = '';
             user = await User.create({
@@ -152,7 +134,6 @@ router.get('/callback', async (req, res, next) => {
                 ticketmasterGenres,
             });
         }
-
         const jwtToken = await User.generateToken(user.id);
 
         res.redirect(

@@ -57,7 +57,6 @@ const User = db.define('user', {
     },
     genres: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        defaultValue: [],
     },
     ticketmasterGenres: {
         type: DataTypes.TEXT,

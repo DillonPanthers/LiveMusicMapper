@@ -55,6 +55,25 @@ const spotifyApiCall = async (url, access_token) => {
     return data;
 };
 
+const getRecommendedArtists = async (topArtists, access_token) => {
+    let recommendedArtistsArray = [];
+    await Promise.all(
+        Object.entries(topArtists).map(async ([artist, id]) => {
+            const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
+            const { artists } = await spotifyApiCall(url, access_token);
+            let [artist1, artist2] = artists.slice(0, 2);
+            recommendedArtistsArray.push(
+                [artist1.name, artist1.id],
+                [artist2.name, artist2.id]
+            );
+        })
+    );
+    return recommendedArtistsArray.reduce((acc, [name, id]) => {
+        acc[name] = id;
+        return acc;
+    }, {});
+};
+
 const getPersonalizedTMGenres = async (spotifyGenres) => {
     let tmGenres = await Genre.findAll();
     /* convert to an array of strings to use as an argument for matching function 'closest*/
@@ -78,4 +97,5 @@ module.exports = {
     consolidateObj,
     spotifyApiCall,
     getPersonalizedTMGenres,
+    getRecommendedArtists,
 };
