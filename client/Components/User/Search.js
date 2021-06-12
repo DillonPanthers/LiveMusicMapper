@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Button } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Container, Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Search = () => {
     const [name, setName] = useState('');
     const [searchList, setSearchList] = useState({});
+    const [message, setMessage] = useState('');
 
     const searchByName = (event) => {
         setName(event.target.value);
@@ -19,11 +20,16 @@ const Search = () => {
                 authorization: token,
             },
         });
-        console.log(response.data);
         const filteredUsers = response.data.filter(
             (user) => user.firstName.toLowerCase() === name.toLowerCase()
         );
         setSearchList(filteredUsers);
+        setName('');
+        if (filteredUsers.length === 0) {
+            setMessage('No Users Found');
+        } else {
+            setMessage('');
+        }
         //on submit is getting the full string search
         //make a call axios call to the backend now to get the users that exist in the database and see if we can get a list of them
         //NOTE: if you want users to populate on the page as the user is typing then we can change functionality similar to that
@@ -35,7 +41,12 @@ const Search = () => {
         <Container>
             <form onSubmit={submitSearch}>
                 <label>Find User </label>
-                <input onChange={searchByName} placeholder="enter name here" />
+                <input
+                    onChange={searchByName}
+                    value={name}
+                    placeholder="enter name here"
+                    style={{ marginRight: '5px' }}
+                />
                 <Button variant="contained" type="submit">
                     Submit
                 </Button>
@@ -43,10 +54,10 @@ const Search = () => {
             {Object.keys(searchList).length > 0
                 ? searchList.map((user) => (
                       <Link key={user.id} to={`/user/${user.id}`}>
-                          {user.fullName}
+                          <Typography>{user.fullName}</Typography>
                       </Link>
                   ))
-                : 'no users found'}
+                : message}
         </Container>
     );
 };

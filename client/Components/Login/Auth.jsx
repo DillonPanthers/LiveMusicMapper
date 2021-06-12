@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import qs from 'qs';
 
+<<<<<<< HEAD
 // NOTE: To save on Google Map API calls, changed redirect to '/' homepage temporarily.
+=======
+//NOTE: Temporarily redirects to home to save google maps api calls, we can change it back to /dashboard later once we finish
+>>>>>>> development
 function Auth() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [called, setCalled] = useState(false);

@@ -77,7 +77,7 @@ const NavBar = (props) => {
                     )}
                     {user.id && (
                         <>
-                        <Link to = '/friends/requests'>
+                        <Link to = '/friends'>
                         <PeopleAltTwoToneIcon style = {{fill:"red"}}/>
                         </Link>
                             <Button className={classes.button}>
