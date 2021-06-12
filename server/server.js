@@ -14,12 +14,20 @@ app.use(morgan('dev'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`app is listening at port ${port}!`);
+});
+
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    socket.emit('me', socket.id);
+    console.log('SOCKET IS ON');
 });
 
 app.use('/api', router);

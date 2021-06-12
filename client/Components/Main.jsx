@@ -12,16 +12,17 @@ import SingleVenue from './Venues/SingleVenue';
 import SingleUser from './User/SingleUser';
 import FriendRequests from './User/FriendRequests';
 import Search from './User/Search';
-import AllFriends from './User/AllFriends'
+import AllFriends from './User/AllFriends';
 
 import { GlobalState } from '../contexts/Store';
+import { SocketContext } from '../contexts/SocketContext';
 
 const Main = () => {
     const { getUserData } = useContext(GlobalState);
 
     useEffect(() => {
         getUserData();
-        console.log("main running")
+        console.log('main running');
     }, []);
 
     return (
