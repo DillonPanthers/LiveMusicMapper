@@ -50,5 +50,53 @@ User.rejectFriendRequest = async (userId, friendId) => {
     friendship.destroy();
 };
 
+
+const genres= [
+    {name:'Blues', id: "KnvZfZ7vAvd"},
+{name:'Classical',id:  "KnvZfZ7vAeJ"},
+{name:'Country', id:  "KnvZfZ7vAv6"},
+{name:'DanceAndElectronic', id:  "KnvZfZ7vAvF"},
+{name:'FairsAndFestivals',id:  "KnvZfZ7vAeE"},
+{name:'Family',id:  "KnvZfZ7vA1n"},
+{name:'HipHopAndRap',id:  "KnvZfZ7vAv1"},
+{name:'Holiday',id:  "KnvZfZ7vAAt"},
+{name:'Latin',id:  "KnvZfZ7vAJ6"},
+{name:'MagicAndIllusion',id:  "KnvZfZ7v7lv"},
+{name:'Metal',id:  "KnvZfZ7vAvt"},
+{name: 'Miscellaneous', id:  "KnvZfZ7vA7A"},
+{name:'Music',id:  "KnvZfZ7vAkJ"},
+{name:'Other',id:  "KnvZfZ7vAvl"},
+{name:'Pop',id:  "KnvZfZ7vAev"},
+{name:'RAndB',id:  "KnvZfZ7vAee"},
+{name:'Rock',id:  "KnvZfZ7vAeA"},
+{name: 'Spectacular',id:  "KnvZfZ7v7la"},
+{name:'World',id:  "KnvZfZ7vAeF"}
+]
+
+const syncAndSeed=async()=>{
+    try{
+       await Genre.sync({force: true})
+
+
+    const [Blues, Classical, Country, DanceAndElectronic, FairsAndFestivals, Family,HipHopAndRap, Holiday, Latin, MagicAndIllusion,
+        Metal, Miscellaneous, Music, Other, Pop, RAndB, Rock, Spectacular, World
+    ] = await Promise.all(
+        genres.map(({ name, id}) => 
+        Genre.create({ name, id }))
+    );
+
+    await Promise.all([
+        Blues.save(), 
+        Classical.save(),
+
+      ]) 
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
+syncAndSeed()
+
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
