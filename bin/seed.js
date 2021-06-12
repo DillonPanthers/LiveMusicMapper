@@ -9,6 +9,7 @@ const {
 
 const { users } = require('./data/users');
 const { concerts } = require('./data/concerts');
+const {genres}= require('./data/genres')
 
 const init = async () => {
     try {
@@ -25,6 +26,12 @@ const init = async () => {
 
         await vikki.addConcert(concert);
         await vikki.addFriend(alejandra);
+
+      await Promise.all(
+        genres.map((genre) => 
+        Genre.create(genre))
+    );
+
 
         console.log('connected');
         await db.close();
