@@ -58,8 +58,9 @@ function Map() {
                 radius,
                 TICKETMASTERAPIKEY
             );
+
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events
-            const venueObj = getVenueObject(tmEvents);
+            const venueObj = await getVenueObject(tmEvents);
 
             setVenues(venueObj);
         };
@@ -121,7 +122,7 @@ function Map() {
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event);
-
+        console.log('marker pop up:', event);
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;

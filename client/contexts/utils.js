@@ -1,38 +1,45 @@
 import axios from 'axios';
 
 /* convert object to an array that can be mapped over for handling spaces in strings*/
+// NOTE: May need to adjust array length in spotify API calls
 export const objectToArray = (object) =>
     Object.keys(object)
         .map((string) => string.split(' ').join('%'))
-        .slice(0, 5);
+        .slice(0, 4);
 
+/* Grabs events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     const latlong = state.lat + ',' + state.lon;
-
     let { id, artists, recommendedArtists, ticketmasterGenres } = user;
 
     try {
+        /* In guest view, guest user will see all events in his/her area */
         if (!id) {
             const {
                 data: {
                     _embedded: { events },
                 },
             } = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
             );
             return events;
         } else {
-            let parameterType;
-
+            /* In auth view, logged-in user will see events tailored to his/her spotify music taste */
+            // let parameterType;
             if (Object.keys(artists).length) {
-                artists = { 'Harry Styles': 'placeholder', ...artists };
-                artists = objectToArray(artists);
-                parameterType = 'keyword';
-                let name = 'Harry%Styles';
-                let url = `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`;
+                artists = {
+                    'Harry Styles': 'placeholder',
+                    ...artists,
+                };
 
-                let ticketDataByLocation = await axios.get(url);
-                return ticketDataByLocation;
+                let events = await callTicketmasterApi(
+                    artists,
+                    'keyword',
+                    latlong,
+                    TICKETMASTERAPIKEY,
+                    radius
+                );
+                return events;
             }
         }
     } catch (error) {
@@ -40,23 +47,26 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     }
 };
 
-/*
-
+const callTicketmasterApi = async (
+    object,
+    parameterType,
+    latlong,
+    TICKETMASTERAPIKEY,
+    radius
+) => {
+    let array = objectToArray(object);
     let events = [];
 
-              ticketDataByLocation = await Promise.all(
-                array.map(async (name) => {
-                    let { data } = await axios.get(
-                        `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`,
-                        { header: name }
-                    );
-                    if (data._embedded) {
-                        events.push(data._embedded);
-                    }
-                })
+    await Promise.all(
+        array.map(async (name) => {
+            const { data } = await axios.get(
+                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
             );
-
-*/
+            if (data._embedded) events.push(data._embedded.events[0]);
+        })
+    );
+    return events;
+};
 
 /*
  * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents
@@ -76,7 +86,7 @@ export const getVenueObject = (eventObj) =>
             const venueData = concert._embedded.venues[0];
             venObj[venueName] = {
                 venueData,
-                venueEvents: [],
+                venueEvents: [concert],
             };
         } else {
             venObj[venueName].venueEvents.push(concert);

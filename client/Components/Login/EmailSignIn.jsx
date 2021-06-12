@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '125%',
     },
 }));
+
 // TODO: Figure out how to force some one to sign in with spotify if they already connected their account
 const EmailSignIn = () => {
     const classes = useStyles();
@@ -45,10 +46,7 @@ const EmailSignIn = () => {
         getUserData();
         // NOTE: To save on Google Map API calls, changed redirect to '/' homepage temporarily.
         if (token) {
-<<<<<<< HEAD
-=======
             //NOTE: Temporarily redirects to home to save google maps api calls, we can change it back to /dashboard later once we finish
->>>>>>> development
             history.push('/');
         }
     };
