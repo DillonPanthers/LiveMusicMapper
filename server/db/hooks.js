@@ -35,7 +35,9 @@ User.attendConcert = async (id, concert) => {
 User.acceptFriend = async (friendId, userId) => {
     await Friendship.create({ userId, friendId, status: 'accepted' });
 
-    const addedFriend = await Friendship.findByPk(friendId);
+    const addedFriend = await Friendship.findOne({
+        where: { userId: friendId, friendId: userId },
+    });
     await addedFriend.update({ status: 'accepted' });
 };
 
