@@ -1,10 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 const router = require('./api');
+
+// Q: Will this resolve error when fetching ticketmaster data? allows us to send cors headers when handling APIs
+app.use(cors());
 
 // Body parsing middleware
 app.use(express.json());
