@@ -9,6 +9,7 @@ const {
 
 const { users } = require('./data/users');
 const { concerts } = require('./data/concerts');
+const { genres } = require('./data/genres');
 
 const init = async () => {
     try {
@@ -20,6 +21,12 @@ const init = async () => {
         const [concert] = await Promise.all(
             concerts.map((concert) => {
                 return Concert.create(concert);
+            })
+        );
+
+        await Promise.all(
+            genres.map((genre) => {
+                return Genre.create(genre);
             })
         );
 
