@@ -94,6 +94,7 @@ router.get('/callback', async (req, res, next) => {
                 (acc, artist) => ({ ...acc, [artist.name]: artist.id }),
                 {}
             );
+            // console.log('spotifyTopArtists', artists);
         }
 
         /* Gets user's latest genres & includes older ones if API call only fetches a few new ones */
@@ -105,8 +106,12 @@ router.get('/callback', async (req, res, next) => {
         /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
         ticketmasterGenres = await getPersonalizedTMGenres(genres);
 
-        /* get 20 artist recommendations based on user's top Spotify artists */
-        recommendedArtists = await getRecommendedArtists(artists, access_token);
+        /* get 20 artist recommendations based on user's top Spotify artists. 'n' represents number of recommended artists for every top artist */
+        recommendedArtists = await getRecommendedArtists(
+            artists,
+            access_token,
+            2
+        );
 
         /* Conditions for an existing user with/without a spotify account & for creating a new user */
         if (user) {

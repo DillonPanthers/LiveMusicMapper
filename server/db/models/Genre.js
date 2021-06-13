@@ -1,8 +1,6 @@
-//Create Genre Model Here
 const { db } = require('../db');
 const { DataTypes } = require('sequelize');
 
-// TODO: Ticket master genre id will be added
 const Genre = db.define(
     'genres',
     {

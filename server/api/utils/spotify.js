@@ -1,6 +1,6 @@
 const { Genre } = require('../../db/index');
 const axios = require('axios');
-const { closest } = require('fastest-levenshtein');
+const { closest, distance } = require('fastest-levenshtein');
 
 /*
 Updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N.
@@ -55,20 +55,25 @@ const spotifyApiCall = async (url, access_token) => {
     return data;
 };
 
-const getRecommendedArtists = async (topArtists, access_token) => {
-    let recommendedArtistsArray = [];
+const getRecommendedArtists = async (topArtists, access_token, n) => {
+    let recArtistsArray = [];
     await Promise.all(
         Object.entries(topArtists).map(async ([artist, id]) => {
             const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
             const { artists } = await spotifyApiCall(url, access_token);
-            let [artist1, artist2] = artists.slice(0, 2);
-            recommendedArtistsArray.push(
-                [artist1.name, artist1.id],
-                [artist2.name, artist2.id]
-            );
+            // Handles artists that already exist in the Top Artists object
+            // only allow 2 artists from recommended artists
+            let count = 0;
+            for (let recArtist of artists) {
+                if (!topArtists[recArtist.name]) {
+                    ++count;
+                    recArtistsArray.push([recArtist.name, recArtist.id]);
+                }
+                if (count === n) break;
+            }
         })
     );
-    return recommendedArtistsArray.reduce((acc, [name, id]) => {
+    return recArtistsArray.reduce((acc, [name, id]) => {
         acc[name] = id;
         return acc;
     }, {});
@@ -87,8 +92,14 @@ const getPersonalizedTMGenres = async (spotifyGenres) => {
 
     return spotifyGenres.reduce((acc, genre) => {
         const closestGenre = closest(genre, tmArray);
+        const matchRating = distance(genre, closestGenre);
+        console.log('match-rating', matchRating);
+        console.log('....> spotify genre:', genre);
+        console.log('----> closest genre:', closestGenre);
         const id = tmGenres[closestGenre];
-        return !(closestGenre in acc) ? { ...acc, [closestGenre]: id } : acc;
+        return !(closestGenre in acc) && matchRating < 10
+            ? { ...acc, [closestGenre]: id }
+            : acc;
     }, {});
 };
 
