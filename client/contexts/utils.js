@@ -9,11 +9,12 @@ export const objectToArray = (object) =>
 
 /* Grabs events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
-    const latlong = state.lat + ',' + state.lon;
-    let { id, artists, recommendedArtists, ticketmasterGenres } = user;
-
     try {
         /* In guest view, guest user will see all events in his/her area */
+        const latlong = state.lat + ',' + state.lon;
+        let { id, artists, recommendedArtists, ticketmasterGenres } = user;
+        // console.log('user:', user);
+
         if (!id) {
             const {
                 data: {
@@ -25,13 +26,8 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
             return events;
         } else {
             /* In auth view, logged-in user will see events tailored to his/her spotify music taste */
-            // let parameterType;
             if (Object.keys(artists).length) {
-                artists = {
-                    'Harry Styles': 'placeholder',
-                    ...artists,
-                };
-
+                console.log('start', getTime());
                 let events = await callTicketmasterApi(
                     artists,
                     'keyword',
@@ -39,6 +35,31 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                     TICKETMASTERAPIKEY,
                     radius
                 );
+                await sleep(1000);
+                /* if no events are generated from top artists, search through recommended artists*/
+                if (!events.length) {
+                    events = await callTicketmasterApi(
+                        recommendedArtists,
+                        'keyword',
+                        latlong,
+                        TICKETMASTERAPIKEY,
+                        radius
+                    );
+                    await sleep(1000);
+                }
+
+                /* if no events are generated from recommended artists, search genres */
+                if (!events.length) {
+                    events = await callTicketmasterApi(
+                        ticketmasterGenres,
+                        'classificationName',
+                        latlong,
+                        TICKETMASTERAPIKEY,
+                        radius
+                    );
+                    await sleep(1000);
+                }
+                console.log('events:', events);
                 return events;
             }
         }
@@ -55,10 +76,14 @@ const callTicketmasterApi = async (
     radius
 ) => {
     let array = objectToArray(object);
-    let events = [];
+    console.log(array);
 
+    let events = [];
     await Promise.all(
-        array.map(async (name) => {
+        array.map(async (name, idx) => {
+            // DOES NOT WORK YET
+            // ensures there is a 1 second timeout for every 4 API calls
+            // if (idx % 4 === 0 && idx !== 0) await sleep(1000);
             const { data } = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
             );
@@ -93,3 +118,18 @@ export const getVenueObject = (eventObj) =>
         }
         return venObj;
     }, {});
+
+// prints out current time based on seconds
+const getTime = () => {
+    return (new Date().getTime() % 60000) / 1000;
+};
+
+// defers a function for 1 second
+const sleep = (ms) => {
+    console.log(getTime());
+    return new Promise((accept) => {
+        setTimeout(() => {
+            accept();
+        }, ms);
+    });
+};
