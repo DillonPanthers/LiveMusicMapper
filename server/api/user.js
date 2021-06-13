@@ -117,4 +117,14 @@ router.delete('/reject-friend', async (req, res, next) => {
         next(error);
     }
 });
+
+router.delete('/concert', async (req, res, next) => {
+    try {
+        const { userId, concertId } = req.body;
+        await User.deleteConcert(userId, concertId);
+        res.sendStatus(200);
+    } catch (ex) {
+        next(ex);
+    }
+});
 module.exports = router;

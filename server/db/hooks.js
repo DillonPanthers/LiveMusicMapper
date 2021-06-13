@@ -52,5 +52,9 @@ User.rejectFriendRequest = async (userId, friendId) => {
     friendship.destroy();
 };
 
+User.deleteConcert = async (userId, concertId) => {
+    const user = await User.findByPk(userId);
+    await user.removeConcert(concertId);
+};
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
