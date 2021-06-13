@@ -34,12 +34,18 @@ io.on('connection', (socket) => {
     socket.on('attachUserId', ({ info }) => {
         sockets.push(info);
         socketUtils.setSockets(sockets);
+    });
 
-        socket.on('disconnect', () => {
-            sockets = sockets.filter((s) => s.socketId !== socket.id);
-            socketUtils.setSockets(sockets);
-            console.log(sockets);
-        });
+    socket.on('disconnect', () => {
+        sockets = sockets.filter((s) => s.socketId !== socket.id);
+        socketUtils.setSockets(sockets);
+    });
+
+    socket.on('addFriend', ({ friendId }) => {
+        const friendSocketId = socketUtils.getSingleSocket(friendId);
+        if (friendSocketId) {
+            io.to(friendSocketId).emit('newFriendRequest', friendId);
+        }
     });
 });
 

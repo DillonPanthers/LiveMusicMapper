@@ -28,7 +28,6 @@ const Main = () => {
             console.log('in main,', socketId);
             attachUserId(user.id);
         }
-        console.log('main running');
     }, [user.id, socketId]);
 
     return (

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
+import { socket } from '../../contexts/SocketContext';
 
 const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
@@ -38,9 +39,12 @@ function FriendRequests() {
 
     useEffect(() => {
         if (user.id) {
-            console.log('here');
             getFriendRequests();
         }
+        socket.on('newFriendRequest', async (userId) => {
+            getFriendRequests();
+            await getUserData();
+        });
     }, [user]);
 
     //should we change this function name to accept friend?

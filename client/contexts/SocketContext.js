@@ -16,15 +16,18 @@ const SocketProvider = ({ children }) => {
 
     const attachUserId = (userId) => {
         const info = { socketId, userId };
-        console.log(info);
         socket.emit('attachUserId', { info });
     };
 
+    const addFriend = (friendId) => {
+        socket.emit('addFriend', { friendId });
+    };
+
     return (
-        <SocketContext.Provider value={{ socketId, attachUserId }}>
+        <SocketContext.Provider value={{ socketId, attachUserId, addFriend }}>
             {children}
         </SocketContext.Provider>
     );
 };
 
-export { SocketProvider, SocketContext };
+export { SocketProvider, SocketContext, socket };
