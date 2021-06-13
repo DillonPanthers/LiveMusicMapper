@@ -12,6 +12,8 @@ import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 import Filter from './FilterMap';
 
 import { GlobalState } from '../contexts/Store';
+import { socket } from '../contexts/SocketContext';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +48,16 @@ const NavBar = (props) => {
         setUser({});
     };
 
+    useEffect(() => {
+        socket.on('newFriendRequest', (userId) => {
+            console.log('NEW NOTIFICATION,NAVBAR', userId);
+        });
+
+        socket.on('acceptedRequest', () => {
+            console.log('NEW REQUEST');
+        });
+    }, []);
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.appBar}>
@@ -77,9 +89,9 @@ const NavBar = (props) => {
                     )}
                     {user.id && (
                         <>
-                        <Link to = '/friends'>
-                        <PeopleAltTwoToneIcon style = {{fill:"red"}}/>
-                        </Link>
+                            <Link to="/friends">
+                                <PeopleAltTwoToneIcon style={{ fill: 'red' }} />
+                            </Link>
                             <Button className={classes.button}>
                                 <Link to="/dashboard" className={classes.link}>
                                     Hello, {user.firstName}

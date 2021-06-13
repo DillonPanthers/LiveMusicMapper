@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
+import { SocketContext } from '../../contexts/SocketContext';
 import UserInfo from './UserInfo';
 
 //TODO: Add a sidebar for concerts to be viewed on once a venue is clicked
@@ -14,6 +15,7 @@ import UserInfo from './UserInfo';
 
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
+    const { addFriend } = useContext(SocketContext);
     const [currentUser] = auth;
     const [user, setUser] = useState({});
     const [friendship, setFriendship] = useState(false);
@@ -80,6 +82,7 @@ function SingleUser(props) {
                 userId,
             });
             getUserData();
+            addFriend(friendId);
         } else if (action === 'accept friend') {
             await axios.post('/api/user/accept-friend', {
                 requesterId: friendId,

@@ -8,11 +8,15 @@ import Store from './contexts/Store';
 
 import Main from './Components/Main';
 
+import { SocketProvider } from './contexts/SocketContext';
+
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Store>
-            <Main />
+            <SocketProvider>
+                <Main />
+            </SocketProvider>
         </Store>
     </MuiThemeProvider>,
     document.getElementById('root')
