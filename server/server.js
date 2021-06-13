@@ -47,6 +47,13 @@ io.on('connection', (socket) => {
             io.to(friendSocketId).emit('newFriendRequest', friendId);
         }
     });
+
+    socket.on('acceptFriend', ({ friendId }) => {
+        const friendSocketId = socketUtils.getSingleSocket(friendId);
+        if (friendSocketId) {
+            io.to(friendSocketId).emit('acceptedRequest', friendId);
+        }
+    });
 });
 
 app.use('/api', router);

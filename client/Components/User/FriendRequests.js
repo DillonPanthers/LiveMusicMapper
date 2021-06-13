@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
-import { socket } from '../../contexts/SocketContext';
+import { socket, SocketContext } from '../../contexts/SocketContext';
 
 const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 function FriendRequests() {
     const { auth, getUserData } = useContext(GlobalState);
+    const { acceptFriendReq } = useContext(SocketContext);
+
     const [user] = auth;
     const [friendRequests, setFriendRequests] = useState([]);
 
@@ -53,6 +55,7 @@ function FriendRequests() {
             requesterId,
             inviteeId,
         });
+        acceptFriendReq(requesterId);
         getFriendRequests();
         await getUserData();
     };

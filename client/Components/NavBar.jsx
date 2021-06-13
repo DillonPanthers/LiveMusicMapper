@@ -52,6 +52,10 @@ const NavBar = (props) => {
         socket.on('newFriendRequest', (userId) => {
             console.log('NEW NOTIFICATION,NAVBAR', userId);
         });
+
+        socket.on('acceptedRequest', () => {
+            console.log('NEW REQUEST');
+        });
     }, []);
 
     return (
