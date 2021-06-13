@@ -45,10 +45,8 @@ const User = db.define('user', {
     },
     imageUrl: {
         type: DataTypes.STRING,
-        defaultValue:
-            'https://as2.ftcdn.net/v2/jpg/02/60/03/61/1000_F_260036118_AUYppgsODQeTCnbu0OXGNDXB8EVzpxKq.jpg',
+        defaultValue: 'public/profile_pic_placeholder.png',
     },
-
     isPublic: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
@@ -58,7 +56,15 @@ const User = db.define('user', {
     },
     genres: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        defaultValue: [],
+    },
+    ticketmasterGenres: {
+        type: DataTypes.TEXT,
+        get() {
+            return JSON.parse(this.getDataValue('ticketmasterGenres'));
+        },
+        set(value) {
+            this.setDataValue('ticketmasterGenres', JSON.stringify(value));
+        },
     },
     artists: {
         type: DataTypes.TEXT,
