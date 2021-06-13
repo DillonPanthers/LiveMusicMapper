@@ -9,6 +9,7 @@ const router = require('./api');
 
 // Q: Will this resolve error when fetching ticketmaster data? allows us to send cors headers when handling APIs
 app.use(cors());
+const socketUtils = require('./socketUtils');
 
 // Body parsing middleware
 app.use(express.json());
@@ -18,12 +19,44 @@ app.use(morgan('dev'));
 
 // Static Files
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`app is listening at port ${port}!`);
+});
+
+const io = require('socket.io')(server);
+let sockets = [];
+
+io.on('connection', (socket) => {
+    socket.emit('me', socket.id);
+
+    socket.on('attachUserId', ({ info }) => {
+        sockets.push(info);
+        socketUtils.setSockets(sockets);
+    });
+
+    socket.on('disconnect', () => {
+        sockets = sockets.filter((s) => s.socketId !== socket.id);
+        socketUtils.setSockets(sockets);
+    });
+
+    socket.on('addFriend', ({ friendId }) => {
+        const friendSocketId = socketUtils.getSingleSocket(friendId);
+        if (friendSocketId) {
+            io.to(friendSocketId).emit('newFriendRequest', friendId);
+        }
+    });
+
+    socket.on('acceptFriend', ({ friendId }) => {
+        const friendSocketId = socketUtils.getSingleSocket(friendId);
+        if (friendSocketId) {
+            io.to(friendSocketId).emit('acceptedRequest', friendId);
+        }
+    });
 });
 
 app.use('/api', router);
