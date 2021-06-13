@@ -8,7 +8,6 @@ const getSockets = () => {
 
 const getSingleSocket = (friendId) => {
     const socketObj = _sockets.filter((s) => {
-        console.log('S', s, 'friendId', friendId);
         return s.userId === friendId;
     });
     return socketObj[0] ? socketObj[0].socketId : undefined;

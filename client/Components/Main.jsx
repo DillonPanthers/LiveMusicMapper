@@ -25,7 +25,6 @@ const Main = () => {
     useEffect(() => {
         getUserData();
         if (user.id && socketId) {
-            console.log('in main,', socketId);
             attachUserId(user.id);
         }
     }, [user.id, socketId]);
