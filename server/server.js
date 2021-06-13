@@ -6,6 +6,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 const router = require('./api');
 
+const socketUtils = require('./socketUtils');
+
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,10 +26,21 @@ const server = app.listen(port, () => {
 });
 
 const io = require('socket.io')(server);
+let sockets = [];
 
 io.on('connection', (socket) => {
     socket.emit('me', socket.id);
-    console.log('SOCKET IS ON');
+
+    socket.on('attachUserId', ({ info }) => {
+        sockets.push(info);
+        socketUtils.setSockets(sockets);
+
+        socket.on('disconnect', () => {
+            sockets = sockets.filter((s) => s.socketId !== socket.id);
+            socketUtils.setSockets(sockets);
+            console.log(sockets);
+        });
+    });
 });
 
 app.use('/api', router);

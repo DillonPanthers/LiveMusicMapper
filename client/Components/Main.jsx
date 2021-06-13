@@ -18,12 +18,18 @@ import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
 
 const Main = () => {
-    const { getUserData } = useContext(GlobalState);
+    const { auth, getUserData } = useContext(GlobalState);
+    const { attachUserId, socketId } = useContext(SocketContext);
 
+    const [user, setUser] = auth;
     useEffect(() => {
         getUserData();
+        if (user.id && socketId) {
+            console.log('in main,', socketId);
+            attachUserId(user.id);
+        }
         console.log('main running');
-    }, []);
+    }, [user.id, socketId]);
 
     return (
         <div>
