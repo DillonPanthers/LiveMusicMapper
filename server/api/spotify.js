@@ -43,8 +43,6 @@ router.get('/callback', async (req, res, next) => {
         const code = req.query.code;
         const grant_type = 'authorization_code';
 
-        console.log(46);
-
         let response = await axios({
             method: 'post',
             url: 'https://accounts.spotify.com/api/token',
@@ -66,8 +64,7 @@ router.get('/callback', async (req, res, next) => {
             'https://api.spotify.com/v1/me',
             access_token
         );
-        console.log(69);
-        console.log(userData);
+        // console.log(userData);
 
         let { email, id, display_name } = userData;
         email = email.toLowerCase();

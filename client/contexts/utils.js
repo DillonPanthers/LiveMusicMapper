@@ -20,10 +20,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
             );
             return events;
         } else {
-            /* prevents network errors if you drag location after firing off a few API calls */
             console.log('start');
-            await sleep(1000);
-
             /* In auth view, logged-in user will see events tailored to his/her spotify music taste */
             if (Object.keys(artists).length) {
                 let events = await callTicketmasterApi(
@@ -33,7 +30,6 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                     TICKETMASTERAPIKEY,
                     radius
                 );
-                await sleep(1000);
                 /* if no events are generated from top artists, search through recommended artists*/
                 if (!events.length) {
                     events = await callTicketmasterApi(
@@ -43,7 +39,6 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                         TICKETMASTERAPIKEY,
                         radius
                     );
-                    await sleep(1000);
                 }
 
                 /* if no events are generated from recommended artists, search genres */
@@ -55,9 +50,8 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                         TICKETMASTERAPIKEY,
                         radius
                     );
-                    await sleep(1000);
                 }
-                console.log('utils events:', events);
+                console.log('end - events:', events);
                 return events;
             }
         }
@@ -106,7 +100,7 @@ const callTicketmasterApi = async (
     if (array.length) {
         for (let i = 0; i < array.length; i++) {
             let name = array[i];
-            if (i % 5 === 0 && i !== 0) await sleep(1000);
+            if (i % 5 === 0) await sleep(1000);
             console.log('name & index', name, i);
             const { data } = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
