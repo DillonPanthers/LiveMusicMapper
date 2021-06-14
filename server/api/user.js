@@ -19,12 +19,17 @@ router.get('/search', requireToken, async (req, res, next) => {
     try {
         //I want to just send back users that have a public profile, if that's the case maybe we won't need a requiretoken to access that user data?
         //we could again always send back some simple user data like the id and name and basic stuff for those that have the isPublic set to true.
+        const { name } = req.query;
         const users = await User.findAll({
             attributes: {
                 exclude: ['password', 'email', 'isAdmin', 'spotifyId'],
             },
         });
-        res.send(users);
+        const filteredUsers = users.filter(
+            (user) =>
+                user.dataValues.firstName.toLowerCase() === name.toLowerCase()
+        );
+        res.send(filteredUsers);
     } catch (err) {
         next(err);
     }
