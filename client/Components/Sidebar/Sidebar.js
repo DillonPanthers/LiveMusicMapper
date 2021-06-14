@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import ConcertCardList from '../Card/ConcertCardList';
 import TempCardList from '../Card/TempCardList';
