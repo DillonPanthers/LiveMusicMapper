@@ -85,6 +85,8 @@ router.get('/callback', async (req, res, next) => {
             artists = {};
             recommendedArtists = {};
             ticketmasterGenres = {};
+
+            // create new user here
         } else {
             genres = items.reduce(
                 (acc, artist) => [...acc, ...artist.genres],
@@ -95,23 +97,22 @@ router.get('/callback', async (req, res, next) => {
                 {}
             );
             // console.log('spotifyTopArtists', artists);
+            /* Gets user's latest genres & includes older ones if API call only fetches a few new ones */
+            genres = consolidateArray(user.genres, genres, 20);
+
+            /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones */
+            artists = consolidateObj(user.artists, artists, 10);
+
+            /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
+            ticketmasterGenres = await getPersonalizedTMGenres(genres);
+
+            /* get 20 artist recommendations based on user's top Spotify artists. 'n' represents number of recommended artists for every top artist */
+            recommendedArtists = await getRecommendedArtists(
+                artists,
+                access_token,
+                2
+            );
         }
-
-        /* Gets user's latest genres & includes older ones if API call only fetches a few new ones */
-        genres = consolidateArray(user.genres, genres, 20);
-
-        /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones */
-        artists = consolidateObj(user.artists, artists, 10);
-
-        /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
-        ticketmasterGenres = await getPersonalizedTMGenres(genres);
-
-        /* get 20 artist recommendations based on user's top Spotify artists. 'n' represents number of recommended artists for every top artist */
-        recommendedArtists = await getRecommendedArtists(
-            artists,
-            access_token,
-            2
-        );
 
         /* Conditions for an existing user with/without a spotify account & for creating a new user */
         if (user) {

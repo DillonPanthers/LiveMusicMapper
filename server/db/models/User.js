@@ -56,6 +56,7 @@ const User = db.define('user', {
     },
     genres: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
+        defaultValue: [],
     },
     ticketmasterGenres: {
         type: DataTypes.TEXT,
@@ -65,6 +66,7 @@ const User = db.define('user', {
         set(value) {
             this.setDataValue('ticketmasterGenres', JSON.stringify(value));
         },
+        defaultValue: '{}',
     },
     artists: {
         type: DataTypes.TEXT,
@@ -74,6 +76,7 @@ const User = db.define('user', {
         set(value) {
             this.setDataValue('artists', JSON.stringify(value));
         },
+        defaultValue: '{}',
     },
     recommendedArtists: {
         type: DataTypes.TEXT,
@@ -83,6 +86,7 @@ const User = db.define('user', {
         set(value) {
             this.setDataValue('recommendedArtists', JSON.stringify(value));
         },
+        defaultValue: '{}',
     },
 });
 

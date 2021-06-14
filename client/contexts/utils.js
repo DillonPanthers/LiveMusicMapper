@@ -5,10 +5,12 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     try {
         /* In guest view, guest user will see all events in his/her area */
         const latlong = state.lat + ',' + state.lon;
-        let { id, artists, recommendedArtists, ticketmasterGenres } = user;
+        let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
+            user;
         console.log('user:', user);
 
-        if (!id) {
+        /* Regular & guest users see all events */
+        if (spotifyId === null) {
             const {
                 data: {
                     _embedded: { events },
@@ -52,7 +54,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                     );
                     await sleep(1000);
                 }
-                console.log('events:', events);
+                console.log('utils events:', events);
                 return events;
             }
         }
