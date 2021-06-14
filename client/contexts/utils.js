@@ -30,7 +30,10 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                     TICKETMASTERAPIKEY,
                     radius
                 );
-                /* if no events are generated from top artists, search through recommended artists*/
+                /*
+                if no events are generated from top artists, search through recommended artists
+                - this may not be used in case there are too many API calls
+                */
                 if (!events.length) {
                     events = await callTicketmasterApi(
                         recommendedArtists,
@@ -68,30 +71,26 @@ const callTicketmasterApi = async (
     radius
 ) => {
     /* convert object to an array that can be mapped over for handling spaces in strings*/
-    let array = Object.keys(object).map((string) =>
-        string.split(' ').join('%')
-    );
+    let array = Object.keys(object);
     console.log(array);
 
     let events = [];
 
     /*
     // REVISED PROMISE.ALL
+    // Use setTimeout for wrapping Promise.all() for smaller array sets
     if (array.length) {
         let tmEvents = await Promise.all(
             array.map(async (name, idx) => {
-                if (idx % 4 === 0 && idx !== 0) await sleep(1000); // this step is critical for pausing API calls
-                const response = await axios.get(
+                // this returns a promise
+                return axios.get(
                     `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
                 );
-                console.log(response.data);
-                return response.data;
             })
         );
-        console.log(1); // doesn't print
         events = tmEvents
-            .filter((data) => data._embedded) // checks if there is event data
-            .map((data) => data._embedded.events[0]);
+            .filter((response) => response.data._embedded) // checks if there is event data
+            .map((response) => response.data._embedded.events[0]);
         console.log('events', events);
     }
     */
@@ -100,7 +99,7 @@ const callTicketmasterApi = async (
     if (array.length) {
         for (let i = 0; i < array.length; i++) {
             let name = array[i];
-            if (i % 5 === 0) await sleep(1000);
+            if (i % 4 === 0) await sleep(1000);
             console.log('name & index', name, i);
             const { data } = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
