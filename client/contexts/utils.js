@@ -7,6 +7,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
         const latlong = state.lat + ',' + state.lon;
         let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
             user;
+        let result = [];
         console.log('user:', user);
 
         /* Regular & guest users see all events */
@@ -57,6 +58,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                 console.log('end - events:', events);
                 return events;
             }
+            return result;
         }
     } catch (error) {
         console.log(error);
