@@ -20,7 +20,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
             );
             return events;
         } else {
-            /* necessary for preventing network errors every if you drag location after firing off multiple ongoing API calls */
+            /* prevents network errors if you drag location after firing off a few API calls */
             console.log('start');
             await sleep(1000);
 
