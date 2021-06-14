@@ -84,7 +84,7 @@ router.get('/callback', async (req, res, next) => {
             access_token
         );
         let { items } = topArtists;
-
+        console.log(items, 'items here');
         /* If 'items' contains data, store into genres and artists objects and use those variables to grab recommended artists and ticketmaster genres */
         if (items.length) {
             genres = items.reduce(
