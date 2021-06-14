@@ -153,7 +153,7 @@ function Map() {
                 <GoogleMap
                     zoom={10}
                     center={{ lat: state.lat, lng: state.lon }}
-                    mapContainerStyle={{ height: '100vh', width: '100vw' }}
+                    mapContainerStyle={{ height: '90vh', width: '100vw' }}
                     onDragEnd={newLocation}
                     onZoomChanged={newZoom}
                     onClick={onMapClick}

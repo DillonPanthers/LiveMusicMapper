@@ -19,7 +19,7 @@ import { GlobalState } from '../../contexts/Store';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
+        width: 345,
         marginTop: 5,
         marginBottom: 5,
         color: 'black',

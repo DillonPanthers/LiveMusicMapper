@@ -12,8 +12,8 @@ function Sidebar({ showView }) {
                 className={showView ? 'nav-menu active' : 'nav-menu'}
             >
                 <ul className="nav-menu-items">
-                    <ConcertCardList />
-                    {/* <TempCardList /> */}
+                    {/* <ConcertCardList /> */}
+                    <TempCardList />
                 </ul>
             </nav>
         </>
