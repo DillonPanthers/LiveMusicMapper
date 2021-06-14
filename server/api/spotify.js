@@ -43,6 +43,8 @@ router.get('/callback', async (req, res, next) => {
         const code = req.query.code;
         const grant_type = 'authorization_code';
 
+        console.log(46);
+
         let response = await axios({
             method: 'post',
             url: 'https://accounts.spotify.com/api/token',
@@ -64,11 +66,20 @@ router.get('/callback', async (req, res, next) => {
             'https://api.spotify.com/v1/me',
             access_token
         );
+        console.log(69);
+        console.log(userData);
+
         let { email, id, display_name } = userData;
         email = email.toLowerCase();
 
         /* Find user with an email that matches one used in Spotify account */
         let user = await User.findOne({ where: { email } });
+
+        /* These fields will be saved onto the user object, and will be initialized as empty objects in case spotify does not fetch any topArtists data for the user */
+        let genres = [],
+            artists = {},
+            recommendedArtists = {},
+            ticketmasterGenres = {};
 
         /* get Spotify user's top artists */
         const topArtists = await spotifyApiCall(
@@ -77,17 +88,8 @@ router.get('/callback', async (req, res, next) => {
         );
         let { items } = topArtists;
 
-        let genres, artists, recommendedArtists, ticketmasterGenres;
-
-        /* Store spotify data into distinct genres and artists array */
-        if (!items.length) {
-            genres = [];
-            artists = {};
-            recommendedArtists = {};
-            ticketmasterGenres = {};
-
-            // create new user here
-        } else {
+        /* If 'items' contains data, store into genres and artists objects and use those variables to grab recommended artists and ticketmaster genres */
+        if (items.length) {
             genres = items.reduce(
                 (acc, artist) => [...acc, ...artist.genres],
                 []
@@ -96,26 +98,36 @@ router.get('/callback', async (req, res, next) => {
                 (acc, artist) => ({ ...acc, [artist.name]: artist.id }),
                 {}
             );
-            // console.log('spotifyTopArtists', artists);
+
+            /* get 20 max artist recommendations based on user's top Spotify artists. 2 is an argument for getting 'n' recommended artists for every top artist */
+            recommendedArtists = await getRecommendedArtists(
+                artists,
+                access_token,
+                2
+            );
+
+            /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
+            ticketmasterGenres = await getPersonalizedTMGenres(genres);
+        }
+
+        /* Conditions for an existing user with/without a spotify account*/
+        if (user) {
             /* Gets user's latest genres & includes older ones if API call only fetches a few new ones */
             genres = consolidateArray(user.genres, genres, 20);
 
             /* Gets user's latest artists & includes older ones if the API call only fetches a few new ones */
             artists = consolidateObj(user.artists, artists, 10);
 
-            /* Matches user's spotify genres with ticketmaster ones for Ticketmaster API calls */
-            ticketmasterGenres = await getPersonalizedTMGenres(genres);
-
-            /* get 20 artist recommendations based on user's top Spotify artists. 'n' represents number of recommended artists for every top artist */
+            /* We separately call it here for an exisiting user because we want to use the consolidated artists object */
             recommendedArtists = await getRecommendedArtists(
                 artists,
                 access_token,
                 2
             );
-        }
 
-        /* Conditions for an existing user with/without a spotify account & for creating a new user */
-        if (user) {
+            /* We separately call it here for an exisiting user because we want to use the consolidated genres array */
+            ticketmasterGenres = await getPersonalizedTMGenres(genres);
+
             if (!user.spotifyId) user.spotifyId = id;
             user.genres = genres;
             user.artists = artists;
@@ -125,6 +137,7 @@ router.get('/callback', async (req, res, next) => {
         } else if (!user) {
             let [firstName, lastName] = display_name.split(' ');
             if (!lastName) lastName = '';
+
             user = await User.create({
                 spotifyId: id,
                 email,

@@ -20,9 +20,12 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
             );
             return events;
         } else {
+            /* necessary for preventing network errors every if you drag location after firing off multiple ongoing API calls */
+            console.log('start');
+            await sleep(1000);
+
             /* In auth view, logged-in user will see events tailored to his/her spotify music taste */
             if (Object.keys(artists).length) {
-                console.log('start', getTime());
                 let events = await callTicketmasterApi(
                     artists,
                     'keyword',
