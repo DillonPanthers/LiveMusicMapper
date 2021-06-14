@@ -10,7 +10,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
         console.log('user:', user);
 
         /* Regular & guest users see all events */
-        if (spotifyId === null) {
+        if (!spotifyId) {
             const {
                 data: {
                     _embedded: { events },

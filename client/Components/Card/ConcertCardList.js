@@ -1,15 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalState } from '../../contexts/Store';
 import ConcertCard from './ConcertCard';
 
 const ConcertCardList = () => {
-    const { currSingleVenue } = useContext(GlobalState);
+    const { currSingleVenue, auth } = useContext(GlobalState);
     const [currentVenue, setCurrentVenue] = currSingleVenue;
+    const [user, setUser] = auth;
     let venueData = null;
+
+    const isAttending = (concertId) => {
+        return user.concerts.some((concert) => concert.id === concertId);
+    };
 
     if (Object.keys(currentVenue).length > 0) {
         venueData = currentVenue.venueEvents.map((concert) => (
-            <ConcertCard key={concert.id} concertData={concert} />
+            <ConcertCard
+                key={concert.id}
+                concertData={concert}
+                isAttending={isAttending(concert.id)}
+            />
         ));
     }
 

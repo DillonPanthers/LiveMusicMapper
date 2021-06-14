@@ -20,6 +20,7 @@ const Search = () => {
                 authorization: token,
             },
         });
+        //do this filtering in the backend, make a hook for it possibly.
         const filteredUsers = response.data.filter(
             (user) => user.firstName.toLowerCase() === name.toLowerCase()
         );

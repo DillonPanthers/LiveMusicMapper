@@ -17,7 +17,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ClearIcon from '@material-ui/icons/Clear';
 import { GlobalState } from '../../contexts/Store';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ConcertCard({ concertData }) {
+export default function ConcertCard({ concertData, isAttending }) {
     //TODO: UPDATE TEXT COLOR, CONCERT NAME AND TEXT IS SHOWING UP WE JUST CAN'T SEE IT YET
     //TODO: UPDATE MARGINS BETWEEN EACH CARD AND CSS SO THAT THERE IS SOME FLEX GOING ON
     //TODO: FIND OUT WHAT OTHER INFO YOU NEED FOR THE CONCERT
@@ -54,6 +56,7 @@ export default function ConcertCard({ concertData }) {
 
     const { currSingleConcert, auth, getUserData } = useContext(GlobalState);
     const [user] = auth;
+    const [userConcerts, setUserConcerts] = useState([]);
     const [currConcert, setCurrConcert] = currSingleConcert;
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
@@ -65,6 +68,14 @@ export default function ConcertCard({ concertData }) {
     const addConcert = async (concert) => {
         const userId = user.id;
         await axios.post('/api/user/concert', { userId, concert });
+        await getUserData();
+    };
+
+    const removeConcert = async (concertId) => {
+        const userId = user.id;
+        await axios.delete('/api/user/concert', {
+            data: { userId, concertId },
+        });
         await getUserData();
     };
 
@@ -107,12 +118,20 @@ export default function ConcertCard({ concertData }) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton
-                        onClick={() => addConcert(concertData)}
-                        aria-label="add to favorites"
-                    >
-                        <FavoriteIcon />
-                    </IconButton>
+                    {!isAttending ? (
+                        <IconButton
+                            onClick={() => addConcert(concertData)}
+                            aria-label="add to favorites"
+                        >
+                            <FavoriteIcon />
+                        </IconButton>
+                    ) : (
+                        <IconButton
+                            onClick={() => removeConcert(concertData.id)}
+                        >
+                            <ClearIcon />
+                        </IconButton>
+                    )}
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
