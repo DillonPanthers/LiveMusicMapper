@@ -18,7 +18,6 @@ const Store = ({ children }) => {
             },
         });
         const userData = response.data;
-        // console.log(userData);
         if (userData.id) {
             setUser(userData);
         }

@@ -55,6 +55,8 @@ const Dashboard = () => {
         };
 
         if (user.id) {
+            console.log('concert', user.concerts);
+            console.log('venueObj', venueObj(user.concerts));
             setFriends(user.friends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);

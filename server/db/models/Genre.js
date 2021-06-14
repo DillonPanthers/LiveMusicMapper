@@ -1,4 +1,3 @@
-//Create Genre Model Here
 const { db } = require('../db');
 const { DataTypes } = require('sequelize');
 
