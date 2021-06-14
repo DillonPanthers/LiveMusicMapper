@@ -1,21 +1,16 @@
 import axios from 'axios';
 
-/* convert object to an array that can be mapped over for handling spaces in strings*/
-// NOTE: May need to adjust array length in spotify API calls
-export const objectToArray = (object) =>
-    Object.keys(object)
-        .map((string) => string.split(' ').join('%'))
-        .slice(0, 4);
-
 /* Grabs events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     try {
         /* In guest view, guest user will see all events in his/her area */
         const latlong = state.lat + ',' + state.lon;
-        let { id, artists, recommendedArtists, ticketmasterGenres } = user;
-        // console.log('user:', user);
+        let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
+            user;
+        console.log('user:', user);
 
-        if (!id) {
+        /* Regular & guest users see all events */
+        if (spotifyId === null) {
             const {
                 data: {
                     _embedded: { events },
@@ -59,7 +54,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                     );
                     await sleep(1000);
                 }
-                console.log('events:', events);
+                console.log('utils events:', events);
                 return events;
             }
         }
@@ -68,6 +63,7 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     }
 };
 
+// NOTE: UPDATED THIS FUNCTION
 const callTicketmasterApi = async (
     object,
     parameterType,
@@ -75,21 +71,27 @@ const callTicketmasterApi = async (
     TICKETMASTERAPIKEY,
     radius
 ) => {
-    let array = objectToArray(object);
+    /* convert object to an array that can be mapped over for handling spaces in strings*/
+    // NOTE: May need to adjust array length in spotify API calls
+    let array = Object.keys(object)
+        .map((string) => string.split(' ').join('%'))
+        .slice(0, 4);
     console.log(array);
 
     let events = [];
-    await Promise.all(
-        array.map(async (name, idx) => {
-            // DOES NOT WORK YET
-            // ensures there is a 1 second timeout for every 4 API calls
-            // if (idx % 4 === 0 && idx !== 0) await sleep(1000);
-            const { data } = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
-            );
-            if (data._embedded) events.push(data._embedded.events[0]);
-        })
-    );
+    if (array.length) {
+        await Promise.all(
+            array.map(async (name, idx) => {
+                // DOES NOT WORK YET
+                // ensures there is a 1 second timeout for every 4 API calls
+                // if (idx % 4 === 0 && idx !== 0) await sleep(1000);
+                const { data } = await axios.get(
+                    `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+                );
+                if (data._embedded) events.push(data._embedded.events[0]);
+            })
+        );
+    }
     return events;
 };
 
