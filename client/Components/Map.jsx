@@ -12,6 +12,8 @@ import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
 import Loading from './Loading/Loading';
 import ConcertCardList from './Card/ConcertCardList';
+import Sidebar from './Sidebar/Sidebar';
+
 import { getEvents, getVenueObject } from '../contexts/utils';
 
 function Map() {
@@ -142,14 +144,11 @@ function Map() {
 
     return (
         //TODO: Do we need location data in global state? Double check.
-        //TODO: Cleanup unnecessary code in this component - in progress
-        //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component.
-        //TODO: Add venue address to infowindow marker
         //TODO: Change card to Lizard card from material UI
 
         isLoading ? (
             <Loading loading={isLoading} />
-        ) : (
+        ) : (<div>
             <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
                 <GoogleMap
                     zoom={10}
@@ -207,8 +206,10 @@ function Map() {
                         </InfoWindow>
                     )}
                 </GoogleMap>
-                <ConcertCardList />
+                {/* <ConcertCardList /> */}
             </LoadScript>
+            <Sidebar showView ={state.isOpen}/>
+            </div>
         )
     );
 }
