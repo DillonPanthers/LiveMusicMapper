@@ -116,7 +116,6 @@ function Map() {
             const lat2 = this.getBounds().lc.g;
             const lng2 = this.getBounds().Eb.g;
             const newRadius = distance(lat1, lng1, lat2, lng2);
-            console.log('newRadius', newRadius);
             setRadius(newRadius);
         }
     };

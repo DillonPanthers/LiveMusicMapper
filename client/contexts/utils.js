@@ -99,7 +99,7 @@ const callTicketmasterApi = async (
     if (array.length) {
         for (let i = 0; i < array.length; i++) {
             let name = array[i];
-            if (i % 4 === 0) await sleep(1000);
+            if (i % 5 === 0) await sleep(1000);
             console.log('name & index', name, i);
             const { data } = await axios.get(
                 `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
