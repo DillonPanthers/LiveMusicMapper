@@ -93,9 +93,9 @@ const getPersonalizedTMGenres = async (spotifyGenres) => {
     return spotifyGenres.reduce((acc, genre) => {
         const closestGenre = closest(genre, tmArray);
         const matchRating = distance(genre, closestGenre);
-        console.log('match-rating', matchRating);
-        console.log('....> spotify genre:', genre);
-        console.log('----> closest genre:', closestGenre);
+        // console.log('match-rating', matchRating);
+        // console.log('....> spotify genre:', genre);
+        // console.log('----> closest genre:', closestGenre);
         const id = tmGenres[closestGenre];
         return !(closestGenre in acc) && matchRating < 10
             ? { ...acc, [closestGenre]: id }
