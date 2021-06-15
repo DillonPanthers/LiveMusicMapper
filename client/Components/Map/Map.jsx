@@ -196,23 +196,17 @@ function Map() {
                                                       .venueData.location
                                                       .longitude,
                                               }}
-                                              onLoad={(marker) => {
-                                                  const customIcon = (opts) =>
-                                                      Object.assign(
-                                                          {
-                                                              path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
-                                                              fillColor:
-                                                                  '#1DE9B6',
-                                                              fillOpacity: 1,
-                                                              strokeColor:
-                                                                  '#000A47',
-                                                              strokeWeight: 1,
-                                                              scale: 0.5,
-                                                          },
-                                                          opts
-                                                      );
-
-                                                  marker.setIcon(customIcon());
+                                              icon={{
+                                                  path: 'M20.7534 16L10.7536 46.0012C7.08696 36.3345 1.45261 18.3304 0.75348 16C-0.817087 10.7649 0.253906 6.66686 2.25371 4C3.75355 1.99988 6.72244 -0.000141161 10.7536 0C14.7536 0.000140086 17.2536 1.5 19.2536 4.00109C21.9091 7.32196 21.7534 12 20.7534 16Z',
+                                                  fillColor: '#1DE9B6',
+                                                  fillOpacity: 1,
+                                                  strokeWeight: 1,
+                                                  strokeColor: '#000A47',
+                                                  strokeOpacity: 1,
+                                                  anchor: new google.maps.Point(
+                                                      10,
+                                                      45
+                                                  ),
                                               }}
                                           />
                                       );
