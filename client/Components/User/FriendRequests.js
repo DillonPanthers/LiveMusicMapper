@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 function FriendRequests() {
     const { auth, getUserData, newNotification } = useContext(GlobalState);
-    const { acceptFriendReq } = useContext(SocketContext);
+    const { acceptFriendReq, rejectFriendReq } = useContext(SocketContext);
 
     const [user] = auth;
     const [friendRequests, setFriendRequests] = useState([]);
@@ -53,6 +53,11 @@ function FriendRequests() {
             getFriendRequests();
             await getUserData();
         });
+
+        socket.on('rejected', async (userId) => {
+            getFriendRequests();
+            await getUserData();
+        });
     }, [user]);
 
     //should we change this function name to accept friend?
@@ -71,6 +76,7 @@ function FriendRequests() {
             data: { requesterId, inviteeId },
         });
 
+        rejectFriendReq(requesterId);
         getFriendRequests();
         await getUserData();
     };

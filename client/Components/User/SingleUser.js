@@ -17,7 +17,8 @@ import UserInfo from './UserInfo';
 
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
-    const { addFriend, acceptFriendReq } = useContext(SocketContext);
+    const { addFriend, acceptFriendReq, rejectFriendReq } =
+        useContext(SocketContext);
     const [currentUser] = auth;
     const [user, setUser] = useState({});
     const [friendship, setFriendship] = useState(false);
@@ -104,6 +105,7 @@ function SingleUser(props) {
         const user = await axios.get(`/api/user/${requesterId}`);
         setUser(user.data);
         setFriends(user.data.friends);
+        rejectFriendReq(requesterId);
     };
 
     //1) logged in user and own profile - redirect to dashboard - done

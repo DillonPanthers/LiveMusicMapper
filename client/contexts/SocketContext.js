@@ -23,12 +23,21 @@ const SocketProvider = ({ children }) => {
         socket.emit('addFriend', { friendId });
     };
 
+    const rejectFriendReq = (friendId) => {
+        socket.emit('rejectedFriend', { friendId });
+    };
     const acceptFriendReq = (friendId) => {
         socket.emit('acceptFriend', { friendId });
     };
     return (
         <SocketContext.Provider
-            value={{ socketId, attachUserId, acceptFriendReq, addFriend }}
+            value={{
+                socketId,
+                attachUserId,
+                acceptFriendReq,
+                addFriend,
+                rejectFriendReq,
+            }}
         >
             {children}
         </SocketContext.Provider>
