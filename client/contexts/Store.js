@@ -11,6 +11,7 @@ const Store = ({ children }) => {
     const [location, setLocation] = useState({ lat: 0, lon: 0 });
     const [genre, setGenre] = useState('');
     const [radius, setRadius] = useState(40);
+    const [newNotification, setNewNotification] = useState(false);
 
     const getUserData = async () => {
         const token = window.localStorage.getItem('token');
@@ -47,6 +48,7 @@ const Store = ({ children }) => {
                 theRadius: [radius, setRadius],
                 getUserData,
                 getUserLocation,
+                newNotification: [newNotification, setNewNotification],
             }}
         >
             {children}
