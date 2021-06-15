@@ -13,9 +13,15 @@ import Search from './Search';
 //TODO: Do we want to sort the requested vs the unrequested?
 
 const AllFriends = () => {
-    const { auth } = useContext(GlobalState);
+    const { auth, getUserData } = useContext(GlobalState);
     const [user, setUser] = auth;
 
+    useEffect(() => {
+        const getData = async () => {
+            await getUserData();
+        };
+        getData();
+    }, []);
     return user.friends ? (
         <Container style={{ display: 'flex' }}>
             <Container>

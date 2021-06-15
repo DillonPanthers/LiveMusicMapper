@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
 //TODO: Do we really need a block button? Is Add or Remove enough?
 
 function FriendRequests() {
-    const { auth, getUserData } = useContext(GlobalState);
+    const { auth, getUserData, newNotification } = useContext(GlobalState);
     const { acceptFriendReq } = useContext(SocketContext);
 
     const [user] = auth;
     const [friendRequests, setFriendRequests] = useState([]);
-
+    const [notification, setNotification] = newNotification;
     const classes = useStyles();
 
     const getFriendRequests = async () => {
@@ -43,7 +43,13 @@ function FriendRequests() {
         if (user.id) {
             getFriendRequests();
         }
+
         socket.on('newFriendRequest', async (userId) => {
+            getFriendRequests();
+            await getUserData();
+        });
+
+        socket.on('acceptedRequest', async () => {
             getFriendRequests();
             await getUserData();
         });

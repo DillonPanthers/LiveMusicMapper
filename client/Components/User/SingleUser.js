@@ -13,9 +13,11 @@ import UserInfo from './UserInfo';
 //TODO: Components for User Info
 //TODO: create a backend for friendship logic
 
+// TO DO: CREATE SOCKET ROUTES FOR REJECTION ADD THAT TO REJECT BUTTON -> singleUser, FriendRequest
+
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
-    const { addFriend } = useContext(SocketContext);
+    const { addFriend, acceptFriendReq } = useContext(SocketContext);
     const [currentUser] = auth;
     const [user, setUser] = useState({});
     const [friendship, setFriendship] = useState(false);
@@ -88,6 +90,7 @@ function SingleUser(props) {
                 requesterId: friendId,
                 inviteeId: userId,
             });
+            acceptFriendReq(friendId);
             await getUserData();
         }
     };
