@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 export default function TempCard({ concertData, isAttending }) {
     const classes = useStyles();
-
+    console.log('concert data here', concertData);
     const { currSingleConcert, auth, getUserData } = useContext(GlobalState);
     const [currConcert, setCurrConcert] = currSingleConcert;
     const [user] = auth;
@@ -83,16 +83,22 @@ export default function TempCard({ concertData, isAttending }) {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    {!isAttending ? (
-                        <IconButton onClick={() => addConcert(concertData)}>
-                            <FavoriteIcon />
-                        </IconButton>
+                    {user.id ? (
+                        !isAttending ? (
+                            <IconButton onClick={() => addConcert(concertData)}>
+                                <FavoriteIcon />
+                            </IconButton>
+                        ) : (
+                            <IconButton
+                                onClick={() => removeConcert(concertData.id)}
+                            >
+                                <ClearIcon />
+                            </IconButton>
+                        )
                     ) : (
-                        <IconButton
-                            onClick={() => removeConcert(concertData.id)}
-                        >
-                            <ClearIcon />
-                        </IconButton>
+                        <Link to="/login">
+                            <Typography>login to add concert</Typography>
+                        </Link>
                     )}
                 </CardActions>
             </Card>
