@@ -11,7 +11,6 @@ import { GlobalState } from '../contexts/Store';
 import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
 
 import Loading from './Loading/Loading';
-import ConcertCardList from './Card/ConcertCardList';
 import Sidebar from './Sidebar/Sidebar';
 
 import { getEvents, getVenueObject } from '../contexts/utils';
@@ -157,13 +156,6 @@ function Map() {
                         onZoomChanged={newZoom}
                         onClick={onMapClick}
                     >
-                        {/* <Marker
-                        position={{
-                            lat: +locationData.lat,
-                            lng: +locationData.lon,
-                        }}
-                    /> */}
-
                         {venueDataObj
                             ? Object.keys(venueDataObj).map((currEvent) => {
                                   if (
@@ -211,7 +203,6 @@ function Map() {
                             </InfoWindow>
                         )}
                     </GoogleMap>
-                    {/* <ConcertCardList /> */}
                 </LoadScript>
                 <Sidebar showView={state.isOpen} />
             </div>
