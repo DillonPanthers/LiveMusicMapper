@@ -21,8 +21,6 @@ User.belongsToMany(Concert, {
     timestamps: false,
 });
 
-// TODO: Create hooks for easier access to data
-
 // User.findAll({ include: 'friends'}), -> show User's friends
 // Note: you can't do include: Friendship
 User.belongsToMany(User, {

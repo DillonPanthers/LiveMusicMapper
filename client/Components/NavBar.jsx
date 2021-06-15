@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
     makeStyles,
     AppBar,

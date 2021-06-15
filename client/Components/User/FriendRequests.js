@@ -19,12 +19,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FriendRequests() {
-    const { auth, getUserData, newNotification } = useContext(GlobalState);
+    const { auth, getUserData } = useContext(GlobalState);
     const { acceptFriendReq, rejectFriendReq } = useContext(SocketContext);
 
     const [user] = auth;
     const [friendRequests, setFriendRequests] = useState([]);
-    const [notification, setNotification] = newNotification;
     const classes = useStyles();
 
     const getFriendRequests = async () => {
