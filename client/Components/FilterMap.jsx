@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { MenuItem, Button, Menu, makeStyles } from '@material-ui/core';
@@ -24,10 +24,11 @@ const Filter = () => {
     const { location, venues } = useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
+    const [genre1, setGenres]= useState([])
 
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
-
+        // console.log('hello')
         setMenuOpen(true);
     };
 
@@ -35,6 +36,15 @@ const Filter = () => {
         setMenuOpen(false);
     };
 
+    useEffect(async () => {
+        console.log('hello')
+        const genreList = await axios.get(`/api/genre`);
+        console.log('genres', genreList.data)
+        setGenres(genreList.data);
+        // console.log('state genres', genre1)
+      }, []);
+    
+    console.log('state genres', genre1)
     const filterMapData = async (event) => {
         const { myValue } = event.currentTarget.dataset;
         const latlong = locationData.lat + ',' + locationData.lon;
@@ -102,8 +112,31 @@ const Filter = () => {
                     keepMounted
                     open={Boolean(menuOpen)}
                     onClose={closeMenu}
+                    elevation={0}
+                    getContentAnchorEl={null}
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                    }}
                 >
-                    <MenuItem
+                    {
+                        genre1.map((curr)=>{
+                            return <MenuItem
+                            data-my-value={curr.id}
+                            className={classes.container}
+                            onClick={filterMapData}
+                            key={curr.id}
+                        >
+                            {curr.name}
+                        </MenuItem>
+    
+                        })
+                    }
+                    {/* <MenuItem
                         data-my-value="KnvZfZ7vAeA"
                         className={classes.container}
                         onClick={filterMapData}
@@ -130,7 +163,8 @@ const Filter = () => {
                         onClick={filterMapData}
                     >
                         Country
-                    </MenuItem>
+                    </MenuItem> */}
+
                 </Menu>
             </React.Fragment>
         ) : null;
