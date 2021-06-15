@@ -41,7 +41,7 @@ const Search = () => {
                     placeholder="enter name here"
                     style={{ marginRight: '5px' }}
                 />
-                <Button variant="contained" type="submit">
+                <Button variant="contained" type="submit" color="background">
                     Submit
                 </Button>
             </form>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TempCardList from '../Card/TempCardList';
+
 import './Sidebar.scss';
 
 function Sidebar({ showView }) {

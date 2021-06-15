@@ -23,9 +23,13 @@ const useStyles = makeStyles({
         marginTop: 5,
         marginBottom: 5,
         color: 'black',
+        backgroundColor: '#5F285A',
     },
     media: {
         height: 140,
+    },
+    heart: {
+        color: 'red',
     },
 });
 
@@ -85,7 +89,7 @@ export default function TempCard({ concertData, isAttending }) {
                     {user.id ? (
                         !isAttending ? (
                             <IconButton onClick={() => addConcert(concertData)}>
-                                <FavoriteIcon />
+                                <FavoriteIcon className={classes.heart} />
                             </IconButton>
                         ) : (
                             <IconButton
