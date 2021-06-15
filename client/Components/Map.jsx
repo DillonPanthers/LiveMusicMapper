@@ -18,8 +18,6 @@ import { getEvents, getVenueObject } from '../contexts/utils';
 
 function Map() {
     const [state, setState] = useState({
-        lat: 0,
-        lon: 0,
         selectedEventLat: 0,
         selectedEventLong: 0,
         selectedEventName: '',
@@ -28,13 +26,15 @@ function Map() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [initialCall, setInitialCall] = useState(true);
-    const [radius, setRadius] = useState(40);
 
-    const { currSingleVenue, location, venues, auth } = useContext(GlobalState);
+    const { currSingleVenue, location, venues, auth, genres, theRadius } =
+        useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
     const [user, setUser] = auth;
+    const [genre, setGenre] = genres;
+    const [radius, setRadius] = theRadius;
 
     useEffect(() => {
         const getUserLocation = async () => {
@@ -43,11 +43,7 @@ function Map() {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 });
-                setState({
-                    ...state,
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                });
+
                 setInitialCall(false);
             });
         };
@@ -56,9 +52,10 @@ function Map() {
             // take json from the ticketmaster data, manipulate it and set to global state venues
             let tmEvents = await getEvents(
                 user,
-                state,
+                locationData,
                 radius,
-                TICKETMASTERAPIKEY
+                TICKETMASTERAPIKEY,
+                genre
             );
 
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events
@@ -67,7 +64,8 @@ function Map() {
             setVenues(venueObj);
         };
 
-        if (state.lon && state.lat) {
+        if (locationData.lon && locationData.lat) {
+            console.log('here');
             getVenueData();
             setTimeout(() => {
                 setIsLoading(false);
@@ -76,13 +74,12 @@ function Map() {
         if (initialCall) {
             getUserLocation();
         }
-    }, [state.lat, radius]);
+    }, [locationData.lat, radius]);
 
     const newLocation = function () {
         const lat = this.getCenter().lat();
         const lon = this.getCenter().lng();
-        setState({
-            ...state,
+        setLocation({
             lat,
             lon,
         });
@@ -112,7 +109,6 @@ function Map() {
 
     const newZoom = function () {
         if (this.getBounds()) {
-            console.log(this.getBounds());
             const lat1 = this.getCenter().lat();
             const lng1 = this.getCenter().lng();
             const lat2 = this.getBounds().lc.g;
@@ -124,7 +120,6 @@ function Map() {
 
     const onMarkerPopup = function (event) {
         setSingleVenue(event);
-        console.log('marker pop up:', event);
         const selectedEventLat = +event.venueData.location.latitude;
         const selectedEventLong = +event.venueData.location.longitude;
         const selectedEventName = event.venueData.name;
@@ -148,67 +143,77 @@ function Map() {
 
         isLoading ? (
             <Loading loading={isLoading} />
-        ) : (<div>
-            <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
-                <GoogleMap
-                    zoom={10}
-                    center={{ lat: state.lat, lng: state.lon }}
-                    mapContainerStyle={{ height: '90vh', width: '100vw' }}
-                    onDragEnd={newLocation}
-                    onZoomChanged={newZoom}
-                    onClick={onMapClick}
-                >
-                    {/* <Marker
+        ) : (
+            <div>
+                <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
+                    <GoogleMap
+                        zoom={10}
+                        center={{
+                            lat: locationData.lat,
+                            lng: locationData.lon,
+                        }}
+                        mapContainerStyle={{ height: '90vh', width: '100vw' }}
+                        onDragEnd={newLocation}
+                        onZoomChanged={newZoom}
+                        onClick={onMapClick}
+                    >
+                        {/* <Marker
                         position={{
                             lat: +locationData.lat,
                             lng: +locationData.lon,
                         }}
                     /> */}
 
-                    {venueDataObj
-                        ? Object.keys(venueDataObj).map((currEvent) => {
-                              if (venueDataObj[currEvent].venueData.location) {
-                                  return (
-                                      <Marker
-                                          key={
-                                              venueDataObj[currEvent].venueData
-                                                  .id
-                                          }
-                                          onClick={() =>
-                                              onMarkerPopup(
+                        {venueDataObj
+                            ? Object.keys(venueDataObj).map((currEvent) => {
+                                  if (
+                                      venueDataObj[currEvent].venueData.location
+                                  ) {
+                                      return (
+                                          <Marker
+                                              key={
                                                   venueDataObj[currEvent]
-                                              )
-                                          }
-                                          position={{
-                                              lat: +venueDataObj[currEvent]
-                                                  .venueData.location.latitude,
-                                              lng: +venueDataObj[currEvent]
-                                                  .venueData.location.longitude,
-                                          }}
-                                      />
-                                  );
-                              }
-                          })
-                        : null}
+                                                      .venueData.id
+                                              }
+                                              onClick={() =>
+                                                  onMarkerPopup(
+                                                      venueDataObj[currEvent]
+                                                  )
+                                              }
+                                              position={{
+                                                  lat: +venueDataObj[currEvent]
+                                                      .venueData.location
+                                                      .latitude,
+                                                  lng: +venueDataObj[currEvent]
+                                                      .venueData.location
+                                                      .longitude,
+                                              }}
+                                          />
+                                      );
+                                  }
+                              })
+                            : null}
 
-                    {state.isOpen && (
-                        <InfoWindow
-                            position={{
-                                lat: state.selectedEventLat,
-                                lng: state.selectedEventLong,
-                            }}
-                        >
-                            <div>
-                                <Link to={`/venue/${singleVenue.venueData.id}`}>
-                                    {state.selectedEventName}
-                                </Link>
-                            </div>
-                        </InfoWindow>
-                    )}
-                </GoogleMap>
-                {/* <ConcertCardList /> */}
-            </LoadScript>
-            <Sidebar showView ={state.isOpen}/>
+                        {state.isOpen && (
+                            <InfoWindow
+                                position={{
+                                    lat: state.selectedEventLat,
+                                    lng: state.selectedEventLong,
+                                }}
+                            >
+                                <div>
+                                    <Link
+                                        to={`/venue/${singleVenue.venueData.id}`}
+                                    >
+                                        {state.selectedEventName}
+                                    </Link>
+                                </div>
+                            </InfoWindow>
+                        )}
+                    </GoogleMap>
+                    {/* <ConcertCardList /> */}
+                </LoadScript>
+                <Sidebar showView={state.isOpen} />
             </div>
         )
     );

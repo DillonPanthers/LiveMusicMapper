@@ -1,6 +1,12 @@
 import axios from 'axios';
 /* Grabs events from ticketmaster to populate venue data for the markers */
-export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
+export const getEvents = async (
+    user,
+    state,
+    radius,
+    TICKETMASTERAPIKEY,
+    genre
+) => {
     try {
         /* In guest view, guest user will see all events in his/her area */
         const latlong = state.lat + ',' + state.lon;
@@ -8,14 +14,17 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
             user;
         let result = [];
         console.log('user:', user);
+
         /* Regular & guest users see all events */
         if (!spotifyId) {
+            const genreId = genre.length ? `genreId=${genre}&` : '';
+            console.log('genre', genreId);
             const {
                 data: {
                     _embedded: { events },
                 },
             } = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&${genreId}apikey=${TICKETMASTERAPIKEY}`
             );
             return events;
         } else {
