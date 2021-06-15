@@ -36,7 +36,6 @@ function SingleUser(props) {
         const getUser = async () => {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
-            console.log(user.data);
             setUser(user.data);
             setFriends(user.data.friends);
             if (currentUser.id) {
@@ -63,7 +62,8 @@ function SingleUser(props) {
                 if (sentRequest) {
                     return 'sentRequest';
                 } else {
-                    const recievedRequest = user.friends.some(
+                    const userFriends = user.friends || [];
+                    const recievedRequest = userFriends.some(
                         (friend) =>
                             friend.id === currentUser.id &&
                             friend.friendship.status === 'pending'
