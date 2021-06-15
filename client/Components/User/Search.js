@@ -19,11 +19,10 @@ const Search = () => {
             headers: {
                 authorization: token,
             },
+            params: { name },
         });
-        //do this filtering in the backend, make a hook for it possibly.
-        const filteredUsers = response.data.filter(
-            (user) => user.firstName.toLowerCase() === name.toLowerCase()
-        );
+
+        const filteredUsers = response.data;
         setSearchList(filteredUsers);
         setName('');
         if (filteredUsers.length === 0) {
@@ -31,12 +30,6 @@ const Search = () => {
         } else {
             setMessage('');
         }
-        //on submit is getting the full string search
-        //make a call axios call to the backend now to get the users that exist in the database and see if we can get a list of them
-        //NOTE: if you want users to populate on the page as the user is typing then we can change functionality similar to that
-        //NOTE: Maybe we should have a search bar that has a dropdown of some users that show up as we start typing the names of users in
-        //NOTE: At the moment only logged in users have the ability to search because the require token in the backend.
-        //TODO: Search bar should only appear if user is logged in
     };
     return (
         <Container>

@@ -7,12 +7,18 @@ import {
     InfoWindow,
 } from '@react-google-maps/api';
 
-import { GlobalState } from '../contexts/Store';
-import { TICKETMASTERAPIKEY, REACT_APP_GOOGLEAPIKEY } from '../secret';
+import { GlobalState } from '../../contexts/Store';
+import {
+    TICKETMASTERAPIKEY,
+    REACT_APP_GOOGLEAPIKEY,
+    GOOGLE_MAP_ID,
+} from '../../secret';
 
-import Loading from './Loading/Loading';
-import ConcertCardList from './Card/ConcertCardList';
-import { getEvents, getVenueObject } from '../contexts/utils';
+import Loading from '../Loading/Loading';
+// import ConcertCardList from '../Card/ConcertCardList';
+import Sidebar from '../Sidebar/Sidebar';
+
+import { getEvents, getVenueObject } from './utils';
 
 function Map() {
     const [state, setState] = useState({
@@ -142,73 +148,83 @@ function Map() {
 
     return (
         //TODO: Do we need location data in global state? Double check.
-        //TODO: Cleanup unnecessary code in this component - in progress
-        //TODO: Add something like a carousel to the onMarkerClick function, so that the concerts display as cards at the bottom of the map component.
-        //TODO: Add venue address to infowindow marker
         //TODO: Change card to Lizard card from material UI
 
         isLoading ? (
             <Loading loading={isLoading} />
         ) : (
-            <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
-                <GoogleMap
-                    zoom={10}
-                    center={{ lat: state.lat, lng: state.lon }}
-                    mapContainerStyle={{ height: '100vh', width: '100vw' }}
-                    onDragEnd={newLocation}
-                    onZoomChanged={newZoom}
-                    onClick={onMapClick}
+            <div>
+                <LoadScript
+                    googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
+                    mapIds={GOOGLE_MAP_ID}
                 >
-                    {/* <Marker
+                    <GoogleMap
+                        zoom={10}
+                        center={{ lat: state.lat, lng: state.lon }}
+                        mapContainerStyle={{ height: '90vh', width: '100vw' }}
+                        onDragEnd={newLocation}
+                        onZoomChanged={newZoom}
+                        onClick={onMapClick}
+                        options={{ mapId: GOOGLE_MAP_ID }}
+                    >
+                        {/* <Marker
                         position={{
                             lat: +locationData.lat,
                             lng: +locationData.lon,
                         }}
                     /> */}
 
-                    {venueDataObj
-                        ? Object.keys(venueDataObj).map((currEvent) => {
-                              if (venueDataObj[currEvent].venueData.location) {
-                                  return (
-                                      <Marker
-                                          key={
-                                              venueDataObj[currEvent].venueData
-                                                  .id
-                                          }
-                                          onClick={() =>
-                                              onMarkerPopup(
+                        {venueDataObj
+                            ? Object.keys(venueDataObj).map((currEvent) => {
+                                  if (
+                                      venueDataObj[currEvent].venueData.location
+                                  ) {
+                                      return (
+                                          <Marker
+                                              key={
                                                   venueDataObj[currEvent]
-                                              )
-                                          }
-                                          position={{
-                                              lat: +venueDataObj[currEvent]
-                                                  .venueData.location.latitude,
-                                              lng: +venueDataObj[currEvent]
-                                                  .venueData.location.longitude,
-                                          }}
-                                      />
-                                  );
-                              }
-                          })
-                        : null}
+                                                      .venueData.id
+                                              }
+                                              onClick={() =>
+                                                  onMarkerPopup(
+                                                      venueDataObj[currEvent]
+                                                  )
+                                              }
+                                              position={{
+                                                  lat: +venueDataObj[currEvent]
+                                                      .venueData.location
+                                                      .latitude,
+                                                  lng: +venueDataObj[currEvent]
+                                                      .venueData.location
+                                                      .longitude,
+                                              }}
+                                          />
+                                      );
+                                  }
+                              })
+                            : null}
 
-                    {state.isOpen && (
-                        <InfoWindow
-                            position={{
-                                lat: state.selectedEventLat,
-                                lng: state.selectedEventLong,
-                            }}
-                        >
-                            <div>
-                                <Link to={`/venue/${singleVenue.venueData.id}`}>
-                                    {state.selectedEventName}
-                                </Link>
-                            </div>
-                        </InfoWindow>
-                    )}
-                </GoogleMap>
-                <ConcertCardList />
-            </LoadScript>
+                        {state.isOpen && (
+                            <InfoWindow
+                                position={{
+                                    lat: state.selectedEventLat,
+                                    lng: state.selectedEventLong,
+                                }}
+                            >
+                                <div>
+                                    <Link
+                                        to={`/venue/${singleVenue.venueData.id}`}
+                                    >
+                                        {state.selectedEventName}
+                                    </Link>
+                                </div>
+                            </InfoWindow>
+                        )}
+                    </GoogleMap>
+                    {/* <ConcertCardList /> */}
+                </LoadScript>
+                <Sidebar showView={state.isOpen} />
+            </div>
         )
     );
 }

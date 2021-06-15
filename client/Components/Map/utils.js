@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 /* Grabs events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
     try {
@@ -8,7 +7,6 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
         let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
             user;
         let result = [];
-        console.log('user:', user);
 
         /* Regular & guest users see all events */
         if (!spotifyId) {
@@ -44,7 +42,6 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
                         radius
                     );
                 }
-
                 /* if no events are generated from recommended artists, search genres */
                 if (!events.length) {
                     events = await callTicketmasterApi(
@@ -64,7 +61,6 @@ export const getEvents = async (user, state, radius, TICKETMASTERAPIKEY) => {
         console.log(error);
     }
 };
-
 const callTicketmasterApi = async (
     object,
     parameterType,
@@ -75,9 +71,7 @@ const callTicketmasterApi = async (
     /* convert object to an array that can be mapped over for handling spaces in strings*/
     let array = Object.keys(object);
     console.log(array);
-
     let events = [];
-
     /*
     // REVISED PROMISE.ALL
     // Use setTimeout for wrapping Promise.all() for smaller array sets
@@ -111,15 +105,12 @@ const callTicketmasterApi = async (
     }
     return events;
 };
-
 /*
  * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents
-
  * Now that I have an object that would look something like
   {
      Barclays Center: { venueData: {data of venue details here}, venueEvents: {will be a set that has the concerts at this venue} }
   }
-
  * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above.
  */
 export const getVenueObject = (eventObj) =>
@@ -137,12 +128,10 @@ export const getVenueObject = (eventObj) =>
         }
         return venObj;
     }, {});
-
 // prints out current time based on seconds
 const getTime = () => {
     return (new Date().getTime() % 60000) / 1000;
 };
-
 // defers a function for 1 second
 const sleep = (ms) => {
     console.log(getTime());
