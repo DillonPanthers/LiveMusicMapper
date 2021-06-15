@@ -31,7 +31,6 @@ const useStyles = makeStyles({
 
 export default function TempCard({ concertData, isAttending }) {
     const classes = useStyles();
-    console.log('concert data here', concertData);
     const { currSingleConcert, auth, getUserData } = useContext(GlobalState);
     const [currConcert, setCurrConcert] = currSingleConcert;
     const [user] = auth;
