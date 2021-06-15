@@ -7,13 +7,8 @@ import { GlobalState } from '../../contexts/Store';
 import { SocketContext } from '../../contexts/SocketContext';
 import UserInfo from './UserInfo';
 
-//TODO: Add a sidebar for concerts to be viewed on once a venue is clicked
 //TODO: update some css and make look better
-//TODO: do we want to ?  Getting the friend request to show up immediately for other person who logged in : dont do it.
 //TODO: Components for User Info
-//TODO: create a backend for friendship logic
-
-// TO DO: CREATE SOCKET ROUTES FOR REJECTION ADD THAT TO REJECT BUTTON -> singleUser, FriendRequest
 
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);

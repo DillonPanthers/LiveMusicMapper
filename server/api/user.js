@@ -4,16 +4,6 @@ const { User, Friendship } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
 // TODO: add a route to create a user
-// NOTE: this may not be required bc we are eagerloading concerts with the user model
-// TODO: Do we need to secure these routes? Is it just adding requireToken function
-
-//I set this path up to see grab the users in the database to display them in the search part of our frontend, if anyone see's any issues with this
-//please let me know and i will get rid of it. Is this not secure? Should more data be excluded for the res.send of this route? Maybe we just need the user id and
-//user's name so that we could attach a link to their name.
-
-//for now i will put a requiretoken here, because of this a non logged in user will not be able to search for users that have accounts
-
-//NOTE: Just to double check, the order of the paths below is fine right? as long as they are before the :id field, there shouldn't be any issues I presume
 
 router.get('/search', requireToken, async (req, res, next) => {
     try {

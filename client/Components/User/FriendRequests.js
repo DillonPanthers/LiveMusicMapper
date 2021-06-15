@@ -6,6 +6,7 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import { socket, SocketContext } from '../../contexts/SocketContext';
 
+//TODO: Fix with CSS
 const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     button: {
@@ -16,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '5px',
     },
 }));
-
-//TODO: Do we really need a block button? Is Add or Remove enough?
 
 function FriendRequests() {
     const { auth, getUserData, newNotification } = useContext(GlobalState);
@@ -60,7 +59,6 @@ function FriendRequests() {
         });
     }, [user]);
 
-    //should we change this function name to accept friend?
     const acceptFriend = async (requesterId, inviteeId) => {
         await axios.post('/api/user/accept-friend', {
             requesterId,
@@ -80,12 +78,7 @@ function FriendRequests() {
         getFriendRequests();
         await getUserData();
     };
-    const blockFriend = () => {
-        console.log('BLOCK ME');
-        //TO DO: Blocking is extra feature
-    };
 
-    //TODO: Get button css working
     return friendRequests.length > 0 ? (
         <Container>
             {friendRequests.map((request) => {

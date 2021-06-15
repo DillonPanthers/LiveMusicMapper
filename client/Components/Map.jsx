@@ -136,77 +136,66 @@ function Map() {
         setState({ ...state, isOpen: false });
     };
 
-    return (
-        //TODO: Do we need location data in global state? Double check.
-        //TODO: Change card to Lizard card from material UI
-
-        isLoading ? (
-            <Loading loading={isLoading} />
-        ) : (
-            <div>
-                <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
-                    <GoogleMap
-                        zoom={10}
-                        center={{
-                            lat: locationData.lat,
-                            lng: locationData.lon,
-                        }}
-                        mapContainerStyle={{ height: '90vh', width: '100vw' }}
-                        onDragEnd={newLocation}
-                        onZoomChanged={newZoom}
-                        onClick={onMapClick}
-                    >
-                        {venueDataObj
-                            ? Object.keys(venueDataObj).map((currEvent) => {
-                                  if (
-                                      venueDataObj[currEvent].venueData.location
-                                  ) {
-                                      return (
-                                          <Marker
-                                              key={
+    return isLoading ? (
+        <Loading loading={isLoading} />
+    ) : (
+        <div>
+            <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
+                <GoogleMap
+                    zoom={10}
+                    center={{
+                        lat: locationData.lat,
+                        lng: locationData.lon,
+                    }}
+                    mapContainerStyle={{ height: '90vh', width: '100vw' }}
+                    onDragEnd={newLocation}
+                    onZoomChanged={newZoom}
+                    onClick={onMapClick}
+                >
+                    {venueDataObj
+                        ? Object.keys(venueDataObj).map((currEvent) => {
+                              if (venueDataObj[currEvent].venueData.location) {
+                                  return (
+                                      <Marker
+                                          key={
+                                              venueDataObj[currEvent].venueData
+                                                  .id
+                                          }
+                                          onClick={() =>
+                                              onMarkerPopup(
                                                   venueDataObj[currEvent]
-                                                      .venueData.id
-                                              }
-                                              onClick={() =>
-                                                  onMarkerPopup(
-                                                      venueDataObj[currEvent]
-                                                  )
-                                              }
-                                              position={{
-                                                  lat: +venueDataObj[currEvent]
-                                                      .venueData.location
-                                                      .latitude,
-                                                  lng: +venueDataObj[currEvent]
-                                                      .venueData.location
-                                                      .longitude,
-                                              }}
-                                          />
-                                      );
-                                  }
-                              })
-                            : null}
+                                              )
+                                          }
+                                          position={{
+                                              lat: +venueDataObj[currEvent]
+                                                  .venueData.location.latitude,
+                                              lng: +venueDataObj[currEvent]
+                                                  .venueData.location.longitude,
+                                          }}
+                                      />
+                                  );
+                              }
+                          })
+                        : null}
 
-                        {state.isOpen && (
-                            <InfoWindow
-                                position={{
-                                    lat: state.selectedEventLat,
-                                    lng: state.selectedEventLong,
-                                }}
-                            >
-                                <div>
-                                    <Link
-                                        to={`/venue/${singleVenue.venueData.id}`}
-                                    >
-                                        {state.selectedEventName}
-                                    </Link>
-                                </div>
-                            </InfoWindow>
-                        )}
-                    </GoogleMap>
-                </LoadScript>
-                <Sidebar showView={state.isOpen} />
-            </div>
-        )
+                    {state.isOpen && (
+                        <InfoWindow
+                            position={{
+                                lat: state.selectedEventLat,
+                                lng: state.selectedEventLong,
+                            }}
+                        >
+                            <div>
+                                <Link to={`/venue/${singleVenue.venueData.id}`}>
+                                    {state.selectedEventName}
+                                </Link>
+                            </div>
+                        </InfoWindow>
+                    )}
+                </GoogleMap>
+            </LoadScript>
+            <Sidebar showView={state.isOpen} />
+        </div>
     );
 }
 

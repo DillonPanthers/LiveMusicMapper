@@ -4,13 +4,9 @@ import { Typography, Container, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import FriendRequests from './FriendRequests';
-
-import axios from 'axios';
 import Search from './Search';
-//TODO: Make this component so only a logged in user can view it.
-//TODO: Do we want to accept the friend request logic on this page?
-//TODO: Do we want to add an unfriend option?
-//TODO: Do we want to sort the requested vs the unrequested?
+//TODO: Do we want to add an unfriend option? Yes (cruD app)
+//TODO: Do we want to sort the requested vs the unrequested? Yes
 
 const AllFriends = () => {
     const { auth, getUserData } = useContext(GlobalState);
