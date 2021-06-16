@@ -9,6 +9,9 @@ const Store = ({ children }) => {
     const [singleVenue, setSingleVenue] = useState({});
     const [user, setUser] = useState({});
     const [location, setLocation] = useState({ lat: 0, lon: 0 });
+    const [genre, setGenre] = useState('');
+    const [radius, setRadius] = useState(40);
+    const [newNotification, setNewNotification] = useState(false);
 
     const getUserData = async () => {
         const token = window.localStorage.getItem('token');
@@ -18,7 +21,6 @@ const Store = ({ children }) => {
             },
         });
         const userData = response.data;
-        // console.log(userData);
         if (userData.id) {
             setUser(userData);
         }
@@ -42,8 +44,11 @@ const Store = ({ children }) => {
                 auth: [user, setUser],
                 location: [location, setLocation],
                 venues: [venues, setVenues],
+                genres: [genre, setGenre],
+                theRadius: [radius, setRadius],
                 getUserData,
                 getUserLocation,
+                newNotification: [newNotification, setNewNotification],
             }}
         >
             {children}

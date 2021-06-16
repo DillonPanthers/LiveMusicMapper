@@ -4,16 +4,16 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
+import { SocketContext } from '../../contexts/SocketContext';
 import UserInfo from './UserInfo';
 
-//TODO: Add a sidebar for concerts to be viewed on once a venue is clicked
 //TODO: update some css and make look better
-//TODO: do we want to ?  Getting the friend request to show up immediately for other person who logged in : dont do it.
 //TODO: Components for User Info
-//TODO: create a backend for friendship logic
 
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
+    const { addFriend, acceptFriendReq, rejectFriendReq } =
+        useContext(SocketContext);
     const [currentUser] = auth;
     const [user, setUser] = useState({});
     const [friendship, setFriendship] = useState(false);
@@ -31,7 +31,6 @@ function SingleUser(props) {
         const getUser = async () => {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
-            console.log(user.data);
             setUser(user.data);
             setFriends(user.data.friends);
             if (currentUser.id) {
@@ -58,7 +57,8 @@ function SingleUser(props) {
                 if (sentRequest) {
                     return 'sentRequest';
                 } else {
-                    const recievedRequest = user.friends.some(
+                    const userFriends = user.friends || [];
+                    const recievedRequest = userFriends.some(
                         (friend) =>
                             friend.id === currentUser.id &&
                             friend.friendship.status === 'pending'
@@ -80,11 +80,13 @@ function SingleUser(props) {
                 userId,
             });
             getUserData();
+            addFriend(friendId);
         } else if (action === 'accept friend') {
             await axios.post('/api/user/accept-friend', {
                 requesterId: friendId,
                 inviteeId: userId,
             });
+            acceptFriendReq(friendId);
             await getUserData();
         }
     };
@@ -98,6 +100,7 @@ function SingleUser(props) {
         const user = await axios.get(`/api/user/${requesterId}`);
         setUser(user.data);
         setFriends(user.data.friends);
+        rejectFriendReq(requesterId);
     };
 
     //1) logged in user and own profile - redirect to dashboard - done

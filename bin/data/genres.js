@@ -1,20 +1,80 @@
-const genres= [
-    {name:'Blues', id: "KnvZfZ7vAvd"},
-{name:'Classical',id:  "KnvZfZ7vAeJ"},
-{name:'Country', id:  "KnvZfZ7vAv6"},
-{name:'Dance/Electronic', id:  "KnvZfZ7vAvF"},
-{name:'FairsAndFestivals',id:  "KnvZfZ7vAeE"},
-{name:'HipHopAndRap',id:  "KnvZfZ7vAv1"},
-{name:'Holiday',id:  "KnvZfZ7vAAt"},
-{name:'Latin',id:  "KnvZfZ7vAJ6"},
-{name:'Metal',id:  "KnvZfZ7vAvt"},
-{name: 'Miscellaneous', id:  "KnvZfZ7vA7A"},
-{name:'Music',id:  "KnvZfZ7vAkJ"},
-{name:'Other',id:  "KnvZfZ7vAvl"},
-{name:'Pop',id:  "KnvZfZ7vAev"},
-{name:'R&B',id:  "KnvZfZ7vAee"},
-{name:'Rock',id:  "KnvZfZ7vAeA"},
-{name:'World',id:  "KnvZfZ7vAeF"}
-]
+const genres = [
+    {
+        id: 'KnvZfZ7vAev',
+        name: 'Pop',
+    },
+    {
+        id: 'KnvZfZ7vAeA',
+        name: 'Rock',
+    },
+    {
+        id: 'KnvZfZ7vAv6',
+        name: 'Country',
+    },
+    {
+        id: 'KnvZfZ7vAvF',
+        name: 'Dance/Electronic',
+    },
+    {
+        id: 'KnvZfZ7vAvd',
+        name: 'Blues',
+    },
+    {
+        id: 'KnvZfZ7vAeJ',
+        name: 'Classical',
+    },
+    {
+        id: 'KZFzBErXgnZfZ7vA6E',
+        name: 'Festival',
+    },
+    {
+        id: 'KnvZfZ7vAv1',
+        name: 'Hip-Hop/Rap',
+    },
+    {
+        id: 'KnvZfZ7vAJ6',
+        name: 'Latin',
+    },
+    {
+        id: 'KnvZfZ7vAvt',
+        name: 'Metal',
+    },
+    {
+        id: 'KnvZfZ7vAvl',
+        name: 'Other',
+    },
+    {
+        id: 'KnvZfZ7vAeF',
+        name: 'World',
+    },
+    {
+        id: 'KZazBEonSMnZfZ7vknE',
+        name: 'Soul',
+    },
+    {
+        id: 'KnvZfZ7vAvE',
+        name: 'Jazz',
+    },
+    {
+        id: 'KZazBEonSMnZfZ7v6dt',
+        name: 'Alternative Rock',
+    },
+    {
+        id: 'KnvZfZ7vAva',
+        name: 'Folk',
+    },
+    {
+        id: 'KZazBEonSMnZfZ7va1F',
+        name: 'Indie Folk',
+    },
+    {
+        id: 'KZazBEonSMnZfZ7vktE',
+        name: 'Funk',
+    },
+    {
+        id: 'KZazBEonSMnZfZ7v6a6',
+        name: 'Punk',
+    },
+];
 
-module.exports = {genres}
+module.exports = { genres };

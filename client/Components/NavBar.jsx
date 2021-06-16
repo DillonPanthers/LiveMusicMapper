@@ -7,11 +7,14 @@ import {
     Typography,
     Button,
 } from '@material-ui/core';
+
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Filter from './FilterMap';
 
 import { GlobalState } from '../contexts/Store';
+import { socket } from '../contexts/SocketContext';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,14 +40,29 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
     const location = useLocation();
     const classes = useStyles();
-    const { auth } = useContext(GlobalState);
+    const { auth, newNotification } = useContext(GlobalState);
+
     const [user, setUser] = auth;
+    const [notification, setNotification] = newNotification;
 
     const logOut = () => {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('spotify_token');
         setUser({});
     };
+
+    useEffect(() => {
+        if (location.pathname !== '/friends') {
+            setNotification(false);
+        }
+        socket.on('newFriendRequest', (userId) => {
+            setNotification(true);
+        });
+
+        socket.on('acceptedRequest', () => {
+            setNotification(true);
+        });
+    }, [location.pathname]);
 
     return (
         <div className={classes.root}>
@@ -77,9 +95,20 @@ const NavBar = (props) => {
                     )}
                     {user.id && (
                         <>
-                        <Link to = '/friends'>
-                        <PeopleAltTwoToneIcon style = {{fill:"red"}}/>
-                        </Link>
+                            <Link
+                                to="/friends"
+                                onClick={() => {
+                                    setNotification(false);
+                                }}
+                            >
+                                {notification ? (
+                                    <PeopleAltTwoToneIcon color="primary" />
+                                ) : (
+                                    <PeopleAltTwoToneIcon
+                                        style={{ color: 'gray' }}
+                                    />
+                                )}
+                            </Link>
                             <Button className={classes.button}>
                                 <Link to="/dashboard" className={classes.link}>
                                     Hello, {user.firstName}

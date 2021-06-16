@@ -4,27 +4,22 @@ const { User, Friendship } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
 // TODO: add a route to create a user
-// NOTE: this may not be required bc we are eagerloading concerts with the user model
-// TODO: Do we need to secure these routes? Is it just adding requireToken function
-
-//I set this path up to see grab the users in the database to display them in the search part of our frontend, if anyone see's any issues with this
-//please let me know and i will get rid of it. Is this not secure? Should more data be excluded for the res.send of this route? Maybe we just need the user id and
-//user's name so that we could attach a link to their name.
-
-//for now i will put a requiretoken here, because of this a non logged in user will not be able to search for users that have accounts
-
-//NOTE: Just to double check, the order of the paths below is fine right? as long as they are before the :id field, there shouldn't be any issues I presume
 
 router.get('/search', requireToken, async (req, res, next) => {
     try {
         //I want to just send back users that have a public profile, if that's the case maybe we won't need a requiretoken to access that user data?
         //we could again always send back some simple user data like the id and name and basic stuff for those that have the isPublic set to true.
+        const { name } = req.query;
         const users = await User.findAll({
             attributes: {
                 exclude: ['password', 'email', 'isAdmin', 'spotifyId'],
             },
         });
-        res.send(users);
+        const filteredUsers = users.filter(
+            (user) =>
+                user.dataValues.firstName.toLowerCase() === name.toLowerCase()
+        );
+        res.send(filteredUsers);
     } catch (err) {
         next(err);
     }
@@ -115,6 +110,16 @@ router.delete('/reject-friend', async (req, res, next) => {
         res.sendStatus(204);
     } catch (error) {
         next(error);
+    }
+});
+
+router.delete('/concert', async (req, res, next) => {
+    try {
+        const { userId, concertId } = req.body;
+        await User.deleteConcert(userId, concertId);
+        res.sendStatus(200);
+    } catch (ex) {
+        next(ex);
     }
 });
 module.exports = router;

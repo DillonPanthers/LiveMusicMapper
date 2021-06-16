@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
+import { socket, SocketContext } from '../../contexts/SocketContext';
 
+//TODO: Fix with CSS
 const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     button: {
@@ -16,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//TODO: Do we really need a block button? Is Add or Remove enough?
-
 function FriendRequests() {
     const { auth, getUserData } = useContext(GlobalState);
+    const { acceptFriendReq, rejectFriendReq } = useContext(SocketContext);
+
     const [user] = auth;
     const [friendRequests, setFriendRequests] = useState([]);
-
     const classes = useStyles();
 
     const getFriendRequests = async () => {
@@ -38,17 +39,31 @@ function FriendRequests() {
 
     useEffect(() => {
         if (user.id) {
-            console.log('here');
             getFriendRequests();
         }
+
+        socket.on('newFriendRequest', async (userId) => {
+            getFriendRequests();
+            await getUserData();
+        });
+
+        socket.on('acceptedRequest', async () => {
+            getFriendRequests();
+            await getUserData();
+        });
+
+        socket.on('rejected', async (userId) => {
+            getFriendRequests();
+            await getUserData();
+        });
     }, [user]);
 
-    //should we change this function name to accept friend?
     const acceptFriend = async (requesterId, inviteeId) => {
         await axios.post('/api/user/accept-friend', {
             requesterId,
             inviteeId,
         });
+        acceptFriendReq(requesterId);
         getFriendRequests();
         await getUserData();
     };
@@ -58,15 +73,11 @@ function FriendRequests() {
             data: { requesterId, inviteeId },
         });
 
+        rejectFriendReq(requesterId);
         getFriendRequests();
         await getUserData();
     };
-    const blockFriend = () => {
-        console.log('BLOCK ME');
-        //TO DO: Blocking is extra feature
-    };
 
-    //TODO: Get button css working
     return friendRequests.length > 0 ? (
         <Container>
             {friendRequests.map((request) => {

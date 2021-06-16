@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { MenuItem, Button, Menu, makeStyles } from '@material-ui/core';
-
-import { GlobalState } from '../contexts/Store';
-import { TICKETMASTERAPIKEY } from '../secret';
-
 import axios from 'axios';
+
+import { TICKETMASTERAPIKEY } from '../secret';
+import { GlobalState } from '../contexts/Store';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         color: 'black',
     },
 }));
+
+//Use curr location even when dragging and zooming
 
 const Filter = () => {
     const currLocation = useLocation();
@@ -21,10 +21,12 @@ const Filter = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState();
-    const { location, venues } = useContext(GlobalState);
+    const { location, venues, genres, theRadius } = useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [genre1, setGenres]= useState([])
+    const [genre, setGenre] = genres;
+    const [radius, setRadius] = theRadius;
 
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
@@ -47,13 +49,14 @@ const Filter = () => {
     console.log('state genres', genre1)
     const filterMapData = async (event) => {
         const { myValue } = event.currentTarget.dataset;
+        setGenre(myValue);
         const latlong = locationData.lat + ',' + locationData.lon;
         //   const ticketDataByLocation = await axios.get(
         //     `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
         // );
 
         const ticketDataByLocation = await axios.get(
-            `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
+            `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
         );
 
         /**

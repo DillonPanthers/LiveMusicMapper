@@ -10,12 +10,7 @@ import {
 import { GlobalState } from '../contexts/Store';
 import { REACT_APP_GOOGLEAPIKEY } from '../secret';
 
-//TODO: Sort the dates of the upcoming concerts, maybe use a util function.
 //TODO: Use avatars as a grid to show some friends, and a link to all friends
-
-//TODO: On all friends page we can have all friends, and on a sidebar/side component a view of pending friend requests, and the search component there. If no friend requests, then display message no friends.
-
-//maybe move to utils folder later
 
 const compareDate = (dateOne, dateTwo) => {
     const d1 = Date.parse(dateOne.date);
@@ -55,6 +50,8 @@ const Dashboard = () => {
         };
 
         if (user.id) {
+            console.log('concert', user.concerts);
+            console.log('venueObj', venueObj(user.concerts));
             setFriends(user.friends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);

@@ -35,7 +35,9 @@ User.attendConcert = async (id, concert) => {
 User.acceptFriend = async (friendId, userId) => {
     await Friendship.create({ userId, friendId, status: 'accepted' });
 
-    const addedFriend = await Friendship.findByPk(friendId);
+    const addedFriend = await Friendship.findOne({
+        where: { userId: friendId, friendId: userId },
+    });
     await addedFriend.update({ status: 'accepted' });
 };
 
@@ -50,7 +52,9 @@ User.rejectFriendRequest = async (userId, friendId) => {
     friendship.destroy();
 };
 
-
-
+User.deleteConcert = async (userId, concertId) => {
+    const user = await User.findByPk(userId);
+    await user.removeConcert(concertId);
+};
 //Export models here and into index.js
 module.exports = { Concert, Genre, User, Friendship, FriendRequest };
