@@ -8,3 +8,5 @@ public/main.js.map
 client/secret.js
 indysLinter.js
 
+# .DS_Store
+.DS_Store
