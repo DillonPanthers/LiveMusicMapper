@@ -16,8 +16,10 @@ import {
 
 import Loading from '../Loading/Loading';
 import Sidebar from '../Sidebar/Sidebar';
+import SecondNavBar from '../SecondNavBar/SecondNavBar';
 
 import { getEvents, getVenueObject } from './utils';
+import markerIcon from './markerIcon';
 
 function Map() {
     const [state, setState] = useState({
@@ -148,6 +150,7 @@ function Map() {
             <Loading loading={isLoading} />
         ) : (
             <div>
+                <SecondNavBar />
                 <LoadScript
                     googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
                     mapIds={GOOGLE_MAP_ID}
@@ -158,19 +161,19 @@ function Map() {
                             lat: locationData.lat,
                             lng: locationData.lon,
                         }}
-                        mapContainerStyle={{ height: '90vh', width: '100vw' }}
+                        mapContainerStyle={{
+                            height: '90vh',
+                            width: '100vw',
+                        }}
                         onDragEnd={newLocation}
                         onZoomChanged={newZoom}
                         onClick={onMapClick}
-                        options={{ mapId: GOOGLE_MAP_ID }}
-                    >
-                        {/* <Marker
-                        position={{
-                            lat: +locationData.lat,
-                            lng: +locationData.lon,
+                        options={{
+                            mapTypeControl: false,
+                            fullscreenControl: false,
+                            mapId: GOOGLE_MAP_ID,
                         }}
-                    /> */}
-
+                    >
                         {venueDataObj
                             ? Object.keys(venueDataObj).map((currEvent) => {
                                   if (
@@ -196,17 +199,11 @@ function Map() {
                                                       .longitude,
                                               }}
                                               icon={{
-                                                  path: 'M32 62c0-17.1 16.3-25.2 17.8-39.7A18 18 0 1 0 14 20a17.7 17.7 0 0 0 .2 2.2C15.7 36.8 32 44.9 32 62z',
-                                                  fillColor: '#1DE9B6',
-                                                  fillOpacity: 1,
-                                                  strokeWeight: 1,
-                                                  strokeColor: '#000A47',
-                                                  strokeOpacity: 1,
+                                                  ...markerIcon,
                                                   anchor: new google.maps.Point(
-                                                      30,
-                                                      60
+                                                      12,
+                                                      35
                                                   ),
-                                                  scale: 0.75,
                                               }}
                                           />
                                       );

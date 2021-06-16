@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { Button, TextField, makeStyles } from '@material-ui/core';
+import { TextField, makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../../contexts/Store';
+
+import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,17 +16,6 @@ const useStyles = makeStyles((theme) => ({
     text: {
         marginBottom: '8%',
         backgroundColor: 'rgba(228,228,228,0.25)',
-    },
-    button: {
-        height: 48,
-        padding: '0 30px',
-        fontFamily: 'Montserrat, sans-serif',
-        textTransform: 'none',
-        borderRadius: 50,
-        borderColor: '#1DE9B6',
-        color: '#1DE9B6',
-        width: '100%',
-        lineHeight: '125%',
     },
 }));
 
@@ -72,13 +63,9 @@ const EmailSignIn = () => {
                 onChange={({ target }) => setPassword(target.value)}
                 className={classes.text}
             />
-            <Button
-                variant="outlined"
-                className={classes.button}
-                onClick={onSubmit}
-            >
+            <OutlinedButton variant="outlined" onClick={onSubmit}>
                 CONTINUE WITH EMAIL
-            </Button>
+            </OutlinedButton>
         </form>
     );
 };
