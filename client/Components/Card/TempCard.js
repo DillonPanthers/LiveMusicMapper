@@ -22,13 +22,19 @@ const useStyles = makeStyles({
         width: 345,
         marginTop: 5,
         marginBottom: 5,
-        color: 'black',
-        backgroundColor: '#5F285A',
+        color: 'white',
+        backgroundColor: '#000A47',
+        '&:hover': {
+            boxShadow: '2px 2px 5px #01072a',
+        },
     },
     media: {
         height: 140,
     },
     heart: {
+        color: 'pink',
+    },
+    clear: {
         color: 'red',
     },
 });
@@ -95,7 +101,7 @@ export default function TempCard({ concertData, isAttending }) {
                             <IconButton
                                 onClick={() => removeConcert(concertData.id)}
                             >
-                                <ClearIcon />
+                                <ClearIcon className={classes.clear} />
                             </IconButton>
                         )
                     ) : (
