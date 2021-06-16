@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Typography, makeStyles, Container, Button } from '@material-ui/core';
 
 import Background from '../AnimatedBackground/Background';
+import ContainedButton from '../Buttons/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -16,13 +17,7 @@ const useStyles = makeStyles((theme) => ({
         zIndex: '1000',
     },
     button: {
-        color: 'black',
-        background: '#1DE9B6',
         margin: theme.spacing(3),
-        '&:hover': {
-            background: '#5F285A',
-        },
-        borderRadius: 50,
     },
     link: {
         color: 'inherit',
@@ -40,9 +35,9 @@ const LandingPage = () => {
                     artists in your&nbsp;city
                 </Typography>
                 <Link to="/map" className={classes.link}>
-                    <Button className={classes.button}>
+                    <ContainedButton className={classes.button}>
                         SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
-                    </Button>
+                    </ContainedButton>
                 </Link>
             </Container>
             <Background />

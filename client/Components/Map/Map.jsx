@@ -16,6 +16,7 @@ import {
 
 import Loading from '../Loading/Loading';
 import Sidebar from '../Sidebar/Sidebar';
+import SecondNavBar from '../SecondNavBar/SecondNavBar';
 
 import { getEvents, getVenueObject } from './utils';
 import markerIcon from './markerIcon';
@@ -149,6 +150,7 @@ function Map() {
             <Loading loading={isLoading} />
         ) : (
             <div>
+                <SecondNavBar />
                 <LoadScript
                     googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
                     mapIds={GOOGLE_MAP_ID}
@@ -159,11 +161,18 @@ function Map() {
                             lat: locationData.lat,
                             lng: locationData.lon,
                         }}
-                        mapContainerStyle={{ height: '90vh', width: '100vw' }}
+                        mapContainerStyle={{
+                            height: '90vh',
+                            width: '100vw',
+                        }}
                         onDragEnd={newLocation}
                         onZoomChanged={newZoom}
                         onClick={onMapClick}
-                        options={{ mapId: GOOGLE_MAP_ID }}
+                        options={{
+                            mapTypeControl: false,
+                            fullscreenControl: false,
+                            mapId: GOOGLE_MAP_ID,
+                        }}
                     >
                         {venueDataObj
                             ? Object.keys(venueDataObj).map((currEvent) => {
