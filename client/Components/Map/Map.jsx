@@ -15,7 +15,6 @@ import {
 } from '../../secret';
 
 import Loading from '../Loading/Loading';
-// import ConcertCardList from '../Card/ConcertCardList';
 import Sidebar from '../Sidebar/Sidebar';
 
 import { getEvents, getVenueObject } from './utils';
@@ -232,7 +231,6 @@ function Map() {
                             </InfoWindow>
                         )}
                     </GoogleMap>
-                    {/* <ConcertCardList /> */}
                 </LoadScript>
                 <Sidebar showView={state.isOpen} />
             </div>

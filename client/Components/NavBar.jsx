@@ -7,6 +7,7 @@ import {
     Typography,
     Button,
 } from '@material-ui/core';
+
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
 import Filter from './FilterMap';
@@ -39,8 +40,10 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
     const location = useLocation();
     const classes = useStyles();
-    const { auth } = useContext(GlobalState);
+    const { auth, newNotification } = useContext(GlobalState);
+
     const [user, setUser] = auth;
+    const [notification, setNotification] = newNotification;
 
     const logOut = () => {
         window.localStorage.removeItem('token');
@@ -49,14 +52,17 @@ const NavBar = (props) => {
     };
 
     useEffect(() => {
+        if (location.pathname !== '/friends') {
+            setNotification(false);
+        }
         socket.on('newFriendRequest', (userId) => {
-            console.log('NEW NOTIFICATION,NAVBAR', userId);
+            setNotification(true);
         });
 
         socket.on('acceptedRequest', () => {
-            console.log('NEW REQUEST');
+            setNotification(true);
         });
-    }, []);
+    }, [location.pathname]);
 
     return (
         <div className={classes.root}>
@@ -89,8 +95,19 @@ const NavBar = (props) => {
                     )}
                     {user.id && (
                         <>
-                            <Link to="/friends">
-                                <PeopleAltTwoToneIcon style={{ fill: 'red' }} />
+                            <Link
+                                to="/friends"
+                                onClick={() => {
+                                    setNotification(false);
+                                }}
+                            >
+                                {notification ? (
+                                    <PeopleAltTwoToneIcon color="primary" />
+                                ) : (
+                                    <PeopleAltTwoToneIcon
+                                        style={{ color: 'gray' }}
+                                    />
+                                )}
                             </Link>
                             <Button className={classes.button}>
                                 <Link to="/dashboard" className={classes.link}>
