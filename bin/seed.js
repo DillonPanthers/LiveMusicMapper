@@ -7,9 +7,9 @@ const {
     FriendRequest,
 } = require('../server/db/index'); // import models from index so we have access to hooks and magic methods
 
-const { users }= require('./data/users');
-const { concerts }= require('./data/concerts');
-const { genres }= require('./data/genres')
+const { users } = require('./data/users');
+const { concerts } = require('./data/concerts');
+const { genres } = require('./data/genres')
 
 const init = async () => {
     try {
