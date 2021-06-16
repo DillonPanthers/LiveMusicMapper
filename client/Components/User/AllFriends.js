@@ -43,9 +43,7 @@ const AllFriends = () => {
                 <Typography style={{ textDecoration: 'underline' }}>
                     Pending Friend Requests
                 </Typography>
-                <Container>
-                    <FriendRequests />
-                </Container>
+                <FriendRequests />
             </Container>
         </Container>
     ) : null;

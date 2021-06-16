@@ -30,12 +30,8 @@ export default function SingleConcert(props) {
         if (id) {
             getConcert(id);
         }
-        if (id) {
-            getConcert(id);
-        }
     }, [id]);
     console.log('single concert', singleConcert);
-    // return <div style={{ backgroundColor: 'white' }} >Hello this is the event page</div>;
 
     return (
         <div>
