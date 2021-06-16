@@ -8,8 +8,8 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import ContainedButton from '../Buttons/ContainedButton';
-import OutlinedButton from '../Buttons/OutlinedButton';
+import ContainedButton from '../StyledComponents/ContainedButton';
+import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {

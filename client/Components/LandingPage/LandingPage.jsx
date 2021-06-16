@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, makeStyles, Container, Button } from '@material-ui/core';
+import { Typography, makeStyles, Container } from '@material-ui/core';
 
 import Background from '../AnimatedBackground/Background';
-import ContainedButton from '../Buttons/ContainedButton';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {

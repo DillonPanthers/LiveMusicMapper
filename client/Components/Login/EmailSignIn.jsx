@@ -5,7 +5,7 @@ import { TextField, makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../../contexts/Store';
 
-import OutlinedButton from '../Buttons/OutlinedButton';
+import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {

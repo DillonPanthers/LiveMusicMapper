@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
-import ContainedButton from '../Buttons/ContainedButton';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
