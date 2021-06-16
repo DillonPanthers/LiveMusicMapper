@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import LandingPage from './LandingPage/LandingPage.jsx';
-import Map from './Map';
+import Map from './Map/Map';
 import Auth from './Login/Auth';
 import Dashboard from './Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
