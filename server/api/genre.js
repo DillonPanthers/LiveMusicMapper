@@ -1,4 +1,3 @@
-// const qs = require('qs');
 const {Genre} = require('../db/index')
 const router = require('express').Router();
 const axios = require('axios');
