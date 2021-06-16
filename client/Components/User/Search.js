@@ -1,12 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+    Container,
+    Button,
+    Typography,
+    TextField,
+    makeStyles,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+    },
+    text: {
+        margin: theme.spacing(1),
+        backgroundColor: '#363073',
+    },
+}));
 
 const Search = () => {
     const [name, setName] = useState('');
     const [searchList, setSearchList] = useState({});
     const [message, setMessage] = useState('');
+
+    const classes = useStyles();
 
     const searchByName = (event) => {
         setName(event.target.value);
@@ -35,13 +55,16 @@ const Search = () => {
         <Container>
             <form onSubmit={submitSearch}>
                 <label>Find User </label>
-                <input
+                <TextField
                     onChange={searchByName}
+                    label="Name"
+                    variant="filled"
                     value={name}
                     placeholder="enter name here"
-                    style={{ marginRight: '5px' }}
+                    className={classes.text}
+                    size="small"
                 />
-                <Button variant="contained" type="submit" color="background">
+                <Button variant="contained" type="submit">
                     Submit
                 </Button>
             </form>
