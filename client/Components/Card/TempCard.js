@@ -19,13 +19,23 @@ import { GlobalState } from '../../contexts/Store';
 
 const useStyles = makeStyles({
     root: {
-        width: 345,
-        marginTop: 5,
-        marginBottom: 5,
-        color: 'black',
+        width: '20vw',
+        marginTop: 10,
+        marginBottom: 10,
+        color: 'white',
+        backgroundColor: '#000A47',
+        '&:hover': {
+            boxShadow: '2px 2px 5px #01072a',
+        },
     },
     media: {
         height: 140,
+    },
+    heart: {
+        color: 'pink',
+    },
+    clear: {
+        color: 'red',
     },
 });
 
@@ -59,7 +69,7 @@ export default function TempCard({ concertData, isAttending }) {
                         title="glass"
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom variant="h6" component="h2">
                             {concertData.name}
                         </Typography>
                         <Typography>
@@ -85,13 +95,13 @@ export default function TempCard({ concertData, isAttending }) {
                     {user.id ? (
                         !isAttending ? (
                             <IconButton onClick={() => addConcert(concertData)}>
-                                <FavoriteIcon />
+                                <FavoriteIcon className={classes.heart} />
                             </IconButton>
                         ) : (
                             <IconButton
                                 onClick={() => removeConcert(concertData.id)}
                             >
-                                <ClearIcon />
+                                <ClearIcon className={classes.clear} />
                             </IconButton>
                         )
                     ) : (
