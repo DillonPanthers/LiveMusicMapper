@@ -32,25 +32,19 @@ const AllFriends = () => {
                                     {`${friend.firstName} ${friend.lastName}`}
                                 </Link>
                             </li>
-                        ) : (
-                            <li key={friend.id}>
-                                <Link to={`/user/${friend.id}`}>
-                                    {`${friend.firstName} ${friend.lastName} (requested)`}
-                                </Link>
-                            </li>
-                        )
+                        ) : null
                     )
                 ) : (
                     <Typography>No Friends :(</Typography>
                 )}
             </Container>
             <Container>
+                <Search />
                 <Typography style={{ textDecoration: 'underline' }}>
                     Pending Friend Requests
                 </Typography>
                 <FriendRequests />
             </Container>
-            <Search />
         </Container>
     ) : null;
 };
