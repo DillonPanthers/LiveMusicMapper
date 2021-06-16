@@ -13,6 +13,7 @@ export const getEvents = async (
         let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
             user;
         let result = [];
+        console.log('user:', user);
 
         /* Regular & guest users see all events */
         if (!spotifyId) {
@@ -76,30 +77,10 @@ const callTicketmasterApi = async (
     TICKETMASTERAPIKEY,
     radius
 ) => {
-    /* convert object to an array that can be mapped over for handling spaces in strings*/
     let array = Object.keys(object);
     console.log(array);
     let events = [];
-    /*
-    // REVISED PROMISE.ALL
-    // Use setTimeout for wrapping Promise.all() for smaller array sets
-    if (array.length) {
-        let tmEvents = await Promise.all(
-            array.map(async (name, idx) => {
-                // this returns a promise
-                return axios.get(
-                    `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
-                );
-            })
-        );
-        events = tmEvents
-            .filter((response) => response.data._embedded) // checks if there is event data
-            .map((response) => response.data._embedded.events[0]);
-        console.log('events', events);
-    }
-    */
 
-    // WORKING CODE
     if (array.length) {
         for (let i = 0; i < array.length; i++) {
             let name = array[i];
