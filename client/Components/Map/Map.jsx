@@ -17,9 +17,11 @@ import {
 import Loading from '../Loading/Loading';
 import Sidebar from '../Sidebar/Sidebar';
 import GuestNavBar from '../SecondNavBar/GuestNavBar';
+import PersonalizedNavBar from '../SecondNavBar/PersonalizedNavBar';
 
-import { getEvents, getVenueObject } from './utils';
+import { getEvents, getVenueObject } from '../SecondNavBar/utils';
 import markerIcon from './markerIcon';
+// TODO: import personalized marker and figure out logic for changing marker colors
 
 function Map() {
     const [state, setState] = useState({
@@ -56,11 +58,9 @@ function Map() {
         const getVenueData = async () => {
             // take json from the ticketmaster data, manipulate it and set to global state venues
             let tmEvents = await getEvents(
-                user,
                 locationData,
                 radius,
-                TICKETMASTERAPIKEY,
-                genre
+                TICKETMASTERAPIKEY
             );
 
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events
@@ -146,6 +146,7 @@ function Map() {
         <Loading loading={isLoading} />
     ) : (
         <div>
+            {user.spotifyId ? <PersonalizedNavBar /> : <GuestNavBar />}
             <LoadScript
                 googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
                 mapIds={GOOGLE_MAP_ID}
@@ -192,8 +193,8 @@ function Map() {
                                           icon={{
                                               ...markerIcon,
                                               anchor: new google.maps.Point(
-                                                  12,
-                                                  35
+                                                  16,
+                                                  42
                                               ),
                                           }}
                                       />
@@ -218,7 +219,6 @@ function Map() {
                     )}
                 </GoogleMap>
             </LoadScript>
-            <GuestNavBar />
             <Sidebar showView={state.isOpen} />
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,13 @@ import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
 
-import { getEvents, getVenueObject } from './utils';
+import {
+    getEvents,
+    getTopArtistsEvents,
+    getRecommendedArtistsEvents,
+    getTopGenres,
+    getVenueObject,
+} from './utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,13 +38,13 @@ const useStyles = makeStyles((theme) => ({
         width: '10rem',
         padding: '0.5rem',
         fontSize: '0.65rem',
-        margin: '1rem 0.5rem 1rem 0.5rem',
         borderColor: '#FF5000',
         color: '#FF5000',
+        margin: '1rem 0.5rem 1rem 0.5rem',
     },
     containedButton: {
         height: '2.75rem',
-        width: '18rem',
+        width: '10rem',
         fontSize: '0.65rem',
         margin: '1rem 0.5rem 1rem 0.5rem',
     },
@@ -56,14 +62,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const GuestNavBar = (props) => {
+const PersonalizedNavBar = (props) => {
     const classes = useStyles();
 
-    const { location, venues, theRadius } = useContext(GlobalState);
+    const { location, venues, theRadius, auth } = useContext(GlobalState);
+
+    // TODO: Create this in the store
+    // add use state logic to change marker color
+    // const [personalized, setPersonalized] = useState('false');
 
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [radius, setRadius] = theRadius;
+    const [user, setUser] = auth;
 
     const svgIcon = (
         <Icon>
@@ -73,6 +84,42 @@ const GuestNavBar = (props) => {
 
     const getAllEvents = async () => {
         let tmEvents = await getEvents(
+            locationData,
+            radius,
+            TICKETMASTERAPIKEY
+        );
+
+        const venueObj = await getVenueObject(tmEvents);
+        setVenues(venueObj);
+    };
+
+    const getAllTopArtistsEvents = async () => {
+        let tmEvents = await getTopArtistsEvents(
+            user,
+            locationData,
+            radius,
+            TICKETMASTERAPIKEY
+        );
+
+        const venueObj = await getVenueObject(tmEvents);
+        setVenues(venueObj);
+    };
+
+    const getAllRecommendedArtistsEvents = async () => {
+        let tmEvents = await getRecommendedArtistsEvents(
+            user,
+            locationData,
+            radius,
+            TICKETMASTERAPIKEY
+        );
+
+        const venueObj = await getVenueObject(tmEvents);
+        setVenues(venueObj);
+    };
+
+    const getAllTopGenres = async () => {
+        let tmEvents = await getTopGenres(
+            user,
             locationData,
             radius,
             TICKETMASTERAPIKEY
@@ -95,18 +142,31 @@ const GuestNavBar = (props) => {
                     </OutlinedButton>
                     <Filter />
                     <div className={classes.verticalLine}></div>
-                    <Link to="/login" className={classes.link}>
-                        <ContainedButton
-                            startIcon={svgIcon}
-                            className={classes.containedButton}
-                        >
-                            CONNECT WITH SPOTIFY TO PERSONALIZE YOUR EXPERIENCE
-                        </ContainedButton>
-                    </Link>
+                    <ContainedButton
+                        startIcon={svgIcon}
+                        className={classes.containedButton}
+                        onClick={getAllTopArtistsEvents}
+                    >
+                        TOP ARTISTS
+                    </ContainedButton>
+                    <ContainedButton
+                        startIcon={svgIcon}
+                        className={classes.containedButton}
+                        onClick={getAllRecommendedArtistsEvents}
+                    >
+                        RECOMMENDED ARTISTS
+                    </ContainedButton>
+                    <ContainedButton
+                        startIcon={svgIcon}
+                        className={classes.containedButton}
+                        onClick={getAllTopGenres}
+                    >
+                        TOP GENRES
+                    </ContainedButton>
                 </Toolbar>
             </AppBar>
         </div>
     );
 };
 
-export default GuestNavBar;
+export default PersonalizedNavBar;

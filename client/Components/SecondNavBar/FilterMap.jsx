@@ -14,12 +14,16 @@ const useStyles = makeStyles((theme) => ({
     },
     menu: {
         height: '30vh',
+        width: '12rem',
     },
     button: {
-        height: '3rem',
-        width: '12rem',
+        height: '2.75rem',
+        width: '10rem',
         padding: '0.5rem',
-        fontSize: '0.75rem',
+        fontSize: '0.65rem',
+        borderColor: '#FF5000',
+        color: '#FF5000',
+        margin: '1rem 0.5rem 1rem 0.5rem',
     },
 }));
 

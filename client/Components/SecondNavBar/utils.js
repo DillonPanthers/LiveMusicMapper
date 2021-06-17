@@ -4,7 +4,6 @@ export const getEvents = async (locationData, radius, TICKETMASTERAPIKEY) => {
     try {
         /* In guest view, guest user will see all events in his/her area */
         const latlong = locationData.lat + ',' + locationData.lon;
-        console.log('2nd NAV LATLONG', latlong);
         const {
             data: {
                 _embedded: { events },
@@ -12,6 +11,81 @@ export const getEvents = async (locationData, radius, TICKETMASTERAPIKEY) => {
         } = await axios.get(
             `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
         );
+        return events;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getTopArtistsEvents = async (
+    user,
+    locationData,
+    radius,
+    TICKETMASTERAPIKEY
+) => {
+    try {
+        let { artists } = user;
+        let events = [];
+        const latlong = locationData.lat + ',' + locationData.lon;
+        if (Object.keys(artists).length) {
+            events = await callTicketmasterApi(
+                artists,
+                'keyword',
+                latlong,
+                TICKETMASTERAPIKEY,
+                radius
+            );
+        }
+        return events;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getRecommendedArtistsEvents = async (
+    user,
+    locationData,
+    radius,
+    TICKETMASTERAPIKEY
+) => {
+    try {
+        let { recommendedArtists } = user;
+        let events = [];
+        const latlong = locationData.lat + ',' + locationData.lon;
+        if (Object.keys(recommendedArtists).length) {
+            events = await callTicketmasterApi(
+                recommendedArtists,
+                'keyword',
+                latlong,
+                TICKETMASTERAPIKEY,
+                radius
+            );
+        }
+        return events;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getTopGenres = async (
+    user,
+    locationData,
+    radius,
+    TICKETMASTERAPIKEY
+) => {
+    try {
+        let { ticketmasterGenres } = user;
+        let events = [];
+        const latlong = locationData.lat + ',' + locationData.lon;
+        if (Object.keys(ticketmasterGenres).length) {
+            events = await callTicketmasterApi(
+                ticketmasterGenres,
+                'classificationName',
+                latlong,
+                TICKETMASTERAPIKEY,
+                radius
+            );
+        }
         return events;
     } catch (error) {
         console.log(error);
@@ -40,6 +114,7 @@ const callTicketmasterApi = async (
             if (data._embedded) events.push(data._embedded.events[0]);
         }
     }
+    console.log(events);
     return events;
 };
 
