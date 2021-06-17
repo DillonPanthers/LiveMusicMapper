@@ -67,9 +67,17 @@ nav-text a {
     align-items: center;
 }
 
-span {
-    margin-left: 16px;
+// NOTE: This rule affected text alignment in buttons
+// span {
+//     margin-left: 16px;
+// }
+
+.nav-menu.active::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(11, 12, 15, 0.5);
 }
 
-::-webkit-scrollbar-thumb {
+.nav-menu.active::-webkit-scrollbar-thumb {
+    background-color: #ff5000;
+    border: 2px solid #0b0c0f;
 }

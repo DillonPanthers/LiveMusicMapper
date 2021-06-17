@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         height: '3rem',
-        width: '10rem',
+        width: '12rem',
         padding: '0.5rem',
         fontSize: '0.75rem',
     },

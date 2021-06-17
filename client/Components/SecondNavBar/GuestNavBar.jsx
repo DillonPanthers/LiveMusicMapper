@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
 import { Link } from 'react-router-dom';
 
 import { TICKETMASTERAPIKEY } from '../../secret';
@@ -30,15 +29,14 @@ const useStyles = makeStyles((theme) => ({
     },
     outlinedButton: {
         height: '3rem',
-        width: '10rem',
+        width: '12rem',
         padding: '0.5rem',
         fontSize: '0.75rem',
         margin: '1rem',
     },
     containedButton: {
         height: '3rem',
-        width: '20rem',
-        padding: '0.5rem',
+        width: '18rem',
         fontSize: '0.75rem',
         margin: '1rem',
     },
