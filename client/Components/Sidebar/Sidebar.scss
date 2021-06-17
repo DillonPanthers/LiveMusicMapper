@@ -13,15 +13,16 @@
 }
 
 .nav-menu {
-    background-color: rgba(10, 10, 0, 0.7);
-    width: 350px;
-    height: 90vh;
+    background-color: rgba(20, 20, 30, 0.8);
+    width: 18rem;
+    height: 93vh;
     display: flex;
     justify-content: center;
     position: fixed;
     bottom: 0px;
     left: -100%;
     transition: 850ms;
+    z-index: 2;
 }
 
 .nav-menu.active {
@@ -66,9 +67,34 @@ nav-text a {
     align-items: center;
 }
 
+/* NOTE: This rule affected text alignment in buttons
 span {
     margin-left: 16px;
 }
+*/
 
-::-webkit-scrollbar-thumb {
+.nav-menu.active::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(11, 12, 15, 0.5);
+}
+
+.nav-menu.active::-webkit-scrollbar-thumb {
+    background-color: #ff5000;
+    border: 2px solid #0b0c0f;
+}
+
+/* changes scrollbar thumb color to aqual when global state 'personalized' is true */
+.nav-menu.personalized {
+    left: 0;
+    transition: 350ms;
+}
+
+.nav-menu.personalized::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(11, 12, 15, 0.5);
+}
+
+.nav-menu.personalized::-webkit-scrollbar-thumb {
+    background-color: #1de9b6;
+    border: 2px solid #0b0c0f;
 }
