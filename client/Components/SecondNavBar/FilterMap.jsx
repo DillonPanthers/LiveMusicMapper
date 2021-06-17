@@ -27,8 +27,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//Use curr location even when dragging and zooming
-
 const Filter = () => {
     let classes = useStyles();
 

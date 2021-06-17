@@ -74,10 +74,6 @@ const PersonalizedNavBar = (props) => {
         personalization,
     } = useContext(GlobalState);
 
-    // TODO: Create this in the store
-    // add use state logic to change marker color
-    // const [personalized, setPersonalized] = useState('false');
-
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [radius, setRadius] = theRadius;
