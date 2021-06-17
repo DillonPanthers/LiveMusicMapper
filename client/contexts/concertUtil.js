@@ -11,4 +11,15 @@ async function attendingFriends(id, friends) {
     return concert_friends;
 }
 
-export { attendingFriends };
+const mutualFriends = (usersFriends, friendsHomies) => {
+    //we are getting the ids of the friends of the account we are currently viewing
+    const friendHomiesIds = friendsHomies.map((friend) => friend.id);
+    //we are mapping and filtering over logged in users friends and seeing if the users friend id exists in the currently viewed page's user's friends list
+    const mutuals = usersFriends.filter((friend) =>
+        friendHomiesIds.includes(friend.id)
+    );
+    //we are returning an array of the mutual friends here
+    return mutuals;
+};
+
+export { attendingFriends, mutualFriends };
