@@ -1,18 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { MenuItem, Button, Menu, makeStyles } from '@material-ui/core';
+import { MenuItem, Menu, makeStyles } from '@material-ui/core';
 import axios from 'axios';
 
-import { TICKETMASTERAPIKEY } from '../secret';
-import { GlobalState } from '../contexts/Store';
+import { TICKETMASTERAPIKEY } from '../../secret';
+import { GlobalState } from '../../contexts/Store';
+
+import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         color: 'black',
     },
-    menu:{
-        height: '30vh'
-    }
+    menu: {
+        height: '30vh',
+    },
 }));
 
 //Use curr location even when dragging and zooming
@@ -27,13 +29,13 @@ const Filter = () => {
     const { location, venues, genres, theRadius } = useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
-    const [genreList, setGenres]= useState([])
+    const [genreList, setGenres] = useState([]);
     const [genre, setGenre] = genres;
     const [radius, setRadius] = theRadius;
-    console.log('location', locationData)
+    console.log('location', locationData);
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
-        // console.log('hello')
+
         setMenuOpen(true);
     };
 
@@ -41,25 +43,20 @@ const Filter = () => {
         setMenuOpen(false);
     };
 
-
-    useEffect(()=>{
-        const getGenres= async()=>{
-            console.log('hello')
+    useEffect(() => {
+        const getGenres = async () => {
+            console.log('hello');
             const genreList = await axios.get(`/api/genre`);
-            console.log('genres', genreList.data)
+            console.log('genres', genreList.data);
             setGenres(genreList.data);
-        }
-        getGenres()
-    }
-      , []);
+        };
+        getGenres();
+    }, []);
 
     const filterMapData = async (event) => {
-        const { myValue} = event.currentTarget.dataset;
+        const { myValue } = event.currentTarget.dataset;
         setGenre(myValue);
         const latlong = locationData.lat + ',' + locationData.lon;
-        //   const ticketDataByLocation = await axios.get(
-        //     `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&keyword=${newVal}&size=200&latlong=${latlong}&apikey=${TICKETMASTERAPIKEY}`
-        // );
 
         const ticketDataByLocation = await axios.get(
             `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&genreId=${myValue}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
@@ -107,14 +104,15 @@ const Filter = () => {
 
     {
         return path === '/map' ? (
-            <React.Fragment>
-                <Button
+            <>
+                <OutlinedButton
+                    variant="outlined"
                     aria-controls="simple-menu"
                     aria-haspopup="true"
                     onClick={recordButtonPosition}
                 >
-                    Filter By Music Category
-                </Button>
+                    FILTER&nbsp;BY&nbsp;GENRE
+                </OutlinedButton>
                 <Menu
                     id="simple-menu"
                     className={classes.menu}
@@ -125,58 +123,28 @@ const Filter = () => {
                     elevation={0}
                     getContentAnchorEl={null}
                     anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
+                        vertical: 'bottom',
+                        horizontal: 'center',
                     }}
                     transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
+                        vertical: 'top',
+                        horizontal: 'center',
                     }}
                 >
-                    {
-                        genreList.map((curr)=>{
-                            return <MenuItem
-                            data-my-value={curr.id}
-                            className={classes.container}
-                            onClick={filterMapData}
-                            key={curr.id}
-                        >
-                            {curr.name}
-                        </MenuItem>
-    
-                        })
-                    }
-                    {/* <MenuItem
-                        data-my-value="KnvZfZ7vAeA"
-                        className={classes.container}
-                        onClick={filterMapData}
-                    >
-                        Rock
-                    </MenuItem>
-                    <MenuItem
-                        data-my-value="KnvZfZ7vAev"
-                        className={classes.container}
-                        onClick={filterMapData}
-                    >
-                        Pop
-                    </MenuItem>
-                    <MenuItem
-                        data-my-value="KnvZfZ7vAvE"
-                        className={classes.container}
-                        onClick={filterMapData}
-                    >
-                        Jazz
-                    </MenuItem>
-                    <MenuItem
-                        data-my-value="KnvZfZ7vAv6"
-                        className={classes.container}
-                        onClick={filterMapData}
-                    >
-                        Country
-                    </MenuItem> */}
-
+                    {genreList.map((curr) => {
+                        return (
+                            <MenuItem
+                                data-my-value={curr.id}
+                                className={classes.container}
+                                onClick={filterMapData}
+                                key={curr.id}
+                            >
+                                {curr.name}
+                            </MenuItem>
+                        );
+                    })}
                 </Menu>
-            </React.Fragment>
+            </>
         ) : null;
     }
 };

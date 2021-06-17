@@ -10,8 +10,6 @@ import {
 
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
 
-import Filter from './FilterMap';
-
 import { GlobalState } from '../contexts/Store';
 import { socket } from '../contexts/SocketContext';
 import { useEffect } from 'react';
@@ -75,7 +73,6 @@ const NavBar = (props) => {
                                 Live&nbsp;Music&nbsp;Mapper
                             </Link>
                         </Typography>
-                        <Filter />
                         {location.pathname !== '/map' && (
                             <Button className={classes.button}>
                                 <Link to="/map" className={classes.link}>

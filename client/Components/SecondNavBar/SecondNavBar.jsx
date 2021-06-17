@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
+import Filter from './FilterMap';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: 'rgba(10,10,0,0.70)',
+        backgroundColor: 'rgba(20,20,30,0.80)',
         position: 'absolute',
         paddingTop: '10vh',
         zIndex: '1',
@@ -62,12 +63,12 @@ const SecondNavBar = (props) => {
                     <OutlinedButton variant="outlined">
                         SHOW ALL EVENTS NEARBY
                     </OutlinedButton>
-                    <OutlinedButton variant="outlined">
-                        FILTER EVENTS BY GENRE
-                    </OutlinedButton>
-                    <ContainedButton startIcon={svgIcon}>
-                        CONNECT WITH SPOTIFY TO PERSONALIZE YOUR EXPERIENCE
-                    </ContainedButton>
+                    <Filter />
+                    <Link className={classes.link}>
+                        <ContainedButton startIcon={svgIcon}>
+                            CONNECT WITH SPOTIFY TO PERSONALIZE YOUR EXPERIENCE
+                        </ContainedButton>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </div>
