@@ -81,3 +81,18 @@ nav-text a {
     background-color: #ff5000;
     border: 2px solid #0b0c0f;
 }
+
+.nav-menu.personalized {
+    left: 0;
+    transition: 350ms;
+}
+
+.nav-menu.personalized::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(11, 12, 15, 0.5);
+}
+
+.nav-menu.personalized::-webkit-scrollbar-thumb {
+    background-color: #1de9b6;
+    border: 2px solid #0b0c0f;
+}
