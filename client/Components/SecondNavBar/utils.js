@@ -1,15 +1,23 @@
 import axios from 'axios';
 
-export const getEvents = async (locationData, radius, TICKETMASTERAPIKEY) => {
+/* Grabs all events from ticketmaster to populate venue data for the markers */
+export const getEvents = async (
+    locationData,
+    radius,
+    TICKETMASTERAPIKEY,
+    genre
+) => {
     try {
-        /* In guest view, guest user will see all events in his/her area */
         const latlong = locationData.lat + ',' + locationData.lon;
+        const genreId = genre.length ? `genreId=${genre}&` : '';
+        // console.log('SecondNavBar - utils, genre:', genre);
+
         const {
             data: {
                 _embedded: { events },
             },
         } = await axios.get(
-            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
+            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&${genreId}apikey=${TICKETMASTERAPIKEY}`
         );
         return events;
     } catch (error) {
@@ -67,7 +75,7 @@ export const getRecommendedArtistsEvents = async (
     }
 };
 
-export const getTopGenres = async (
+export const getTopGenresEvents = async (
     user,
     locationData,
     radius,
@@ -118,6 +126,14 @@ const callTicketmasterApi = async (
     return events;
 };
 
+/*
+ * In venueObj below, I am taking the data and setting up an object that has just the venues as the keys, and the values of each of the keys will also be an object with two keys, one being venueData which would be the data of the current venue, and the second being a venueEvents
+ * Now that I have an object that would look something like
+  {
+     Barclays Center: { venueData: {data of venue details here}, venueEvents: {will be a set that has the concerts at this venue} }
+  }
+ * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above.
+ */
 export const getVenueObject = (eventObj) =>
     eventObj.reduce((venObj, concert) => {
         const venueName = concert._embedded.venues[0].name;

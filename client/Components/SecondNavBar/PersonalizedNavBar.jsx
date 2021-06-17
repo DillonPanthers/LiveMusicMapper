@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
@@ -13,7 +12,7 @@ import {
     getEvents,
     getTopArtistsEvents,
     getRecommendedArtistsEvents,
-    getTopGenres,
+    getTopGenresEvents,
     getVenueObject,
 } from './utils';
 
@@ -65,7 +64,15 @@ const useStyles = makeStyles((theme) => ({
 const PersonalizedNavBar = (props) => {
     const classes = useStyles();
 
-    const { location, venues, theRadius, auth } = useContext(GlobalState);
+    const {
+        location,
+        venues,
+        theRadius,
+        auth,
+        genres,
+        mapViews,
+        personalization,
+    } = useContext(GlobalState);
 
     // TODO: Create this in the store
     // add use state logic to change marker color
@@ -75,6 +82,9 @@ const PersonalizedNavBar = (props) => {
     const [locationData, setLocation] = location;
     const [radius, setRadius] = theRadius;
     const [user, setUser] = auth;
+    let [genre, setGenre] = genres;
+    const [mapView, setMapView] = mapViews;
+    const [personalized, setPersonalized] = personalization;
 
     const svgIcon = (
         <Icon>
@@ -83,14 +93,19 @@ const PersonalizedNavBar = (props) => {
     );
 
     const getAllEvents = async () => {
+        setGenre('');
+        genre = '';
         let tmEvents = await getEvents(
             locationData,
             radius,
-            TICKETMASTERAPIKEY
+            TICKETMASTERAPIKEY,
+            genre
         );
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
+        setMapView('');
+        setPersonalized(false);
     };
 
     const getAllTopArtistsEvents = async () => {
@@ -103,6 +118,8 @@ const PersonalizedNavBar = (props) => {
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
+        setMapView('topArtists');
+        setPersonalized(true);
     };
 
     const getAllRecommendedArtistsEvents = async () => {
@@ -115,10 +132,12 @@ const PersonalizedNavBar = (props) => {
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
+        setMapView('recommendedArtists');
+        setPersonalized(true);
     };
 
     const getAllTopGenres = async () => {
-        let tmEvents = await getTopGenres(
+        let tmEvents = await getTopGenresEvents(
             user,
             locationData,
             radius,
@@ -127,6 +146,8 @@ const PersonalizedNavBar = (props) => {
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
+        setMapView('topGenres');
+        setPersonalized(true);
     };
 
     return (

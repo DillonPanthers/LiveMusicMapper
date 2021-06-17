@@ -19,9 +19,18 @@ import Sidebar from '../Sidebar/Sidebar';
 import GuestNavBar from '../SecondNavBar/GuestNavBar';
 import PersonalizedNavBar from '../SecondNavBar/PersonalizedNavBar';
 
-import { getEvents, getVenueObject } from '../SecondNavBar/utils';
+import {
+    getEvents,
+    getTopArtistsEvents,
+    getRecommendedArtistsEvents,
+    getTopGenresEvents,
+    getVenueObject,
+} from '../SecondNavBar/utils';
+
+// Marker colors for non-personalized events are orange
 import markerIcon from './markerIcon';
-// TODO: import personalized marker and figure out logic for changing marker colors
+// Marker colors for non-personalized events are aqua
+import personalizedMarkerIcon from './personalizedMarkerIcon';
 
 function Map() {
     const [state, setState] = useState({
@@ -34,14 +43,24 @@ function Map() {
     const [isLoading, setIsLoading] = useState(true);
     const [initialCall, setInitialCall] = useState(true);
 
-    const { currSingleVenue, location, venues, auth, genres, theRadius } =
-        useContext(GlobalState);
+    const {
+        currSingleVenue,
+        location,
+        venues,
+        auth,
+        genres,
+        theRadius,
+        mapViews,
+        personalization,
+    } = useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
     const [user, setUser] = auth;
     const [genre, setGenre] = genres;
     const [radius, setRadius] = theRadius;
+    const [mapView, setMapView] = mapViews;
+    const [personalized, setPersonalized] = personalization;
 
     useEffect(() => {
         const getUserLocation = async () => {
@@ -56,12 +75,41 @@ function Map() {
         };
 
         const getVenueData = async () => {
-            // take json from the ticketmaster data, manipulate it and set to global state venues
-            let tmEvents = await getEvents(
-                locationData,
-                radius,
-                TICKETMASTERAPIKEY
-            );
+            // call ticketmaster API data using fields based on map view setting
+            let tmEvents;
+
+            if (mapView === '') {
+                tmEvents = await getEvents(
+                    locationData,
+                    radius,
+                    TICKETMASTERAPIKEY,
+                    genre
+                );
+            }
+            if (mapView === 'topArtists') {
+                tmEvents = await getTopArtistsEvents(
+                    user,
+                    locationData,
+                    radius,
+                    TICKETMASTERAPIKEY
+                );
+            }
+            if (mapView === 'recommendedArtists') {
+                tmEvents = await getRecommendedArtistsEvents(
+                    user,
+                    locationData,
+                    radius,
+                    TICKETMASTERAPIKEY
+                );
+            }
+            if (mapView === 'topGenres') {
+                tmEvents = await getTopGenresEvents(
+                    user,
+                    locationData,
+                    radius,
+                    TICKETMASTERAPIKEY
+                );
+            }
 
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events
             const venueObj = await getVenueObject(tmEvents);
@@ -70,7 +118,6 @@ function Map() {
         };
 
         if (locationData.lon && locationData.lat) {
-            // console.log('here');
             getVenueData();
             setTimeout(() => {
                 setIsLoading(false);
@@ -142,6 +189,8 @@ function Map() {
         setState({ ...state, isOpen: false });
     };
 
+    const marker = personalized ? personalizedMarkerIcon : markerIcon;
+
     return isLoading ? (
         <Loading loading={isLoading} />
     ) : (
@@ -191,7 +240,7 @@ function Map() {
                                                   .venueData.location.longitude,
                                           }}
                                           icon={{
-                                              ...markerIcon,
+                                              ...marker,
                                               anchor: new google.maps.Point(
                                                   16,
                                                   42

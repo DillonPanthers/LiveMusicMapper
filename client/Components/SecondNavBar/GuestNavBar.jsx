@@ -9,7 +9,7 @@ import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
 
-import { getEvents, getVenueObject } from './utils';
+import { getEvents, getVenueObject, genres } from './utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,11 +59,12 @@ const useStyles = makeStyles((theme) => ({
 const GuestNavBar = (props) => {
     const classes = useStyles();
 
-    const { location, venues, theRadius } = useContext(GlobalState);
+    const { location, venues, theRadius, genres } = useContext(GlobalState);
 
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [radius, setRadius] = theRadius;
+    let [genre, setGenre] = genres;
 
     const svgIcon = (
         <Icon>
@@ -72,10 +73,14 @@ const GuestNavBar = (props) => {
     );
 
     const getAllEvents = async () => {
+        setGenre('');
+        genre = '';
+        console.log('genre', genre);
         let tmEvents = await getEvents(
             locationData,
             radius,
-            TICKETMASTERAPIKEY
+            TICKETMASTERAPIKEY,
+            genre
         );
 
         const venueObj = await getVenueObject(tmEvents);

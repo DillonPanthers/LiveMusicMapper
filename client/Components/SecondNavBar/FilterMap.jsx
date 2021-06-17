@@ -38,13 +38,15 @@ const Filter = () => {
     const [anchorEl, setAnchorEl] = useState();
     const [genreList, setGenres] = useState([]);
 
-    const { location, venues, genres, theRadius } = useContext(GlobalState);
+    const { location, venues, genres, theRadius, mapViews, personalization } =
+        useContext(GlobalState);
 
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [genre, setGenre] = genres;
     const [radius, setRadius] = theRadius;
-    // console.log('location', locationData);
+    const [mapView, setMapView] = mapViews;
+    const [personalized, setPersonalized] = personalization;
 
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
@@ -112,6 +114,8 @@ const Filter = () => {
         });
 
         setVenues(venueObj);
+        setMapView('');
+        setPersonalized(false);
     };
 
     {

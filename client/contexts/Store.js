@@ -12,6 +12,8 @@ const Store = ({ children }) => {
     const [genre, setGenre] = useState('');
     const [radius, setRadius] = useState(40);
     const [newNotification, setNewNotification] = useState(false);
+    const [mapView, setMapView] = useState('');
+    const [personalized, setPersonalized] = useState(false);
 
     const getUserData = async () => {
         const token = window.localStorage.getItem('token');
@@ -49,6 +51,8 @@ const Store = ({ children }) => {
                 getUserData,
                 getUserLocation,
                 newNotification: [newNotification, setNewNotification],
+                mapViews: [mapView, setMapView],
+                personalization: [personalized, setPersonalized],
             }}
         >
             {children}
