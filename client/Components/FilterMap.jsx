@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MenuItem, Button, Menu, makeStyles } from '@material-ui/core';
 import axios from 'axios';
@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     container: {
         color: 'black',
     },
+    menu:{
+        height: '30vh'
+    }
 }));
 
 //Use curr location even when dragging and zooming
@@ -24,12 +27,13 @@ const Filter = () => {
     const { location, venues, genres, theRadius } = useContext(GlobalState);
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
+    const [genreList, setGenres]= useState([])
     const [genre, setGenre] = genres;
     const [radius, setRadius] = theRadius;
-
+    console.log('location', locationData)
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
-
+        // console.log('hello')
         setMenuOpen(true);
     };
 
@@ -37,8 +41,20 @@ const Filter = () => {
         setMenuOpen(false);
     };
 
+
+    useEffect(()=>{
+        const getGenres= async()=>{
+            console.log('hello')
+            const genreList = await axios.get(`/api/genre`);
+            console.log('genres', genreList.data)
+            setGenres(genreList.data);
+        }
+        getGenres()
+    }
+      , []);
+
     const filterMapData = async (event) => {
-        const { myValue } = event.currentTarget.dataset;
+        const { myValue} = event.currentTarget.dataset;
         setGenre(myValue);
         const latlong = locationData.lat + ',' + locationData.lon;
         //   const ticketDataByLocation = await axios.get(
@@ -101,12 +117,36 @@ const Filter = () => {
                 </Button>
                 <Menu
                     id="simple-menu"
+                    className={classes.menu}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(menuOpen)}
                     onClose={closeMenu}
+                    elevation={0}
+                    getContentAnchorEl={null}
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                    }}
                 >
-                    <MenuItem
+                    {
+                        genreList.map((curr)=>{
+                            return <MenuItem
+                            data-my-value={curr.id}
+                            className={classes.container}
+                            onClick={filterMapData}
+                            key={curr.id}
+                        >
+                            {curr.name}
+                        </MenuItem>
+    
+                        })
+                    }
+                    {/* <MenuItem
                         data-my-value="KnvZfZ7vAeA"
                         className={classes.container}
                         onClick={filterMapData}
@@ -133,7 +173,8 @@ const Filter = () => {
                         onClick={filterMapData}
                     >
                         Country
-                    </MenuItem>
+                    </MenuItem> */}
+
                 </Menu>
             </React.Fragment>
         ) : null;

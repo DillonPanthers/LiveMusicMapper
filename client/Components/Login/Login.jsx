@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-    Button,
-    Typography,
-    Grid,
-    Card,
-    makeStyles,
-    Icon,
-} from '@material-ui/core';
+import { Typography, Grid, Card, makeStyles, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,16 +27,6 @@ const useStyles = makeStyles((theme) => ({
         padding: '5%',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
-    },
-    button: {
-        color: 'black',
-        background: '#1DE9B6',
-        '&:hover': {
-            background: '#5F285A',
-        },
-        borderRadius: 50,
-        width: '100%',
-        lineHeight: '125%',
     },
     link: {
         color: 'inherit',
@@ -89,9 +73,9 @@ const Login = () => {
                     </Typography>
 
                     <a href="/api/spotify/login" className={classes.link}>
-                        <Button className={classes.button} startIcon={svgIcon}>
+                        <ContainedButton startIcon={svgIcon}>
                             LOG IN WITH SPOTIFY ACCOUNT
-                        </Button>
+                        </ContainedButton>
                     </a>
 
                     <div className={classes.divider}>
