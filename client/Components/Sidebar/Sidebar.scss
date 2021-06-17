@@ -14,14 +14,15 @@
 
 .nav-menu {
     background-color: rgba(20, 20, 30, 0.8);
-    width: 350px;
-    height: 90vh;
+    width: 18rem;
+    height: 93vh;
     display: flex;
     justify-content: center;
     position: fixed;
     bottom: 0px;
     left: -100%;
     transition: 850ms;
+    z-index: 2;
 }
 
 .nav-menu.active {

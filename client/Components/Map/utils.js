@@ -10,15 +10,15 @@ export const getEvents = async (
     try {
         /* In guest view, guest user will see all events in his/her area */
         const latlong = state.lat + ',' + state.lon;
+
         let { artists, recommendedArtists, ticketmasterGenres, spotifyId } =
             user;
         let result = [];
-        console.log('user:', user);
 
         /* Regular & guest users see all events */
         if (!spotifyId) {
             const genreId = genre.length ? `genreId=${genre}&` : '';
-            console.log('genre', genreId);
+            // console.log('genre', genreId);
             const {
                 data: {
                     _embedded: { events },

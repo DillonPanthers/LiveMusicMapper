@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
     menu: {
         height: '30vh',
     },
+    button: {
+        height: '3rem',
+        width: '10rem',
+        padding: '0.5rem',
+        fontSize: '0.75rem',
+    },
 }));
 
 //Use curr location even when dragging and zooming
@@ -26,16 +32,18 @@ const Filter = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState();
+    const [genreList, setGenres] = useState([]);
+
     const { location, venues, genres, theRadius } = useContext(GlobalState);
+
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
-    const [genreList, setGenres] = useState([]);
     const [genre, setGenre] = genres;
     const [radius, setRadius] = theRadius;
-    console.log('location', locationData);
+    // console.log('location', locationData);
+
     const recordButtonPosition = (event) => {
         setAnchorEl(event.currentTarget);
-
         setMenuOpen(true);
     };
 
@@ -45,9 +53,9 @@ const Filter = () => {
 
     useEffect(() => {
         const getGenres = async () => {
-            console.log('hello');
+            // console.log('hello');
             const genreList = await axios.get(`/api/genre`);
-            console.log('genres', genreList.data);
+            // console.log('genres', genreList.data);
             setGenres(genreList.data);
         };
         getGenres();
@@ -106,6 +114,7 @@ const Filter = () => {
         return path === '/map' ? (
             <>
                 <OutlinedButton
+                    className={classes.button}
                     variant="outlined"
                     aria-controls="simple-menu"
                     aria-haspopup="true"

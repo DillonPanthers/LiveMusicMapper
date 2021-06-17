@@ -9,6 +9,7 @@ const ContainedButton = styled(Button)({
     },
     borderRadius: 50,
     lineHeight: '125%',
+    textAlign: 'center',
 });
 
 export default ContainedButton;
