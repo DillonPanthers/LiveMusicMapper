@@ -128,10 +128,7 @@ const Dashboard = () => {
                                               }}
                                               icon={{
                                                   ...markerIcon,
-                                                  anchor: new google.maps.Point(
-                                                      16,
-                                                      42
-                                                  ),
+                                                  anchor: { x: 16, y: 42 },
                                               }}
                                           />
                                       );

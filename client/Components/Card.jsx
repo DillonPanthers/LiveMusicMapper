@@ -19,6 +19,8 @@ import { styled } from '@material-ui/core/styles';
 import { spacing } from '@material-ui/system';
 import MuiButton from '@material-ui/core/Button';
 
+import axios from 'axios';
+
 const Button = styled(MuiButton)(spacing);
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +75,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Cards(props) {
+    const { getUserData, auth } = useContext(GlobalState);
+    const [user, setUser] = auth;
+    const [isAttending, setIsAttending] = useState(false);
+
     const [count, setCount] = useState(true);
+
+    useEffect(() => {
+        const checkIfAttending = () => {
+            return user.concerts.some(
+                (concert) => concert.id === props.props.id
+            );
+        };
+        if (user.id && props.props.id) {
+            setIsAttending(checkIfAttending());
+        }
+    }, []);
 
     const convertTime = (time) => {
         time = time.split(':');
@@ -97,9 +114,24 @@ export default function Cards(props) {
         return timeValue;
     };
 
+    const addConcert = async (concert) => {
+        const userId = user.id;
+        await axios.post('/api/user/concert', { userId, concert });
+        setIsAttending(true);
+        await getUserData();
+    };
+
+    const removeConcert = async (concertId) => {
+        const userId = user.id;
+        await axios.delete('/api/user/concert', {
+            data: { userId, concertId },
+        });
+        setIsAttending(false);
+        await getUserData();
+    };
+
     const getWorkingImage = (imageArr) => {
         let workingImages = [];
-        console.log('image arr', imageArr);
         for (let image of imageArr) {
             if (image.ratio === '3_2') return image.url;
         }
@@ -143,11 +175,25 @@ export default function Cards(props) {
                                         <a href={props.props.url}>View Seats</a>
                                     </Button>
                                 ) : null}
-                                {props.props.url ? (
-                                    <Button variant="outlined" color="primary">
+                                {!isAttending ? (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => addConcert(props.props)}
+                                    >
                                         I'm Attending
                                     </Button>
-                                ) : null}
+                                ) : (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            removeConcert(props.props.id)
+                                        }
+                                    >
+                                        Remove Concert
+                                    </Button>
+                                )}
                             </Container>
                         </Grid>
 

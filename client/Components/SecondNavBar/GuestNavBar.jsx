@@ -9,7 +9,7 @@ import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
 
-import { getEvents, getVenueObject, genres } from './utils';
+import { getEvents, getVenueObject } from './utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
