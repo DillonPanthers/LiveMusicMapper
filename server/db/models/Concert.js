@@ -71,6 +71,16 @@ const Concert = db.define(
     }
 );
 
+Concert.findAttendees = async function (id) {
+    const concert = await Concert.findByPk(id);
+    let attendees = [];
+    if (concert) {
+        attendees = concert.getAttendees({
+            attributes: ['id', 'firstName', 'lastName', 'imageUrl'],
+        });
+    }
+    return attendees;
+};
 module.exports = { Concert };
 
 //#region How to access info from ticketmaster response

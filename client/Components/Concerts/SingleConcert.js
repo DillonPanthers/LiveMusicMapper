@@ -4,6 +4,7 @@ import { TICKETMASTERAPIKEY } from '../../secret';
 
 import { GlobalState } from '../../contexts/Store';
 import Cards from '../Card';
+import FriendsAttending from './ConcertFriends';
 
 // TODO: Fix CSS
 
@@ -30,16 +31,12 @@ export default function SingleConcert(props) {
         if (id) {
             getConcert(id);
         }
-        if (id) {
-            getConcert(id);
-        }
     }, [id]);
-    console.log('single concert', singleConcert);
-    // return <div style={{ backgroundColor: 'white' }} >Hello this is the event page</div>;
 
     return (
         <div>
             <Cards props={singleConcert} />
+            <FriendsAttending concert={singleConcert} />
         </div>
     );
 }
