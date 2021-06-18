@@ -32,4 +32,20 @@ router.get('/genres', async (req, res, next) => {
     }
 });
 
+// GET /api/ticketmaster/spotify-user
+
+router.get('/spotify-user', async (req, res, next) => {
+    try {
+        const { parameterType, name, latlong, radius } = req.query;
+        const { data } = await axios.get(
+            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TM_API}`
+        );
+
+        res.send(data);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 module.exports = router;
