@@ -8,7 +8,8 @@ import {
 } from '@react-google-maps/api';
 
 import { GlobalState } from '../contexts/Store';
-import { REACT_APP_GOOGLEAPIKEY } from '../secret';
+import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../secret';
+import markerIcon from './Map/markerIcon';
 
 //TODO: Use avatars as a grid to show some friends, and a link to all friends
 
@@ -89,7 +90,10 @@ const Dashboard = () => {
         <div style={{ display: 'flex' }}>
             {/*TO DO: USER LOADING SCREEN*/}
             <div style={{ marginRight: '10px' }}>
-                <LoadScript googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}>
+                <LoadScript
+                    googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
+                    mapIds={GOOGLE_MAP_ID}
+                >
                     <GoogleMap
                         onClick={onMapClick}
                         zoom={10}
@@ -98,6 +102,11 @@ const Dashboard = () => {
                             lng: userLocation.lon,
                         }}
                         mapContainerStyle={{ height: '50vh', width: '50vw' }}
+                        options={{
+                            mapTypeControl: false,
+                            fullscreenControl: false,
+                            mapId: GOOGLE_MAP_ID,
+                        }}
                     >
                         {venues
                             ? Object.keys(venues).map((venue, idx) => {
@@ -116,6 +125,13 @@ const Dashboard = () => {
                                               position={{
                                                   lat: +venues[venue][0].lat,
                                                   lng: +venues[venue][0].lon,
+                                              }}
+                                              icon={{
+                                                  ...markerIcon,
+                                                  anchor: new google.maps.Point(
+                                                      16,
+                                                      42
+                                                  ),
                                               }}
                                           />
                                       );
