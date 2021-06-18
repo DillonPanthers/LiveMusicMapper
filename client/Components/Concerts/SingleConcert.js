@@ -3,9 +3,10 @@ import axios from 'axios';
 import { TICKETMASTERAPIKEY } from '../../secret';
 
 import { GlobalState } from '../../contexts/Store';
-import Cards from './Card';
+import ConcertInfo from './ConcertInfo';
 
 // TODO: Fix CSS
+// TODO: Not Logged In View
 
 var styles = {
     Default: '#81b71a',
@@ -39,7 +40,10 @@ export default function SingleConcert(props) {
 
     return (
         <div>
-            <Cards single_concert={singleConcert} artistName={artistName} />
+            <ConcertInfo
+                single_concert={singleConcert}
+                artistName={artistName}
+            />
         </div>
     );
 }
