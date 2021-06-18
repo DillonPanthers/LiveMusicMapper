@@ -23,7 +23,6 @@ function ArtistTracks({ artistName }) {
                 }
             );
             const id = artists.items.length ? artists.items[0].id : '';
-            console.log('ID', id);
             setArtistId(id);
         };
         if (user.spotifyId && artistName.length) {
