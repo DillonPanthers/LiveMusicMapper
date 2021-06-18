@@ -8,7 +8,6 @@ import { SocketContext } from '../../contexts/SocketContext';
 import UserInfo from './UserInfo';
 
 //TODO: update some css and make look better
-//TODO: Components for User Info
 
 function SingleUser(props) {
     const { auth, getUserData } = useContext(GlobalState);
