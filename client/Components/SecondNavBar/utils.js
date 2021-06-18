@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// TO DO: Check out why spotify/ticketmast api route isnnt working
+// TO DO: Once above is figured out, delete TM api key from secret.js
+
 /* Grabs all events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (
     locationData,
@@ -122,6 +125,7 @@ const callTicketmasterApi = async (
                 `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
             );
 
+            //Back End Routes
             // const { data } = await axios.get('/api/ticketmaster/spotify-user', {
             //     params: { parameterType, name, latlong, radius },
             // });
