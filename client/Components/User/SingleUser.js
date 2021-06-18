@@ -103,12 +103,6 @@ function SingleUser(props) {
         rejectFriendReq(requesterId);
     };
 
-    //1) logged in user and own profile - redirect to dashboard - done
-    //2) logged in user and other user - if both are friends, then show other users profile
-    //3) logged in user and other user are not friends and no friend requests - show button to add friend, if public then show profile, if private than show just name
-    //4) logged in user sent a friend request - show requested instead of add friend on button
-    //5) other user sent logged in user a friend request - show accept/reject
-
     return isLoggedIn ? (
         <Container>
             <Container>{user.fullName ? user.fullName : null}</Container>
