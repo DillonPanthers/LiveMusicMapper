@@ -190,7 +190,6 @@ function Map() {
     };
 
     const marker = personalized ? personalizedMarkerIcon : markerIcon;
-
     return isLoading ? (
         <Loading loading={isLoading} />
     ) : (
@@ -241,10 +240,7 @@ function Map() {
                                           }}
                                           icon={{
                                               ...marker,
-                                              anchor: new google.maps.Point(
-                                                  16,
-                                                  42
-                                              ),
+                                              anchor: { x: 16, y: 42 },
                                           }}
                                       />
                                   );
