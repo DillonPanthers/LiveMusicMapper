@@ -10,7 +10,7 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import concertBackground from '../../../public/concertBackground.png';
 import ArtistTracks from './ArtistTracks';
-import ConcertFriendList from './ConcertFriendList';
+import ConcertFriends from './ConcertFriends';
 import ContainedButton from '../StyledComponents/ContainedButton';
 
 const Button = styled(MuiButton)(spacing);
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Cards({ single_concert, artistName }) {
+export default function ConcertInfo({ single_concert, artistName }) {
     const { getUserData, auth } = useContext(GlobalState);
     const [user, setUser] = auth;
     const [isAttending, setIsAttending] = useState(false);
@@ -255,11 +255,9 @@ export default function Cards({ single_concert, artistName }) {
                                 </Typography>
                             ) : null}
                         </Grid>
-                        <Grid
-                            item
-                            xs={3}
-                            className={classes.detailsElement}
-                        ></Grid>
+                        <Grid item xs={3} className={classes.detailsElement}>
+                            <ConcertFriends concert={single_concert} />
+                        </Grid>
 
                         {/*sSpotify Player*/}
                         <Grid item xs={3} className={classes.spotifyFrame}>
