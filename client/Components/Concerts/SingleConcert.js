@@ -6,6 +6,7 @@ import { GlobalState } from '../../contexts/Store';
 import ConcertInfo from './ConcertInfo';
 
 // TODO: Fix CSS
+// TODO: Not Logged In View
 
 var styles = {
     Default: '#81b71a',
