@@ -1,74 +1,99 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CssBaseline, Typography, AppBar, Card, CardActions, CardActionArea, CardMedia, CardContent, Container, Grid, Box } from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles'
-import concertBackground from '../../public/concertBackground.png'
-import {GlobalState} from '../contexts/Store'
-import { styled } from "@material-ui/core/styles";
-import { spacing } from "@material-ui/system";
-import MuiButton from "@material-ui/core/Button";
+import {
+    CssBaseline,
+    Typography,
+    AppBar,
+    Card,
+    CardActions,
+    CardActionArea,
+    CardMedia,
+    CardContent,
+    Container,
+    Grid,
+    Box,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import concertBackground from '../../public/concertBackground.png';
+import { GlobalState } from '../contexts/Store';
+import { styled } from '@material-ui/core/styles';
+import { spacing } from '@material-ui/system';
+import MuiButton from '@material-ui/core/Button';
 
-const Button = styled(MuiButton)(spacing)
+import axios from 'axios';
 
-const useStyles =  makeStyles((theme) =>({
-  CardActionArea: {
-    display: 'flex',
-    backgroundColor:'white',
-    color: 'black'
-  },
-  CardContent: {
-    color: 'black',
-    width: 160,
-    height: 160,
-  },
-  paperContainer: {
-    backgroundImage: `url(${concertBackground})`
-},
-mainFeaturedPostContent: {
-    position: 'relative',
-    height: 500,
-    padding: theme.spacing(3),
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(6),
-      paddingRight: 0,
-    }
-},
-leftBox:{
-    backgroundColor: 'black',
-    height: '300px',
-    padding: '30px'
-},
-rightBox:{
+const Button = styled(MuiButton)(spacing);
 
-},
-button: {
-    margin: theme.spacing(1),
-    borderRadius: "5em"
-  },
-  element:{
-    backgroundColor: '#311b92',
-    height: '300px',
-    padding: '30px',
-    margin: '20px',
-    direction:"row",
-    justify:"center",
-    alignItems:"center",
-    padding: '30px'
-  },
-  mainGrid:{
-    direction:"row",
-    justify:"center",
-    alignItems:"center",
-    paddingLeft: '100px',
-  }
-
+const useStyles = makeStyles((theme) => ({
+    CardActionArea: {
+        display: 'flex',
+        backgroundColor: 'white',
+        color: 'black',
+    },
+    CardContent: {
+        color: 'black',
+        width: 160,
+        height: 160,
+    },
+    paperContainer: {
+        backgroundImage: `url(${concertBackground})`,
+    },
+    mainFeaturedPostContent: {
+        position: 'relative',
+        height: 500,
+        padding: theme.spacing(3),
+        [theme.breakpoints.up('md')]: {
+            padding: theme.spacing(6),
+            paddingRight: 0,
+        },
+    },
+    leftBox: {
+        backgroundColor: 'black',
+        height: '300px',
+        padding: '30px',
+    },
+    rightBox: {},
+    button: {
+        margin: theme.spacing(1),
+        borderRadius: '5em',
+    },
+    element: {
+        backgroundColor: '#311b92',
+        height: '300px',
+        padding: '30px',
+        margin: '20px',
+        direction: 'row',
+        justify: 'center',
+        alignItems: 'center',
+        padding: '30px',
+    },
+    mainGrid: {
+        direction: 'row',
+        justify: 'center',
+        alignItems: 'center',
+        paddingLeft: '100px',
+    },
 }));
 
-export default function Cards(props){
-    const [count, setCount]= useState(true)
+export default function Cards(props) {
+    const { getUserData, auth } = useContext(GlobalState);
+    const [user, setUser] = auth;
+    const [isAttending, setIsAttending] = useState(false);
 
-    const convertTime=(time)=>{
+    const [count, setCount] = useState(true);
 
-        time = time.split(':'); 
+    useEffect(() => {
+        const checkIfAttending = () => {
+            return user.concerts.some(
+                (concert) => concert.id === props.props.id
+            );
+        };
+        if (user.id && props.props.id) {
+            setIsAttending(checkIfAttending());
+        }
+    }, []);
+
+    const convertTime = (time) => {
+        time = time.split(':');
 
         var hours = Number(time[0]);
         var minutes = Number(time[1]);
@@ -77,60 +102,152 @@ export default function Cards(props){
         var timeValue;
 
         if (hours > 0 && hours <= 12) {
-        timeValue= "" + hours;
+            timeValue = '' + hours;
         } else if (hours > 12) {
-        timeValue= "" + (hours - 12);
+            timeValue = '' + (hours - 12);
         } else if (hours == 0) {
-        timeValue= "12";
+            timeValue = '12';
         }
-        
-        timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes;  
-        timeValue += (hours >= 12) ? " P.M." : " A.M."; 
-        return timeValue
-    }
 
+        timeValue += minutes < 10 ? ':0' + minutes : ':' + minutes;
+        timeValue += hours >= 12 ? ' P.M.' : ' A.M.';
+        return timeValue;
+    };
 
-    const getWorkingImage=(imageArr)=>{
-        let workingImages=[]
-        console.log('image arr', imageArr)
-        for(let image of imageArr){
-            if(image.ratio==='3_2') return image.url
+    const addConcert = async (concert) => {
+        const userId = user.id;
+        await axios.post('/api/user/concert', { userId, concert });
+        setIsAttending(true);
+        await getUserData();
+    };
+
+    const removeConcert = async (concertId) => {
+        const userId = user.id;
+        await axios.delete('/api/user/concert', {
+            data: { userId, concertId },
+        });
+        setIsAttending(false);
+        await getUserData();
+    };
+
+    const getWorkingImage = (imageArr) => {
+        let workingImages = [];
+        for (let image of imageArr) {
+            if (image.ratio === '3_2') return image.url;
         }
-    }
+    };
 
-    const classes = useStyles()
+    const classes = useStyles();
 
-    return <>
-        <CssBaseline/>
-        <main>
-            <div display='flex'>
-   `            <Grid container>
-                    <Grid item md={8} className={classes.leftBox}>
-                        <Container>
+    return (
+        <>
+            <CssBaseline />
+            <main>
+                <div display="flex">
+                    `{' '}
+                    <Grid container>
+                        <Grid item md={8} className={classes.leftBox}>
+                            <Container>
+                                <Typography
+                                    variant="h3"
+                                    color="textPrimary"
+                                    gutterBottom
+                                    bgcolor="text.primary"
+                                >
+                                    {props.props.name}
+                                </Typography>
+                                {props.props.dates ? (
+                                    <Typography
+                                        variant="h5"
+                                        color="textPrimary"
+                                        gutterBottom
+                                        bgcolor="text.primary"
+                                    >
+                                        {props.props.dates.start.localDate}
+                                    </Typography>
+                                ) : null}
+                                {props.props.url ? (
+                                    <Button
+                                        margin="30px"
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        <a href={props.props.url}>View Seats</a>
+                                    </Button>
+                                ) : null}
+                                {!isAttending ? (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => addConcert(props.props)}
+                                    >
+                                        I'm Attending
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            removeConcert(props.props.id)
+                                        }
+                                    >
+                                        Remove Concert
+                                    </Button>
+                                )}
+                            </Container>
+                        </Grid>
 
-                            <Typography variant='h3'  color='textPrimary' gutterBottom bgcolor="text.primary">{props.props.name}</Typography>
-                            {props.props.dates?<Typography variant='h5' color='textPrimary' gutterBottom bgcolor="text.primary">{props.props.dates.start.localDate}</Typography>: null}
-                            {props.props.url?<Button margin='30px' variant="contained" color="primary"><a href={props.props.url}>View Seats</a></Button>: null}
-                            {props.props.url?<Button variant="outlined" color="primary">I'm Attending</Button>: null}
-                        </Container>
+                        {props.props.images ? (
+                            <Grid item md={4} className={classes.rightBox}>
+                                <img
+                                    height="300px"
+                                    src={getWorkingImage(props.props.images)}
+                                />
+                            </Grid>
+                        ) : null}
                     </Grid>
-
-                    {props.props.images? <Grid item md={4} className={classes.rightBox} ><img height='300px' src={getWorkingImage(props.props.images)} /></Grid>: null}
-
-                </Grid>
-
-            </div>
-            <div>
-                <Grid container  className={classes.mainGrid} >
-                    <Grid item xs={3} className={classes.element} >
-                        <Typography variant='h4'  color='textPrimary' gutterBottom bgcolor="text.primary">Venue Details</Typography>
-                        {props.props._embedded?<Typography variant='h6'  color='textPrimary' gutterBottom bgcolor="text.primary">Venue: {props.props._embedded.venues[0].name}</Typography>: null}
-                        {props.props.dates?<Typography variant='h6'  color='textPrimary' gutterBottom bgcolor="text.primary">Start Time: {convertTime(props.props.dates.start.localTime)}</Typography>: null}
+                </div>
+                <div>
+                    <Grid container className={classes.mainGrid}>
+                        <Grid item xs={3} className={classes.element}>
+                            <Typography
+                                variant="h4"
+                                color="textPrimary"
+                                gutterBottom
+                                bgcolor="text.primary"
+                            >
+                                Venue Details
+                            </Typography>
+                            {props.props._embedded ? (
+                                <Typography
+                                    variant="h6"
+                                    color="textPrimary"
+                                    gutterBottom
+                                    bgcolor="text.primary"
+                                >
+                                    Venue:{' '}
+                                    {props.props._embedded.venues[0].name}
+                                </Typography>
+                            ) : null}
+                            {props.props.dates ? (
+                                <Typography
+                                    variant="h6"
+                                    color="textPrimary"
+                                    gutterBottom
+                                    bgcolor="text.primary"
+                                >
+                                    Start Time:{' '}
+                                    {convertTime(
+                                        props.props.dates.start.localTime
+                                    )}
+                                </Typography>
+                            ) : null}
+                        </Grid>
+                        <Grid item xs={3} className={classes.element}></Grid>
+                        <Grid item xs={3} className={classes.element}></Grid>
                     </Grid>
-                    <Grid item xs={3} className={classes.element} ></Grid>
-                    <Grid item xs={3} className={classes.element} ></Grid>
-                </Grid>
-            </div>
-        </main>
-    </>
+                </div>
+            </main>
+        </>
+    );
 }
