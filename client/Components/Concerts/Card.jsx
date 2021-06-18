@@ -1,25 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-    CssBaseline,
-    Typography,
-    AppBar,
-    Card,
-    CardActions,
-    CardActionArea,
-    CardMedia,
-    CardContent,
-    Container,
-    Grid,
-    Box,
-} from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { CssBaseline, Typography, Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import concertBackground from '../../public/concertBackground.png';
-import { GlobalState } from '../contexts/Store';
 import { styled } from '@material-ui/core/styles';
 import { spacing } from '@material-ui/system';
 import MuiButton from '@material-ui/core/Button';
-
 import axios from 'axios';
+
+import { GlobalState } from '../../contexts/Store';
+import concertBackground from '../../../public/concertBackground.png';
+import ArtistTracks from './ArtistTracks';
+import ConcertFriendList from './ConcertFriendList';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const Button = styled(MuiButton)(spacing);
 
@@ -56,15 +48,20 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         borderRadius: '5em',
     },
-    element: {
+    spotifyFrame: {
+        height: '400px',
+        margin: '20px',
+    },
+
+    detailsElement: {
         backgroundColor: '#311b92',
-        height: '300px',
-        padding: '30px',
+        height: '400px',
         margin: '20px',
         direction: 'row',
         justify: 'center',
         alignItems: 'center',
-        padding: '30px',
+        overflow: 'scroll',
+        padding: '20px',
     },
     mainGrid: {
         direction: 'row',
@@ -72,9 +69,20 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         paddingLeft: '100px',
     },
+
+    buttonContainer: {
+        display: 'flex',
+        height: '400px',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    links: {
+        textDecoration: 'none',
+    },
 }));
 
-export default function Cards(props) {
+export default function Cards({ single_concert, artistName }) {
     const { getUserData, auth } = useContext(GlobalState);
     const [user, setUser] = auth;
     const [isAttending, setIsAttending] = useState(false);
@@ -84,10 +92,10 @@ export default function Cards(props) {
     useEffect(() => {
         const checkIfAttending = () => {
             return user.concerts.some(
-                (concert) => concert.id === props.props.id
+                (concert) => concert.id === single_concert.id
             );
         };
-        if (user.id && props.props.id) {
+        if (user.id && single_concert.id) {
             setIsAttending(checkIfAttending());
         }
     }, []);
@@ -154,32 +162,36 @@ export default function Cards(props) {
                                     gutterBottom
                                     bgcolor="text.primary"
                                 >
-                                    {props.props.name}
+                                    {single_concert.name}
                                 </Typography>
-                                {props.props.dates ? (
+                                {single_concert.dates ? (
                                     <Typography
                                         variant="h5"
                                         color="textPrimary"
                                         gutterBottom
                                         bgcolor="text.primary"
                                     >
-                                        {props.props.dates.start.localDate}
+                                        {single_concert.dates.start.localDate}
                                     </Typography>
                                 ) : null}
-                                {props.props.url ? (
+                                {single_concert.url ? (
                                     <Button
                                         margin="30px"
                                         variant="contained"
                                         color="primary"
                                     >
-                                        <a href={props.props.url}>View Seats</a>
+                                        <a href={single_concert.url}>
+                                            View Seats
+                                        </a>
                                     </Button>
                                 ) : null}
                                 {!isAttending ? (
                                     <Button
                                         variant="outlined"
                                         color="primary"
-                                        onClick={() => addConcert(props.props)}
+                                        onClick={() =>
+                                            addConcert(single_concert)
+                                        }
                                     >
                                         I'm Attending
                                     </Button>
@@ -188,7 +200,7 @@ export default function Cards(props) {
                                         variant="outlined"
                                         color="primary"
                                         onClick={() =>
-                                            removeConcert(props.props.id)
+                                            removeConcert(single_concert.id)
                                         }
                                     >
                                         Remove Concert
@@ -197,11 +209,11 @@ export default function Cards(props) {
                             </Container>
                         </Grid>
 
-                        {props.props.images ? (
+                        {single_concert.images ? (
                             <Grid item md={4} className={classes.rightBox}>
                                 <img
                                     height="300px"
-                                    src={getWorkingImage(props.props.images)}
+                                    src={getWorkingImage(single_concert.images)}
                                 />
                             </Grid>
                         ) : null}
@@ -209,7 +221,7 @@ export default function Cards(props) {
                 </div>
                 <div>
                     <Grid container className={classes.mainGrid}>
-                        <Grid item xs={3} className={classes.element}>
+                        <Grid item xs={3} className={classes.detailsElement}>
                             <Typography
                                 variant="h4"
                                 color="textPrimary"
@@ -218,7 +230,7 @@ export default function Cards(props) {
                             >
                                 Venue Details
                             </Typography>
-                            {props.props._embedded ? (
+                            {single_concert._embedded ? (
                                 <Typography
                                     variant="h6"
                                     color="textPrimary"
@@ -226,10 +238,10 @@ export default function Cards(props) {
                                     bgcolor="text.primary"
                                 >
                                     Venue:{' '}
-                                    {props.props._embedded.venues[0].name}
+                                    {single_concert._embedded.venues[0].name}
                                 </Typography>
                             ) : null}
-                            {props.props.dates ? (
+                            {single_concert.dates ? (
                                 <Typography
                                     variant="h6"
                                     color="textPrimary"
@@ -238,13 +250,32 @@ export default function Cards(props) {
                                 >
                                     Start Time:{' '}
                                     {convertTime(
-                                        props.props.dates.start.localTime
+                                        single_concert.dates.start.localTime
                                     )}
                                 </Typography>
                             ) : null}
                         </Grid>
-                        <Grid item xs={3} className={classes.element}></Grid>
-                        <Grid item xs={3} className={classes.element}></Grid>
+                        <Grid
+                            item
+                            xs={3}
+                            className={classes.detailsElement}
+                        ></Grid>
+
+                        {/*sSpotify Player*/}
+                        <Grid item xs={3} className={classes.spotifyFrame}>
+                            {user.spotifyId ? (
+                                <ArtistTracks artistName={artistName} />
+                            ) : (
+                                <div className={classes.buttonContainer}>
+                                    <Link to="/login" className={classes.links}>
+                                        <ContainedButton>
+                                            Login With Spotify For Artist
+                                            Preview
+                                        </ContainedButton>
+                                    </Link>
+                                </div>
+                            )}
+                        </Grid>
                     </Grid>
                 </div>
             </main>

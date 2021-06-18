@@ -11,6 +11,7 @@ function ArtistTracks({ artistName }) {
     useEffect(() => {
         const grabArtistId = async () => {
             const access_token = window.localStorage.getItem('spotify_token');
+
             const {
                 data: { artists },
             } = await axios.get(
@@ -22,6 +23,7 @@ function ArtistTracks({ artistName }) {
                 }
             );
             const id = artists.items.length ? artists.items[0].id : '';
+            console.log('ID', id);
             setArtistId(id);
         };
         if (user.spotifyId && artistName.length) {
@@ -32,14 +34,14 @@ function ArtistTracks({ artistName }) {
     return artistId.length ? (
         <iframe
             src={`https://open.spotify.com/embed/artist/${artistId}`}
-            width="300"
-            height="380"
+            width="320"
+            height="400"
             frameBorder="0"
             allowtransparency="true"
             allow="encrypted-media"
         ></iframe>
     ) : (
-        <div>No Artist Tracks Found</div>
+        <h2>No Artist Tracks Found</h2>
     );
 }
 

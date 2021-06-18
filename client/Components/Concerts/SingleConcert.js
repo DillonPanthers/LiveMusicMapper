@@ -3,7 +3,7 @@ import axios from 'axios';
 import { TICKETMASTERAPIKEY } from '../../secret';
 
 import { GlobalState } from '../../contexts/Store';
-import Cards from '../Card';
+import Cards from './Card';
 
 // TODO: Fix CSS
 
@@ -30,7 +30,6 @@ export default function SingleConcert(props) {
                 ? singleConcertData.data._embedded.attractions[0].name
                 : '';
             setArtistName(artist);
-            console.log('indidentif', artist);
             setSingleConcert(singleConcertData.data);
         };
         if (id) {
@@ -40,7 +39,7 @@ export default function SingleConcert(props) {
 
     return (
         <div>
-            <Cards props={singleConcert} />
+            <Cards single_concert={singleConcert} artistName={artistName} />
         </div>
     );
 }
