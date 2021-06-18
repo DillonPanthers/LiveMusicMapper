@@ -20,9 +20,6 @@ export const getEvents = async (
             params: { latlong, radius, genreId },
         });
 
-        /*await axios.get(
-            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&${genreId}apikey=${TICKETMASTERAPIKEY}`
-        );*/
         return events;
     } catch (error) {
         console.log(error);
