@@ -112,7 +112,7 @@ const callTicketmasterApi = async (
         const subArray = array.splice(0, 4);
         for (let i = 0; i < subArray.length; i++) {
             let name = subArray[i];
-            await sleep(250);
+            await sleep(150);
             const { data } = await axios.get('/api/ticketmaster/spotify-user', {
                 params: { parameterType, name, latlong, radius },
             });
