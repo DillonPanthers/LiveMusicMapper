@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
@@ -75,13 +74,7 @@ const GuestNavBar = (props) => {
     const getAllEvents = async () => {
         setGenre('');
         genre = '';
-        console.log('genre', genre);
-        let tmEvents = await getEvents(
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY,
-            genre
-        );
+        let tmEvents = await getEvents(locationData, radius, genre);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);

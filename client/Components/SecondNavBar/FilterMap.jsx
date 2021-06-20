@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import { MenuItem, Menu, makeStyles } from '@material-ui/core';
 import axios from 'axios';
 
-import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
 import { getVenueObject, getEvents } from './utils';
 
@@ -80,12 +79,7 @@ const Filter = () => {
     const filterMapData = async (event) => {
         const { myValue } = event.currentTarget.dataset;
 
-        const events = await getEvents(
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY,
-            myValue
-        );
+        const events = await getEvents(locationData, radius, myValue);
 
         const venueObj = await getVenueObject(events);
 

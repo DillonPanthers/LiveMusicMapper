@@ -3,22 +3,48 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// GET /api/ticketmaster
-router.get('/', async (req, res) => {
-    try {
-        //TICKET MASTER
-        // const data = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${process.env.TICKETMASTERAPIKEY}`)
-        // const events = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&countryCode=US&apikey=${process.env.TICKETMASTERAPIKEY}`)
+// GET /api/ticketmaster/concert/:id
+// Route for Single Concert
+const TM_API = process.env.TICKETMASTERAPIKEY;
 
-        const events = await axios.get(
-            `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&countryCode=CA&apikey=${process.env.TICKETMASTERAPIKEY}`
+router.get('/concert/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { data } = await axios.get(
+            `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${TM_API}`
         );
-        console.log('full events object', events);
-        console.log('data', events.data._embedded.events);
-        res.send(events.data._embedded.events);
+        res.send(data);
     } catch (err) {
-        console.log(err);
         next(err);
+    }
+});
+
+// GET /api/ticketmaster/genres
+router.get('/genres', async (req, res, next) => {
+    try {
+        const { latlong, radius, genreId } = req.query;
+        const { data } = await axios.get(
+            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&size=200&latlong=${latlong}&radius=${radius}&${genreId}apikey=${TM_API}`
+        );
+        res.send(data);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// GET /api/ticketmaster/spotify-user
+
+router.get('/spotify-user', async (req, res, next) => {
+    try {
+        const { parameterType, name, latlong, radius } = req.query;
+        const { data } = await axios.get(
+            `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TM_API}`
+        );
+
+        res.send(data);
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
 });
 

@@ -79,12 +79,7 @@ function Map() {
             let tmEvents;
 
             if (mapView === '') {
-                tmEvents = await getEvents(
-                    locationData,
-                    radius,
-                    TICKETMASTERAPIKEY,
-                    genre
-                );
+                tmEvents = await getEvents(locationData, radius, genre);
             }
             if (mapView === 'topArtists') {
                 tmEvents = await getTopArtistsEvents(
