@@ -40,10 +40,8 @@ router.get('/spotify-user', async (req, res, next) => {
         const { data } = await axios.get(
             `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TM_API}`
         );
-
         res.send(data);
     } catch (error) {
-        console.log(error);
         next(error);
     }
 });
