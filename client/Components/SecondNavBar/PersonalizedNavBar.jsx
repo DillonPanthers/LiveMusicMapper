@@ -116,6 +116,7 @@ const PersonalizedNavBar = (props) => {
         setVenues(venueObj);
         setMapView('topArtists');
         setPersonalized(true);
+        setGenre('');
     };
 
     const getAllRecommendedArtistsEvents = async () => {
@@ -130,6 +131,7 @@ const PersonalizedNavBar = (props) => {
         setVenues(venueObj);
         setMapView('recommendedArtists');
         setPersonalized(true);
+        setGenre('');
     };
 
     const getAllTopGenres = async () => {
@@ -144,6 +146,7 @@ const PersonalizedNavBar = (props) => {
         setVenues(venueObj);
         setMapView('topGenres');
         setPersonalized(true);
+        setGenre('');
     };
 
     return (
