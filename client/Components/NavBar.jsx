@@ -39,15 +39,22 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
     const location = useLocation();
     const classes = useStyles();
-    const { auth, newNotification } = useContext(GlobalState);
+    const { auth, newNotification, personalization, mapViews, genres } =
+        useContext(GlobalState);
 
     const [user, setUser] = auth;
     const [notification, setNotification] = newNotification;
+    const [personalized, setPersonalized] = personalization;
+    const [mapView, setMapView] = mapViews;
+    const [genre, setGenre] = genres;
 
     const logOut = () => {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('spotify_token');
         setUser({});
+        setPersonalized(false);
+        setMapView('');
+        setGenre('');
     };
 
     useEffect(() => {

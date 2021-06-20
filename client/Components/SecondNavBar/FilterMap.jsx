@@ -2,19 +2,22 @@ import React, { useState, useContext, useEffect } from 'react';
 import { MenuItem, Menu, makeStyles } from '@material-ui/core';
 import axios from 'axios';
 
-import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
 import { getVenueObject, getEvents } from './utils';
 
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        color: 'black',
-    },
     menu: {
         height: '30vh',
-        width: '12rem',
+        width: '14rem',
+    },
+    menuItem: {
+        color: 'black',
+        '&:focus': {
+            backgroundColor: theme.palette.accent.main,
+            color: theme.palette.text.primary,
+        },
     },
     button: {
         height: '2.75rem',
@@ -61,15 +64,22 @@ const Filter = () => {
         getGenres();
     }, []);
 
+    // grabs a genre's name using its for the button label
+    const getGenreName = (genre, genreList) => {
+        for (let _genre of genreList) {
+            if (_genre.id === genre) {
+                return _genre.name.toUpperCase();
+            }
+        }
+    };
+
+    const genreLabel =
+        genre !== '' ? `: ${getGenreName(genre, genreList)}` : '';
+
     const filterMapData = async (event) => {
         const { myValue } = event.currentTarget.dataset;
 
-        const events = await getEvents(
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY,
-            myValue
-        );
+        const events = await getEvents(locationData, radius, myValue);
 
         const venueObj = await getVenueObject(events);
 
@@ -88,7 +98,7 @@ const Filter = () => {
                 aria-haspopup="true"
                 onClick={recordButtonPosition}
             >
-                FILTER&nbsp;BY&nbsp;GENRE
+                FILTER&nbsp;BY&nbsp;GENRE{genreLabel}
             </OutlinedButton>
             <Menu
                 id="simple-menu"
@@ -112,7 +122,7 @@ const Filter = () => {
                     return (
                         <MenuItem
                             data-my-value={curr.id}
-                            className={classes.container}
+                            className={classes.menuItem}
                             onClick={filterMapData}
                             key={curr.id}
                         >

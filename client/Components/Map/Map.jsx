@@ -79,12 +79,7 @@ function Map() {
             let tmEvents;
 
             if (mapView === '') {
-                tmEvents = await getEvents(
-                    locationData,
-                    radius,
-                    TICKETMASTERAPIKEY,
-                    genre
-                );
+                tmEvents = await getEvents(locationData, radius, genre);
             }
             if (mapView === 'topArtists') {
                 tmEvents = await getTopArtistsEvents(
@@ -238,10 +233,7 @@ function Map() {
                                               lng: +venueDataObj[currEvent]
                                                   .venueData.location.longitude,
                                           }}
-                                          icon={{
-                                              ...marker,
-                                              anchor: { x: 16, y: 42 },
-                                          }}
+                                          icon={marker}
                                       />
                                   );
                               }

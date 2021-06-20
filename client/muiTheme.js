@@ -17,16 +17,19 @@ const theme = createMuiTheme({
     },
     palette: {
         primary: {
-            main: '#1DE9B6',
+            main: '#1DE9B6', // teal
         },
         secondary: {
-            main: '#5F285A',
+            main: '#5F285A', // purple
+        },
+        accent: {
+            main: '#FF5000', // orange
         },
         background: {
-            default: '#000A47',
+            default: '#000A47', // blue
         },
         text: {
-            primary: '#FFFFFF',
+            primary: '#FFFFFF', // white
         },
     },
     overrides: {
