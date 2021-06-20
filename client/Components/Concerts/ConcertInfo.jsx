@@ -12,6 +12,7 @@ import concertBackground from '../../../public/concertBackground.png';
 import ArtistTracks from './ArtistTracks';
 import ConcertFriends from './ConcertFriends';
 import ContainedButton from '../StyledComponents/ContainedButton';
+import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const Button = styled(MuiButton)(spacing);
 
@@ -77,9 +78,17 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
 
-    links: {
-        textDecoration: 'none',
+    link: {
+        textDecoration: 'inherit',
+        color: 'inherit'
     },
+    outlinedButton:{
+        margin: '1rem 0.5rem 1rem 0.5rem',
+        width: '12rem'
+    },
+    containedButton:{
+        width: '12rem'
+    }
 }));
 
 export default function ConcertInfo({ single_concert, artistName }) {
@@ -98,7 +107,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
         if (user.id && single_concert.id) {
             setIsAttending(checkIfAttending());
         }
-    }, []);
+    }, [single_concert.id, user.id]);
 
     const convertTime = (time) => {
         time = time.split(':');
@@ -175,36 +184,29 @@ export default function ConcertInfo({ single_concert, artistName }) {
                                     </Typography>
                                 ) : null}
                                 {single_concert.url ? (
-                                    <Button
-                                        margin="30px"
-                                        variant="contained"
-                                        color="primary"
-                                    >
-                                        <a href={single_concert.url}>
-                                            View Seats
+                                    <a className={classes.link} href={single_concert.url}>
+                                        <ContainedButton className={classes.containedButton}>
+                                            
+                                                VIEW SEATS
+                                            
+                                        </ContainedButton>
                                         </a>
-                                    </Button>
+                                  
                                 ) : null}
                                 {!isAttending ? (
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() =>
-                                            addConcert(single_concert)
-                                        }
-                                    >
-                                        I'm Attending
-                                    </Button>
+                                    <OutlinedButton variant='outlined' className={classes.outlinedButton}                                    
+                                        onClick={() =>addConcert(single_concert)
+                                        }> I'M ATTENDING</OutlinedButton>
                                 ) : (
-                                    <Button
+                                    <OutlinedButton
                                         variant="outlined"
-                                        color="primary"
+                                        className={classes.outlinedButton}
                                         onClick={() =>
                                             removeConcert(single_concert.id)
                                         }
                                     >
                                         Remove Concert
-                                    </Button>
+                                    </OutlinedButton>
                                 )}
                             </Container>
                         </Grid>
@@ -265,7 +267,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
                                 <ArtistTracks artistName={artistName} />
                             ) : (
                                 <div className={classes.buttonContainer}>
-                                    <Link to="/login" className={classes.links}>
+                                    <Link to="/login" className={classes.link}>
                                         <ContainedButton>
                                             Login With Spotify For Artist
                                             Preview
