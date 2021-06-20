@@ -1,3 +1,4 @@
+// TODO: Seed more users
 const users = [
     {
         firstName: 'Vikki',
