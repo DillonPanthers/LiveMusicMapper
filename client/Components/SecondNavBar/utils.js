@@ -108,10 +108,23 @@ const callTicketmasterApi = async (
     console.log(array);
     let events = [];
 
+    while (array.length) {
+        const subArray = array.splice(0, 4);
+        for (let i = 0; i < subArray.length; i++) {
+            let name = subArray[i];
+            await sleep(150);
+            const { data } = await axios.get('/api/ticketmaster/spotify-user', {
+                params: { parameterType, name, latlong, radius },
+            });
+            if (data._embedded) events.push(data._embedded.events[0]);
+        }
+    }
+    //#region
+    /*
     if (array.length) {
         for (let i = 0; i < array.length; i++) {
             let name = array[i];
-            if (i % 5 === 0) await sleep(1000);
+
             console.log('name & index', name, i);
 
             const { data } = await axios.get(
@@ -126,6 +139,9 @@ const callTicketmasterApi = async (
             if (data._embedded) events.push(data._embedded.events[0]);
         }
     }
+    */
+    //#endregion
+
     console.log(events);
     return events;
 };
