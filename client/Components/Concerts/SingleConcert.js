@@ -25,7 +25,7 @@ export default function SingleConcert(props) {
     useEffect(() => {
         const getConcert = async (id) => {
             const singleConcertData = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${TICKETMASTERAPIKEY}`
+                `/api/ticketmaster/concert/${id}`
             );
             const artist = singleConcertData.data._embedded.attractions
                 ? singleConcertData.data._embedded.attractions[0].name
