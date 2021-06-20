@@ -9,7 +9,7 @@ import {
 
 import { GlobalState } from '../contexts/Store';
 import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../secret';
-import markerIcon from './Map/markerIcon';
+import personalizedMarkerIcon from './Map/personalizedMarkerIcon';
 
 //TODO: Use avatars as a grid to show some friends, and a link to all friends
 
@@ -126,10 +126,7 @@ const Dashboard = () => {
                                                   lat: +venues[venue][0].lat,
                                                   lng: +venues[venue][0].lon,
                                               }}
-                                              icon={{
-                                                  ...markerIcon,
-                                                  anchor: { x: 16, y: 42 },
-                                              }}
+                                              icon={personalizedMarkerIcon}
                                           />
                                       );
                                   }

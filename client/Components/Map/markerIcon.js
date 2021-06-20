@@ -6,6 +6,7 @@ const markerIcon = {
     strokeColor: '#000A47',
     strokeOpacity: 1,
     scale: 0.75,
+    anchor: { x: 16, y: 42 },
 };
 
 export default markerIcon;

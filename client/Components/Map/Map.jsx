@@ -238,10 +238,7 @@ function Map() {
                                               lng: +venueDataObj[currEvent]
                                                   .venueData.location.longitude,
                                           }}
-                                          icon={{
-                                              ...marker,
-                                              anchor: { x: 16, y: 42 },
-                                          }}
+                                          icon={marker}
                                       />
                                   );
                               }
