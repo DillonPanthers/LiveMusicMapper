@@ -11,6 +11,15 @@ const OutlinedButton = styled(Button)({
     color: '#1DE9B6',
     lineHeight: '125%',
     variant: 'outlined',
+    '&:hover': {
+        background: '#000A47',
+    },
+    '&:active': {
+        background: '#000A47',
+    },
+    '&:focus': {
+        background: '#000A47',
+    },
 });
 
 export default OutlinedButton;

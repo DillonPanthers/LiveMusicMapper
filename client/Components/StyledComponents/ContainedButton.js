@@ -7,6 +7,12 @@ const ContainedButton = styled(Button)({
     '&:hover': {
         background: '#5F285A',
     },
+    '&:active': {
+        background: '#5F285A',
+    },
+    '&:focus': {
+        background: '#5F285A',
+    },
     borderRadius: 50,
     lineHeight: '125%',
     textAlign: 'center',
