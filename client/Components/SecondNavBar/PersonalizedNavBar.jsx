@@ -91,12 +91,7 @@ const PersonalizedNavBar = (props) => {
     const getAllEvents = async () => {
         setGenre('');
         genre = '';
-        let tmEvents = await getEvents(
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY,
-            genre
-        );
+        let tmEvents = await getEvents(locationData, radius, genre);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
