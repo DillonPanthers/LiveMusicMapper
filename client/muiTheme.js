@@ -20,6 +20,9 @@ const theme = createMuiTheme({
             color: '#FFFFFF',
             lineHeight: '1.15',
         },
+        caption: {
+            fontSize: '0.75rem',
+        },
     },
     palette: {
         primary: {

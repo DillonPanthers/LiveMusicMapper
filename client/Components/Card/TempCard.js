@@ -18,32 +18,59 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import { getDateInStringFormat, getConcertImage } from './utils';
 
-const useStyles = makeStyles({
-    root: {
-        width: '18rem',
-        marginTop: 10,
-        marginBottom: 10,
-        color: 'white',
-        backgroundColor: '#000A47',
-        '&:hover': {
-            boxShadow: '2px 2px 5px #01072a',
+import OutlinedButton from '../StyledComponents/OutlinedButton';
+
+const useStyles = makeStyles((theme) => {
+    // const { personalization } = useContext(GlobalState);
+    // let [personalized, setPersonalized] = personalization;
+    // console.log(personalized);
+    // const hexColor = personalized
+    //     ? theme.palette.primary.main
+    //     : theme.palette.accent.main;
+    // console.log(hexColor);
+
+    const hexColor = theme.palette.text.primary;
+
+    return {
+        root: {
+            width: '18rem',
+            marginTop: 10,
+            marginBottom: 10,
+            color: 'white',
+            backgroundColor: '#000A47',
+            '&:hover': {
+                boxShadow: '2px 2px 5px #01072a',
+            },
         },
-    },
-    media: {
-        height: 140,
-        objectFit: 'contain',
-        position: 'top',
-    },
-    heart: {
-        color: 'pink',
-    },
-    clear: {
-        color: 'red',
-    },
-    link: {
-        marginTop: '1rem', // add button instead
-        color: 'white',
-    },
+        media: {
+            height: 140,
+            objectFit: 'contain',
+            position: 'top',
+        },
+        heart: {
+            color: 'pink',
+            verticalAlign: 'middle',
+        },
+        clear: {
+            color: 'red',
+        },
+        link: {
+            marginTop: '1rem',
+            textDecoration: 'inherit',
+            color: 'inherit',
+        },
+        outlinedButton: {
+            height: '2.25rem',
+            fontSize: '0.65rem',
+            marginBottom: '1rem',
+            color: hexColor,
+            borderColor: hexColor,
+        },
+        cardActions: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+    };
 });
 
 export default function TempCard({ concertData, isAttending }) {
@@ -66,8 +93,6 @@ export default function TempCard({ concertData, isAttending }) {
         await getUserData();
     };
 
-    console.log('concertData', concertData);
-
     return (
         Object.keys(concertData).length > 0 && (
             <Card className={classes.root}>
@@ -81,25 +106,10 @@ export default function TempCard({ concertData, isAttending }) {
                         <Typography gutterBottom variant="h6" component="h2">
                             {concertData.name}
                         </Typography>
-                        <Typography>
+                        <Typography variant="caption">
                             {getDateInStringFormat(
                                 concertData.dates.start.localDate
                             )}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                        >
-                            <Link
-                                to={`/concert/${concertData.id}`}
-                                onClick={() => {
-                                    setCurrConcert(concertData);
-                                }}
-                                className={classes.link}
-                            >
-                                Click here to see event information
-                            </Link>
                         </Typography>
                     </CardContent>
                 </CardActionArea>
@@ -120,7 +130,21 @@ export default function TempCard({ concertData, isAttending }) {
                         <Link to="/login">
                             <Typography>login to add concert</Typography>
                         </Link>
-                    )}
+                    )}{' '}
+                    <Link
+                        to={`/concert/${concertData.id}`}
+                        onClick={() => {
+                            setCurrConcert(concertData);
+                        }}
+                        className={classes.link}
+                    >
+                        <OutlinedButton
+                            variant="outlined"
+                            className={classes.outlinedButton}
+                        >
+                            SEE EVENT INFORMATION
+                        </OutlinedButton>
+                    </Link>
                 </CardActions>
             </Card>
         )
