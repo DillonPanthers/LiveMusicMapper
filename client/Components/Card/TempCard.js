@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => {
 
     return {
         root: {
-            width: '18rem',
+            width: '16rem',
             marginTop: 10,
             marginBottom: 10,
             color: 'white',
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => {
             marginTop: '1rem',
             textDecoration: 'inherit',
             color: 'inherit',
+            width: '100%',
         },
         outlinedButton: {
             height: '2.25rem',
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => {
             marginBottom: '1rem',
             color: hexColor,
             borderColor: hexColor,
+            padding: '0 20px',
         },
         cardActions: {
             display: 'flex',
@@ -127,8 +129,13 @@ export default function TempCard({ concertData, isAttending }) {
                             </IconButton>
                         )
                     ) : (
-                        <Link to="/login">
-                            <Typography>login to add concert</Typography>
+                        <Link to={`/login`} className={classes.link}>
+                            <OutlinedButton
+                                variant="outlined"
+                                className={classes.outlinedButton}
+                            >
+                                LOG IN TO SAVE&nbsp;EVENT
+                            </OutlinedButton>
                         </Link>
                     )}{' '}
                     <Link
@@ -142,7 +149,7 @@ export default function TempCard({ concertData, isAttending }) {
                             variant="outlined"
                             className={classes.outlinedButton}
                         >
-                            SEE EVENT INFORMATION
+                            SEE&nbsp;EVENT DETAILS
                         </OutlinedButton>
                     </Link>
                 </CardActions>

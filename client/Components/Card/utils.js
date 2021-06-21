@@ -1,8 +1,10 @@
 export const getDateInStringFormat = (date) => {
     const year = date.slice(0, 4);
-    const day = date.slice(-2);
-    let month = date.slice(5, 7);
 
+    let day = date.slice(-2);
+    if (day[0] === '0') day = day[1];
+
+    let month = date.slice(5, 7);
     if (month === '01') month = 'January';
     if (month === '02') month = 'February';
     if (month === '03') month = 'March';
@@ -15,6 +17,7 @@ export const getDateInStringFormat = (date) => {
     if (month === '10') month = 'October';
     if (month === '11') month = 'November';
     if (month === '12') month = 'December';
+
     return `${month} ${day}, ${year}`;
 };
 
