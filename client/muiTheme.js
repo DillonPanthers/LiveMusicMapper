@@ -14,6 +14,12 @@ const theme = createMuiTheme({
             fontWeight: 'bold',
             color: '#FFFFFF',
         },
+        h6: {
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 'bold',
+            color: '#FFFFFF',
+            lineHeight: '1.15',
+        },
     },
     palette: {
         primary: {

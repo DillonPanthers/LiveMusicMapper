@@ -19,7 +19,7 @@ import { GlobalState } from '../../contexts/Store';
 
 const useStyles = makeStyles({
     root: {
-        width: '16rem',
+        width: '18rem',
         marginTop: 10,
         marginBottom: 10,
         color: 'white',
@@ -30,6 +30,8 @@ const useStyles = makeStyles({
     },
     media: {
         height: 140,
+        objectFit: 'contain',
+        position: 'top',
     },
     heart: {
         color: 'pink',
@@ -59,13 +61,36 @@ export default function TempCard({ concertData, isAttending }) {
         await getUserData();
     };
 
+    const getDateInStringFormat = (date) => {
+        const year = date.slice(0, 4);
+        const day = date.slice(-2);
+        let month = date.slice(5, 7);
+        if (month === '01') month = 'January';
+        if (month === '02') month = 'February';
+        if (month === '03') month = 'March';
+        if (month === '04') month = 'April';
+        if (month === '05') month = 'May';
+        if (month === '06') month = 'June';
+        if (month === '07') month = 'July';
+        if (month === '08') month = 'August';
+        if (month === '09') month = 'September';
+        if (month === '10') month = 'October';
+        if (month === '11') month = 'November';
+        if (month === '12') month = 'December';
+        return `${month} ${day}, ${year}`;
+    };
+
+    console.log('concertData', concertData);
+
+    const eventImage = concertData.images[3].url; // write a function that returns a 16:9 aspect ratio or default image url
+
     return (
         Object.keys(concertData).length > 0 && (
             <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
-                        image="https://www.ravejungle.com/wp-content/uploads/2018/09/rave-ravejungle-696x464-696x464.jpg"
+                        image={eventImage}
                         title="glass"
                     />
                     <CardContent>
@@ -73,7 +98,9 @@ export default function TempCard({ concertData, isAttending }) {
                             {concertData.name}
                         </Typography>
                         <Typography>
-                            Start Date: {concertData.dates.start.localDate}
+                            {getDateInStringFormat(
+                                concertData.dates.start.localDate
+                            )}
                         </Typography>
                         <Typography
                             variant="body2"
