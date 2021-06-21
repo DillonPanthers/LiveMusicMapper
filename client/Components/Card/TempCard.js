@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => {
         },
         heart: {
             color: 'pink',
-            verticalAlign: 'middle',
         },
         clear: {
             color: 'red',
@@ -69,6 +68,7 @@ const useStyles = makeStyles((theme) => {
         cardActions: {
             display: 'flex',
             alignItems: 'center',
+            backgroundColor: '#363073',
         },
     };
 });
@@ -113,7 +113,7 @@ export default function TempCard({ concertData, isAttending }) {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions className={classes.cardActions}>
                     {user.id ? (
                         !isAttending ? (
                             <IconButton onClick={() => addConcert(concertData)}>

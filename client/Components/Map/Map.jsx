@@ -32,6 +32,8 @@ import markerIcon from './markerIcon';
 // Marker colors for non-personalized events are aqua
 import personalizedMarkerIcon from './personalizedMarkerIcon';
 
+import './InfoWindow.scss';
+
 function Map() {
     const [state, setState] = useState({
         selectedEventLat: 0,
