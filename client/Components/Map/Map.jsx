@@ -15,6 +15,7 @@ import {
 } from '../../secret';
 
 import Loading from '../Loading/Loading';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 import Sidebar from '../Sidebar/Sidebar';
 import GuestNavBar from '../SecondNavBar/GuestNavBar';
 import PersonalizedNavBar from '../SecondNavBar/PersonalizedNavBar';
@@ -44,6 +45,7 @@ function Map() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [initialCall, setInitialCall] = useState(true);
+    const [eventsLoading, setEventsLoading] = useState(true);
 
     const {
         currSingleVenue,
@@ -79,10 +81,12 @@ function Map() {
         const getVenueData = async () => {
             // call ticketmaster API data using fields based on map view setting
             let tmEvents;
+            setEventsLoading(true);
 
             if (mapView === '') {
                 tmEvents = await getEvents(locationData, radius, genre);
             }
+
             if (mapView === 'topArtists') {
                 tmEvents = await getTopArtistsEvents(
                     user,
@@ -112,6 +116,7 @@ function Map() {
             const venueObj = await getVenueObject(tmEvents);
 
             setVenues(venueObj);
+            setEventsLoading(false);
         };
 
         if (locationData.lon && locationData.lat) {
@@ -191,6 +196,7 @@ function Map() {
         <Loading loading={isLoading} />
     ) : (
         <div>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             {user.spotifyId ? <PersonalizedNavBar /> : <GuestNavBar />}
             <LoadScript
                 googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
