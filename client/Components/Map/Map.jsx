@@ -7,11 +7,7 @@ import {
 } from '@react-google-maps/api';
 
 import { GlobalState } from '../../contexts/Store';
-import {
-    TICKETMASTERAPIKEY,
-    REACT_APP_GOOGLEAPIKEY,
-    GOOGLE_MAP_ID,
-} from '../../secret';
+import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../../secret';
 
 import Loading from '../Loading/Loading';
 import LoadingOnCard from '../Loading/LoadingOnCard';
@@ -89,25 +85,18 @@ function Map() {
                 tmEvents = await getTopArtistsEvents(
                     user,
                     locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
+                    radius
                 );
             }
             if (mapView === 'recommendedArtists') {
                 tmEvents = await getRecommendedArtistsEvents(
                     user,
                     locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
+                    radius
                 );
             }
             if (mapView === 'topGenres') {
-                tmEvents = await getTopGenresEvents(
-                    user,
-                    locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
-                );
+                tmEvents = await getTopGenresEvents(user, locationData, radius);
             }
 
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events

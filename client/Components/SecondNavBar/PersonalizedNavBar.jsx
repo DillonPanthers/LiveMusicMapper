@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
 
-import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
@@ -107,12 +106,7 @@ const PersonalizedNavBar = (props) => {
 
     const getAllTopArtistsEvents = async () => {
         setEventsLoading(true);
-        let tmEvents = await getTopArtistsEvents(
-            user,
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY
-        );
+        let tmEvents = await getTopArtistsEvents(user, locationData, radius);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
@@ -127,8 +121,7 @@ const PersonalizedNavBar = (props) => {
         let tmEvents = await getRecommendedArtistsEvents(
             user,
             locationData,
-            radius,
-            TICKETMASTERAPIKEY
+            radius
         );
 
         const venueObj = await getVenueObject(tmEvents);
@@ -141,12 +134,7 @@ const PersonalizedNavBar = (props) => {
 
     const getAllTopGenres = async () => {
         setEventsLoading(true);
-        let tmEvents = await getTopGenresEvents(
-            user,
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY
-        );
+        let tmEvents = await getTopGenresEvents(user, locationData, radius);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
