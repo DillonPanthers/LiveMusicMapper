@@ -7,6 +7,7 @@ import { GlobalState } from '../../contexts/Store';
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 
 import {
     getEvents,
@@ -88,18 +89,24 @@ const PersonalizedNavBar = (props) => {
         </Icon>
     );
 
+    const [eventsLoading, setEventsLoading] = useState(false);
+
     const getAllEvents = async () => {
+        setEventsLoading(true);
         setGenre('');
         genre = '';
         let tmEvents = await getEvents(locationData, radius, genre);
 
         const venueObj = await getVenueObject(tmEvents);
+
         setVenues(venueObj);
         setMapView('');
         setPersonalized(false);
+        setEventsLoading(false);
     };
 
     const getAllTopArtistsEvents = async () => {
+        setEventsLoading(true);
         let tmEvents = await getTopArtistsEvents(
             user,
             locationData,
@@ -112,9 +119,11 @@ const PersonalizedNavBar = (props) => {
         setMapView('topArtists');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     const getAllRecommendedArtistsEvents = async () => {
+        setEventsLoading(true);
         let tmEvents = await getRecommendedArtistsEvents(
             user,
             locationData,
@@ -127,9 +136,11 @@ const PersonalizedNavBar = (props) => {
         setMapView('recommendedArtists');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     const getAllTopGenres = async () => {
+        setEventsLoading(true);
         let tmEvents = await getTopGenresEvents(
             user,
             locationData,
@@ -142,10 +153,12 @@ const PersonalizedNavBar = (props) => {
         setMapView('topGenres');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     return (
         <div>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.root}>
                     <OutlinedButton

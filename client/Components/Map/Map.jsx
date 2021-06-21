@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
     GoogleMap,
     LoadScript,
@@ -79,9 +78,8 @@ function Map() {
         };
 
         const getVenueData = async () => {
-            // call ticketmaster API data using fields based on map view setting
-            let tmEvents;
             setEventsLoading(true);
+            let tmEvents;
 
             if (mapView === '') {
                 tmEvents = await getEvents(locationData, radius, genre);
@@ -192,6 +190,7 @@ function Map() {
     };
 
     const marker = personalized ? personalizedMarkerIcon : markerIcon;
+
     return isLoading ? (
         <Loading loading={isLoading} />
     ) : (
@@ -255,11 +254,7 @@ function Map() {
                                 lng: state.selectedEventLong,
                             }}
                         >
-                            <div>
-                                <Link to={`/venue/${singleVenue.venueData.id}`}>
-                                    {state.selectedEventName}
-                                </Link>
-                            </div>
+                            <div>{state.selectedEventName}</div>
                         </InfoWindow>
                     )}
                 </GoogleMap>
