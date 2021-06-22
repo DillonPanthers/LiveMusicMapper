@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 
 import FriendRequests from './FriendRequests';
 import Search from './Search';
-//TODO: Do we want to add an unfriend option? Yes (cruD app)
-//TODO: Do we want to sort the requested vs the unrequested? Yes
+import FriendsList from './FriendsList';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,14 +38,10 @@ const useStyles = makeStyles((theme) => ({
         flex: '2',
         backgroundColor: '#382B71',
         padding: '.5rem',
+        overflowY: 'scroll',
     },
     text: {
         textDecoration: 'underline',
-    },
-    friendReqs: {
-        display: 'flex',
-        flexDirection: 'row',
-        flex: '2',
     },
 }));
 
@@ -66,20 +61,7 @@ const AllFriends = () => {
     return user.friends ? (
         <div className={classes.root}>
             <div className={classes.left}>
-                <Typography className={classes.text}>Friends</Typography>
-                {user.friends.length > 0 ? (
-                    user.friends.map((friend) =>
-                        friend.friendship.status === 'accepted' ? (
-                            <li key={friend.id}>
-                                <Link to={`/user/${friend.id}`}>
-                                    {`${friend.firstName} ${friend.lastName}`}
-                                </Link>
-                            </li>
-                        ) : null
-                    )
-                ) : (
-                    <Typography>No Friends :(</Typography>
-                )}
+                <FriendsList friends={user.friends} />
             </div>
             <div className={classes.right}>
                 <div className={classes.search}>
@@ -94,9 +76,7 @@ const AllFriends = () => {
                     >
                         Pending Friend Requests
                     </Typography>
-                    {/* <div className={classes.friendReqs}> */}
                     <FriendRequests />
-                    {/* </div> */}
                 </div>
             </div>
         </div>
