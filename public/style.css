@@ -3,7 +3,11 @@
   height: 400px;
 }
 
-
 .menu {
   position: relative;
 }
+
+.gm-style .gm-style-iw-c * {
+    font-family: Montserrat, sans-serif;
+    color: #000a47;
+ }
