@@ -21,14 +21,6 @@ import { getDateInStringFormat, getConcertImage } from './utils';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 
 const useStyles = makeStyles((theme) => {
-    // const { personalization } = useContext(GlobalState);
-    // let [personalized, setPersonalized] = personalization;
-    // console.log(personalized);
-    // const hexColor = personalized
-    //     ? theme.palette.primary.main
-    //     : theme.palette.accent.main;
-    // console.log(hexColor);
-
     const hexColor = theme.palette.text.primary;
 
     return {

@@ -49,9 +49,6 @@ const useStyles = makeStyles((theme) => ({
     icon: {
         width: '100%',
         verticalAlign: 'top',
-        '&:hover': {
-            color: 'white',
-        },
     },
 }));
 

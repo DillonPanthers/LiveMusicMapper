@@ -1,102 +1,80 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CssBaseline, Typography, Container, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { styled } from '@material-ui/core/styles';
-import { spacing } from '@material-ui/system';
-import MuiButton from '@material-ui/core/Button';
+import { Typography, makeStyles, Icon } from '@material-ui/core';
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
-import concertBackground from '../../../public/concertBackground.png';
 import ArtistTracks from './ArtistTracks';
 import ConcertFriends from './ConcertFriends';
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 
-const Button = styled(MuiButton)(spacing);
+import { convertTime, getWorkingImage } from './utils';
+import { getDateInStringFormat } from '../Card/utils';
 
 const useStyles = makeStyles((theme) => ({
-    CardActionArea: {
+    upperContainer: {
         display: 'flex',
-        backgroundColor: 'white',
-        color: 'black',
-    },
-    CardContent: {
-        color: 'black',
-        width: 160,
-        height: 160,
-    },
-    paperContainer: {
-        backgroundImage: `url(${concertBackground})`,
-    },
-    mainFeaturedPostContent: {
-        position: 'relative',
-        height: 500,
-        padding: theme.spacing(3),
-        [theme.breakpoints.up('md')]: {
-            padding: theme.spacing(6),
-            paddingRight: 0,
-        },
-    },
-    leftBox: {
-        backgroundColor: 'black',
-        height: '300px',
-        padding: '30px',
-    },
-    rightBox: {},
-    button: {
-        margin: theme.spacing(1),
-        borderRadius: '5em',
-    },
-    spotifyFrame: {
-        height: '400px',
-        margin: '20px',
-    },
-
-    detailsElement: {
-        backgroundColor: '#311b92',
-        height: '400px',
-        margin: '20px',
-        direction: 'row',
-        justify: 'center',
-        alignItems: 'center',
-        overflow: 'scroll',
-        padding: '20px',
-    },
-    mainGrid: {
-        direction: 'row',
-        justify: 'center',
-        alignItems: 'center',
-        paddingLeft: '100px',
-    },
-
-    buttonContainer: {
-        display: 'flex',
-        height: '400px',
         justifyContent: 'center',
         alignItems: 'center',
     },
-
+    leftBox: {
+        flexGrow: 3,
+        backgroundColor: 'black',
+        height: '18rem',
+        padding: '1.5rem',
+    },
+    rightBox: {
+        flexGrow: 1,
+        height: '18rem',
+        objectFit: 'cover',
+        verticalAlign: 'text-top',
+    },
+    spotifyFrame: {
+        minHeight: '25rem',
+        margin: '1.8rem 0.75rem 1.5rem 0.75rem',
+    },
+    detailsElement: {
+        flex: '3',
+        backgroundColor: '#311b92',
+        minHeight: '25rem',
+        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
+        padding: '1rem',
+    },
+    container: {
+        display: 'flex',
+        justify: 'center',
+        alignItems: 'center',
+        margin: '0rem 0.75rem 0rem 0.75rem',
+    },
     link: {
         textDecoration: 'inherit',
-        color: 'inherit'
+        color: 'inherit',
     },
-    outlinedButton:{
-        margin: '1rem 0.5rem 1rem 0.5rem',
-        width: '12rem'
+    outlinedButton: {
+        margin: '1rem',
+        width: '12rem',
     },
-    containedButton:{
-        width: '12rem'
-    }
+    containedButton: {
+        width: '12rem',
+    },
+    spotifyButton: {
+        width: '18rem',
+        height: '3.5rem',
+    },
+    icon: {
+        width: '100%',
+        verticalAlign: 'top',
+    },
+    note: {
+        paddingTop: '2rem',
+    },
 }));
 
 export default function ConcertInfo({ single_concert, artistName }) {
     const { getUserData, auth } = useContext(GlobalState);
     const [user, setUser] = auth;
     const [isAttending, setIsAttending] = useState(false);
-
-    const [count, setCount] = useState(true);
 
     useEffect(() => {
         const checkIfAttending = () => {
@@ -108,28 +86,6 @@ export default function ConcertInfo({ single_concert, artistName }) {
             setIsAttending(checkIfAttending());
         }
     }, [single_concert.id, user.id]);
-
-    const convertTime = (time) => {
-        time = time.split(':');
-
-        var hours = Number(time[0]);
-        var minutes = Number(time[1]);
-        var seconds = Number(time[2]);
-
-        var timeValue;
-
-        if (hours > 0 && hours <= 12) {
-            timeValue = '' + hours;
-        } else if (hours > 12) {
-            timeValue = '' + (hours - 12);
-        } else if (hours == 0) {
-            timeValue = '12';
-        }
-
-        timeValue += minutes < 10 ? ':0' + minutes : ':' + minutes;
-        timeValue += hours >= 12 ? ' P.M.' : ' A.M.';
-        return timeValue;
-    };
 
     const addConcert = async (concert) => {
         const userId = user.id;
@@ -147,138 +103,108 @@ export default function ConcertInfo({ single_concert, artistName }) {
         await getUserData();
     };
 
-    const getWorkingImage = (imageArr) => {
-        let workingImages = [];
-        for (let image of imageArr) {
-            if (image.ratio === '3_2') return image.url;
-        }
-    };
-
     const classes = useStyles();
 
+    const svgIcon = (
+        <Icon>
+            <img src="spotify.svg" className={classes.icon} />
+        </Icon>
+    );
+
+    console.log('singleConcert', single_concert);
     return (
         <>
-            <CssBaseline />
-            <main>
-                <div display="flex">
-                    `{' '}
-                    <Grid container>
-                        <Grid item md={8} className={classes.leftBox}>
-                            <Container>
-                                <Typography
-                                    variant="h3"
-                                    color="textPrimary"
-                                    gutterBottom
-                                    bgcolor="text.primary"
-                                >
-                                    {single_concert.name}
-                                </Typography>
-                                {single_concert.dates ? (
-                                    <Typography
-                                        variant="h5"
-                                        color="textPrimary"
-                                        gutterBottom
-                                        bgcolor="text.primary"
-                                    >
-                                        {single_concert.dates.start.localDate}
-                                    </Typography>
-                                ) : null}
-                                {single_concert.url ? (
-                                    <a className={classes.link} href={single_concert.url}>
-                                        <ContainedButton className={classes.containedButton}>
-                                            
-                                                VIEW SEATS
-                                            
-                                        </ContainedButton>
-                                        </a>
-                                  
-                                ) : null}
-                                {!isAttending ? (
-                                    <OutlinedButton variant='outlined' className={classes.outlinedButton}                                    
-                                        onClick={() =>addConcert(single_concert)
-                                        }> I'M ATTENDING</OutlinedButton>
-                                ) : (
-                                    <OutlinedButton
-                                        variant="outlined"
-                                        className={classes.outlinedButton}
-                                        onClick={() =>
-                                            removeConcert(single_concert.id)
-                                        }
-                                    >
-                                        Remove Concert
-                                    </OutlinedButton>
-                                )}
-                            </Container>
-                        </Grid>
-
-                        {single_concert.images ? (
-                            <Grid item md={4} className={classes.rightBox}>
-                                <img
-                                    height="300px"
-                                    src={getWorkingImage(single_concert.images)}
-                                />
-                            </Grid>
-                        ) : null}
-                    </Grid>
-                </div>
-                <div>
-                    <Grid container className={classes.mainGrid}>
-                        <Grid item xs={3} className={classes.detailsElement}>
-                            <Typography
-                                variant="h4"
-                                color="textPrimary"
-                                gutterBottom
-                                bgcolor="text.primary"
-                            >
-                                Venue Details
-                            </Typography>
-                            {single_concert._embedded ? (
-                                <Typography
-                                    variant="h6"
-                                    color="textPrimary"
-                                    gutterBottom
-                                    bgcolor="text.primary"
-                                >
-                                    Venue:{' '}
-                                    {single_concert._embedded.venues[0].name}
-                                </Typography>
-                            ) : null}
-                            {single_concert.dates ? (
-                                <Typography
-                                    variant="h6"
-                                    color="textPrimary"
-                                    gutterBottom
-                                    bgcolor="text.primary"
-                                >
-                                    Start Time:{' '}
-                                    {convertTime(
-                                        single_concert.dates.start.localTime
-                                    )}
-                                </Typography>
-                            ) : null}
-                        </Grid>
-                        <Grid item xs={3} className={classes.detailsElement}>
-                            <ConcertFriends concert={single_concert} />
-                        </Grid>
-
-                        {/*sSpotify Player*/}
-                        <Grid item xs={3} className={classes.spotifyFrame}>
-                            {user.spotifyId ? (
-                                <ArtistTracks artistName={artistName} />
-                            ) : (
-                                <div className={classes.buttonContainer}>
-                                    <Link to="/login" className={classes.link}>
-                                        <ContainedButton>
-                                            Login With Spotify For Artist
-                                            Preview
-                                        </ContainedButton>
-                                    </Link>
-                                </div>
+            <div className={classes.upperContainer}>
+                <div className={classes.leftBox}>
+                    <Typography variant="h4" gutterBottom>
+                        {single_concert.name}
+                    </Typography>
+                    {single_concert.dates ? (
+                        <Typography variant="h5" gutterBottom>
+                            {getDateInStringFormat(
+                                single_concert.dates.start.localDate
                             )}
-                        </Grid>
-                    </Grid>
+                        </Typography>
+                    ) : null}
+                    {single_concert.url ? (
+                        <a className={classes.link} href={single_concert.url}>
+                            <ContainedButton
+                                className={classes.containedButton}
+                            >
+                                VIEW&nbsp;SEATS
+                            </ContainedButton>
+                        </a>
+                    ) : null}
+                    {!isAttending ? (
+                        <OutlinedButton
+                            variant="outlined"
+                            className={classes.outlinedButton}
+                            onClick={() => addConcert(single_concert)}
+                        >
+                            I'M&nbsp;ATTENDING
+                        </OutlinedButton>
+                    ) : (
+                        <OutlinedButton
+                            variant="outlined"
+                            className={classes.outlinedButton}
+                            onClick={() => removeConcert(single_concert.id)}
+                        >
+                            REMOVE&nbsp;CONCERT
+                        </OutlinedButton>
+                    )}
                 </div>
-            </main>
+                {single_concert.images ? (
+                    <img
+                        className={classes.rightBox}
+                        src={getWorkingImage(single_concert.images)}
+                    />
+                ) : null}
+            </div>
+            <div className={classes.container}>
+                <div className={classes.detailsElement}>
+                    <Typography variant="h4" gutterBottom>
+                        Venue Details
+                    </Typography>
+                    {single_concert._embedded ? (
+                        <Typography variant="h6" gutterBottom>
+                            Name:&nbsp;
+                            {single_concert._embedded.venues[0].name}
+                        </Typography>
+                    ) : null}
+                    {single_concert.dates ? (
+                        <Typography variant="h6">
+                            Start Time:&nbsp;
+                            {convertTime(single_concert.dates.start.localTime)}
+                        </Typography>
+                    ) : null}
+                    {single_concert.pleaseNote ? (
+                        <Typography className={classes.note} gutterBottom>
+                            {single_concert.pleaseNote}
+                        </Typography>
+                    ) : null}
+                </div>
+                <div className={classes.detailsElement}>
+                    <ConcertFriends concert={single_concert} />
+                </div>
+
+                {/*sSpotify Player*/}
+                <div className={classes.spotifyFrame}>
+                    {user.spotifyId ? (
+                        <ArtistTracks artistName={artistName} />
+                    ) : (
+                        <div>
+                            <Link to="/login" className={classes.link}>
+                                <ContainedButton
+                                    className={classes.spotifyButton}
+                                    startIcon={svgIcon}
+                                >
+                                    LOGIN WITH SPOTIFY FOR ARTIST PREVIEW
+                                </ContainedButton>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </div>
         </>
     );
 }
