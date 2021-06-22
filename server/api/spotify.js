@@ -12,7 +12,7 @@ const {
     getRecommendedArtists,
 } = require('./utils/spotify');
 
-dotenv.config();
+//dotenv.config();
 
 const redirect_uri =
     process.env.REDIRECT_URI || 'http://localhost:3000/api/spotify/callback';
