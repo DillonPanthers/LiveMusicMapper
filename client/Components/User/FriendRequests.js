@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Typography, Button, Container, makeStyles } from '@material-ui/core';
+import { Typography, Button, Avatar, makeStyles } from '@material-ui/core';
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,12 +10,33 @@ import { socket, SocketContext } from '../../contexts/SocketContext';
 //TODO: Fix with CSS
 const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '2',
+        alignItems: 'flex-start',
+        overflowY: 'scroll',
+    },
     button: {
         color: 'white',
         backgroundColor: 'gray',
         maxHeight: '20px',
         marginRight: '5px',
         marginLeft: '5px',
+    },
+    friend: {
+        margin: '0.5rem',
+    },
+    link: {
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        margin: '0.5rem',
+        textDecoration: 'none',
+    },
+    name: {
+        display: 'flex',
+        alignItems: 'center',
+        color: 'white',
     },
 }));
 
@@ -77,15 +99,22 @@ function FriendRequests() {
         getFriendRequests();
         await getUserData();
     };
+    console.log(friendRequests, 'friend requests here');
 
     return friendRequests.length > 0 ? (
-        <Container>
+        <div className={classes.root}>
             {friendRequests.map((request) => {
                 return (
-                    <Container key={request.userId}>
+                    <div key={request.userId} className={classes.friend}>
                         <Typography>
-                            <Link to={`/user/${request.userId}`}>
-                                {request.userInfo.fullName}
+                            <Link
+                                className={classes.link}
+                                to={`/user/${request.userId}`}
+                            >
+                                <Avatar>{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                                <div className={classes.name}>
+                                    {request.userInfo.fullName}
+                                </div>
                             </Link>
                         </Typography>
                         <Button
@@ -110,10 +139,10 @@ function FriendRequests() {
                         >
                             Block
                         </Button> */}
-                    </Container>
+                    </div>
                 );
             })}
-        </Container>
+        </div>
     ) : (
         <Typography>No pending friend Requests</Typography>
     );
