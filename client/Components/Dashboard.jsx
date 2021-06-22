@@ -6,9 +6,9 @@ import {
     Marker,
     InfoWindow,
 } from '@react-google-maps/api';
+import axios from 'axios';
 
 import { GlobalState } from '../contexts/Store';
-import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../secret';
 import personalizedMarkerIcon from './Map/personalizedMarkerIcon';
 
 //TODO: Use avatars as a grid to show some friends, and a link to all friends
@@ -36,8 +36,18 @@ const Dashboard = () => {
         selectedEventLong: 0,
         selectedVenueName: '',
     });
+    const [googleApiKey, setGoogleApiKey] = useState('');
+    const [googleMapsId, setGoogleMapsId] = useState([]);
 
     useEffect(() => {
+        const grabGoogleInfo = async () => {
+            const {
+                data: { GOOGLE_MAP_KEY, GOOGLE_MAP_ID },
+            } = await axios.get('/api/googlemaps');
+            console.log(GOOGLE_MAP_KEY, 'es');
+            setGoogleApiKey(GOOGLE_MAP_KEY);
+            setGoogleMapsId([GOOGLE_MAP_ID]);
+        };
         const venueObj = (concerts) => {
             return concerts.reduce((venObj, concert) => {
                 const venueName = concert.venueName;
@@ -51,11 +61,12 @@ const Dashboard = () => {
         };
 
         if (user.id) {
-            console.log('concert', user.concerts);
-            console.log('venueObj', venueObj(user.concerts));
+            grabGoogleInfo();
+
             setFriends(user.friends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);
+
             getUserLocation();
             setConcerts(user.concerts.sort(compareDate));
         }
@@ -85,14 +96,14 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
-
+    console.log(googleMapsId);
     return (
         <div style={{ display: 'flex' }}>
             {/*TO DO: USER LOADING SCREEN*/}
             <div style={{ marginRight: '10px' }}>
                 <LoadScript
-                    googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
-                    mapIds={GOOGLE_MAP_ID}
+                    googleMapsApiKey={googleApiKey}
+                    mapIds={googleMapsId}
                 >
                     <GoogleMap
                         onClick={onMapClick}
@@ -105,7 +116,7 @@ const Dashboard = () => {
                         options={{
                             mapTypeControl: false,
                             fullscreenControl: false,
-                            mapId: GOOGLE_MAP_ID,
+                            mapId: googleMapsId,
                         }}
                     >
                         {venues
