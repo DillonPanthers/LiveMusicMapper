@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { TICKETMASTERAPIKEY } from '../../secret';
 
 import { GlobalState } from '../../contexts/Store';
 import ConcertInfo from './ConcertInfo';

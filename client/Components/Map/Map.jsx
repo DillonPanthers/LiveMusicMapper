@@ -7,7 +7,6 @@ import {
 } from '@react-google-maps/api';
 
 import { GlobalState } from '../../contexts/Store';
-import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../../secret';
 
 import Loading from '../Loading/Loading';
 import LoadingOnCard from '../Loading/LoadingOnCard';
@@ -51,7 +50,9 @@ function Map() {
         theRadius,
         mapViews,
         personalization,
+        googleInformation,
     } = useContext(GlobalState);
+
     const [venueDataObj, setVenues] = venues;
     const [locationData, setLocation] = location;
     const [singleVenue, setSingleVenue] = currSingleVenue;
@@ -60,6 +61,7 @@ function Map() {
     const [radius, setRadius] = theRadius;
     const [mapView, setMapView] = mapViews;
     const [personalized, setPersonalized] = personalization;
+    const [googleInfo, setGoogleInfo] = googleInformation;
 
     useEffect(() => {
         const getUserLocation = async () => {
@@ -187,8 +189,8 @@ function Map() {
             {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             {user.spotifyId ? <PersonalizedNavBar /> : <GuestNavBar />}
             <LoadScript
-                googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
-                mapIds={GOOGLE_MAP_ID}
+                googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
+                mapIds={googleInfo.GOOGLE_MAP_ID}
             >
                 <GoogleMap
                     zoom={10}
@@ -206,7 +208,7 @@ function Map() {
                     options={{
                         mapTypeControl: false,
                         fullscreenControl: false,
-                        mapId: GOOGLE_MAP_ID,
+                        mapId: googleInfo.GOOGLE_MAP_ID,
                     }}
                 >
                     {venueDataObj

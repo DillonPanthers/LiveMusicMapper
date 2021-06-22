@@ -18,12 +18,13 @@ import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
 
 const Main = () => {
-    const { auth, getUserData } = useContext(GlobalState);
+    const { auth, getUserData, grabGoogleInfo } = useContext(GlobalState);
     const { attachUserId, socketId } = useContext(SocketContext);
 
     const [user, setUser] = auth;
     useEffect(() => {
         getUserData();
+        grabGoogleInfo();
         if (user.id && socketId) {
             attachUserId(user.id);
         }

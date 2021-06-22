@@ -6,9 +6,9 @@ import {
     Marker,
     InfoWindow,
 } from '@react-google-maps/api';
+import axios from 'axios';
 
 import { GlobalState } from '../contexts/Store';
-import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../secret';
 import personalizedMarkerIcon from './Map/personalizedMarkerIcon';
 
 //TODO: Use avatars as a grid to show some friends, and a link to all friends
@@ -20,7 +20,7 @@ const compareDate = (dateOne, dateTwo) => {
 };
 
 const Dashboard = () => {
-    const { auth, getUserData, location, getUserLocation } =
+    const { auth, getUserData, location, getUserLocation, googleInformation } =
         useContext(GlobalState);
 
     const [user, setUser] = auth;
@@ -30,6 +30,8 @@ const Dashboard = () => {
     const [concerts, setConcerts] = useState([]);
     const [venues, setVenues] = useState({});
     const [text, setText] = useState('Upcoming Concerts');
+    const [googleInfo, setGoogleInfo] = googleInformation;
+
     const [markerState, setMarkerState] = useState({
         isOpen: false,
         selectedEventLat: 0,
@@ -51,11 +53,10 @@ const Dashboard = () => {
         };
 
         if (user.id) {
-            console.log('concert', user.concerts);
-            console.log('venueObj', venueObj(user.concerts));
             setFriends(user.friends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);
+
             getUserLocation();
             setConcerts(user.concerts.sort(compareDate));
         }
@@ -85,14 +86,13 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
-
-    return (
+    return googleInfo.GOOGLE_MAP_KEY.length ? (
         <div style={{ display: 'flex' }}>
             {/*TO DO: USER LOADING SCREEN*/}
             <div style={{ marginRight: '10px' }}>
                 <LoadScript
-                    googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
-                    mapIds={GOOGLE_MAP_ID}
+                    googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
+                    mapIds={googleInfo.GOOGLE_MAP_ID}
                 >
                     <GoogleMap
                         onClick={onMapClick}
@@ -101,11 +101,14 @@ const Dashboard = () => {
                             lat: userLocation.lat,
                             lng: userLocation.lon,
                         }}
-                        mapContainerStyle={{ height: '50vh', width: '50vw' }}
+                        mapContainerStyle={{
+                            height: '50vh',
+                            width: '50vw',
+                        }}
                         options={{
                             mapTypeControl: false,
                             fullscreenControl: false,
-                            mapId: GOOGLE_MAP_ID,
+                            mapId: googleInfo.GOOGLE_MAP_ID,
                         }}
                     >
                         {venues
@@ -176,6 +179,8 @@ const Dashboard = () => {
                 </ul>
             </div>
         </div>
+    ) : (
+        <></>
     );
 };
 
