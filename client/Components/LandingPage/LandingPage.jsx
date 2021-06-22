@@ -7,14 +7,17 @@ import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        position: 'relative',
         width: '85%',
         textAlign: 'center',
-        paddingTop: theme.spacing(10),
+        paddingTop: '10vh',
         [theme.breakpoints.down('xs')]: {
             width: '85%',
         },
         zIndex: '1000',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
     },
     button: {
         margin: theme.spacing(3),
@@ -23,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
         color: 'inherit',
         textDecoration: 'inherit',
     },
+    text: {
+        fontSize: '5rem',
+        lineHeight: '1.15'
+    },
 }));
 
 const LandingPage = () => {
@@ -30,7 +37,7 @@ const LandingPage = () => {
     return (
         <>
             <Container className={classes.container}>
-                <Typography variant="h2">
+                <Typography variant="h2" className={classes.text}>
                     Find live music events for all your favorite bands and
                     artists in your&nbsp;city
                 </Typography>
