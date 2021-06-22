@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const axios = require('axios');
 const dotenv = require('dotenv');
-//dotenv.config();
+dotenv.config();
 
 // GET /api/ticketmaster/concert/:id
 // Route for Single Concert
