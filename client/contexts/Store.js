@@ -14,6 +14,10 @@ const Store = ({ children }) => {
     const [newNotification, setNewNotification] = useState(false);
     const [mapView, setMapView] = useState('');
     const [personalized, setPersonalized] = useState(false);
+    const [googleInfo, setGoogleInfo] = useState({
+        GOOGLE_MAP_KEY: '',
+        GOOGLE_MAP_ID: [],
+    });
 
     const getUserData = async () => {
         const token = window.localStorage.getItem('token');
@@ -37,6 +41,13 @@ const Store = ({ children }) => {
         });
     };
 
+    const grabGoogleInfo = async () => {
+        const {
+            data: { GOOGLE_MAP_KEY, GOOGLE_MAP_ID },
+        } = await axios.get('/api/googlemaps');
+
+        setGoogleInfo({ GOOGLE_MAP_KEY, GOOGLE_MAP_ID: [GOOGLE_MAP_ID] });
+    };
     return (
         <GlobalState.Provider
             value={{
@@ -53,6 +64,8 @@ const Store = ({ children }) => {
                 newNotification: [newNotification, setNewNotification],
                 mapViews: [mapView, setMapView],
                 personalization: [personalized, setPersonalized],
+                googleInfo: [googleInfo, setGoogleInfo],
+                grabGoogleInfo,
             }}
         >
             {children}

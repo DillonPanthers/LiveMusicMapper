@@ -36,18 +36,8 @@ const Dashboard = () => {
         selectedEventLong: 0,
         selectedVenueName: '',
     });
-    const [googleApiKey, setGoogleApiKey] = useState('');
-    const [googleMapsId, setGoogleMapsId] = useState([]);
 
     useEffect(() => {
-        const grabGoogleInfo = async () => {
-            const {
-                data: { GOOGLE_MAP_KEY, GOOGLE_MAP_ID },
-            } = await axios.get('/api/googlemaps');
-            console.log(GOOGLE_MAP_KEY, 'es');
-            setGoogleApiKey(GOOGLE_MAP_KEY);
-            setGoogleMapsId([GOOGLE_MAP_ID]);
-        };
         const venueObj = (concerts) => {
             return concerts.reduce((venObj, concert) => {
                 const venueName = concert.venueName;
@@ -61,8 +51,6 @@ const Dashboard = () => {
         };
 
         if (user.id) {
-            grabGoogleInfo();
-
             setFriends(user.friends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);
@@ -96,7 +84,6 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
-    console.log(googleMapsId);
     return (
         <div style={{ display: 'flex' }}>
             {/*TO DO: USER LOADING SCREEN*/}
