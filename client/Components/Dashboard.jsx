@@ -20,7 +20,7 @@ const compareDate = (dateOne, dateTwo) => {
 };
 
 const Dashboard = () => {
-    const { auth, getUserData, location, getUserLocation } =
+    const { auth, getUserData, location, getUserLocation, googleInformation } =
         useContext(GlobalState);
 
     const [user, setUser] = auth;
@@ -30,6 +30,8 @@ const Dashboard = () => {
     const [concerts, setConcerts] = useState([]);
     const [venues, setVenues] = useState({});
     const [text, setText] = useState('Upcoming Concerts');
+    const [googleInfo, setGoogleInfo] = googleInformation;
+
     const [markerState, setMarkerState] = useState({
         isOpen: false,
         selectedEventLat: 0,
@@ -84,13 +86,13 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
-    return (
+    return googleInfo.GOOGLE_MAP_KEY.length ? (
         <div style={{ display: 'flex' }}>
             {/*TO DO: USER LOADING SCREEN*/}
             <div style={{ marginRight: '10px' }}>
                 <LoadScript
-                    googleMapsApiKey={googleApiKey}
-                    mapIds={googleMapsId}
+                    googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
+                    mapIds={googleInfo.GOOGLE_MAP_ID}
                 >
                     <GoogleMap
                         onClick={onMapClick}
@@ -99,11 +101,14 @@ const Dashboard = () => {
                             lat: userLocation.lat,
                             lng: userLocation.lon,
                         }}
-                        mapContainerStyle={{ height: '50vh', width: '50vw' }}
+                        mapContainerStyle={{
+                            height: '50vh',
+                            width: '50vw',
+                        }}
                         options={{
                             mapTypeControl: false,
                             fullscreenControl: false,
-                            mapId: googleMapsId,
+                            mapId: googleInfo.GOOGLE_MAP_ID,
                         }}
                     >
                         {venues
@@ -174,6 +179,8 @@ const Dashboard = () => {
                 </ul>
             </div>
         </div>
+    ) : (
+        <></>
     );
 };
 

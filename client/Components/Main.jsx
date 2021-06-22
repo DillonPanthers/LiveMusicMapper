@@ -24,6 +24,7 @@ const Main = () => {
     const [user, setUser] = auth;
     useEffect(() => {
         getUserData();
+        grabGoogleInfo();
         if (user.id && socketId) {
             attachUserId(user.id);
         }

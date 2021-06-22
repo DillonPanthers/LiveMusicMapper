@@ -47,6 +47,7 @@ const Store = ({ children }) => {
         } = await axios.get('/api/googlemaps');
 
         setGoogleInfo({ GOOGLE_MAP_KEY, GOOGLE_MAP_ID: [GOOGLE_MAP_ID] });
+        console.log('HELLO');
     };
     return (
         <GlobalState.Provider
@@ -64,7 +65,7 @@ const Store = ({ children }) => {
                 newNotification: [newNotification, setNewNotification],
                 mapViews: [mapView, setMapView],
                 personalization: [personalized, setPersonalized],
-                googleInfo: [googleInfo, setGoogleInfo],
+                googleInformation: [googleInfo, setGoogleInfo],
                 grabGoogleInfo,
             }}
         >
