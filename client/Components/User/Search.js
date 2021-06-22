@@ -52,7 +52,7 @@ const Search = () => {
         }
     };
     return (
-        <Container>
+        <div>
             <form onSubmit={submitSearch}>
                 <label>Find User </label>
                 <TextField
@@ -75,7 +75,7 @@ const Search = () => {
                       </Link>
                   ))
                 : message}
-        </Container>
+        </div>
     );
 };
 
