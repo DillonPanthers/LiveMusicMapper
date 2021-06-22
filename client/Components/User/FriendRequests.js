@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '2',
         alignItems: 'flex-start',
-        overflowY: 'scroll',
     },
     button: {
         color: 'white',
@@ -32,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-evenly',
         margin: '0.5rem',
         textDecoration: 'none',
+        '&:hover': {
+            color: '#1DE9B6',
+        },
     },
     name: {
         display: 'flex',
@@ -99,7 +101,6 @@ function FriendRequests() {
         getFriendRequests();
         await getUserData();
     };
-    console.log(friendRequests, 'friend requests here');
 
     return friendRequests.length > 0 ? (
         <div className={classes.root}>

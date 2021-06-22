@@ -14,9 +14,8 @@ const { genres } = require('./data/genres');
 const init = async () => {
     try {
         await db.sync({ force: true });
-        const [vikki, alejandra, inderprit, craig] = await Promise.all(
-            users.map((user) => User.create(user))
-        );
+        const [vikki, alejandra, inderprit, craig, max, mango, water] =
+            await Promise.all(users.map((user) => User.create(user)));
 
         const [concert] = await Promise.all(
             concerts.map((concert) => {
@@ -26,6 +25,12 @@ const init = async () => {
 
         await vikki.addConcert(concert);
         await vikki.addFriend(alejandra);
+        await craig.addFriend(alejandra);
+        await inderprit.addFriend(alejandra);
+        await mango.addFriend(alejandra);
+        await max.addFriend(alejandra);
+        await water.addFriend(alejandra);
+        await max.addFriend(inderprit);
 
         await Promise.all(genres.map((genre) => Genre.create(genre)));
 

@@ -42,6 +42,27 @@ const users = [
         password: '1234',
         isAdmin: true,
     },
+    {
+        firstName: 'Max',
+        lastName: 'Dog',
+        email: 'maxdog@gmail.com',
+        password: '1234',
+        isAdmin: true,
+    },
+    {
+        firstName: 'Mango',
+        lastName: 'Cat',
+        email: 'mangocat@gmail.com',
+        password: '1234',
+        isAdmin: true,
+    },
+    {
+        firstName: 'Water',
+        lastName: 'Bottle',
+        email: 'waterbottle@gmail.com',
+        password: '1234',
+        isAdmin: true,
+    },
 ];
 
 module.exports = { users };
