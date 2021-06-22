@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { GlobalState } from '../../contexts/Store';
-import { Typography, Container, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Typography, makeStyles } from '@material-ui/core';
 
 import FriendRequests from './FriendRequests';
 import Search from './Search';
@@ -14,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
     right: {
         display: 'flex',
-        flex: '2',
+        flex: '1',
         flexDirection: 'column',
         margin: '.75rem',
         height: '87vh',
@@ -24,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
         flex: '2',
         margin: '.75rem',
         height: '87vh',
+        padding: '0.75rem',
+        overflowY: 'scroll',
     },
     search: {
         display: 'flex',
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         textDecoration: 'underline',
+        padding: '0.75rem',
     },
 }));
 
