@@ -12,13 +12,15 @@ const {
     getRecommendedArtists,
 } = require('./utils/spotify');
 
-//dotenv.config();
+dotenv.config();
 
 const redirect_uri =
     process.env.REDIRECT_URI || 'http://localhost:3000/api/spotify/callback';
 const SPOTIFY_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SCOPES = process.env.SCOPES;
+const AUTH_REDIRECT =
+    process.env.AUTH_REDIRECT || 'http://localhost:3000/#/auth/';
 
 // GET /api/spotify/login
 router.get('/login', (req, res, next) => {
@@ -146,9 +148,8 @@ router.get('/callback', async (req, res, next) => {
             });
         }
         const jwtToken = await User.generateToken(user.id);
-
         res.redirect(
-            `http://localhost:3000/#/auth/${qs.stringify({
+            `${AUTH_REDIRECT}${qs.stringify({
                 access_token,
                 refresh_token,
                 jwtToken,
