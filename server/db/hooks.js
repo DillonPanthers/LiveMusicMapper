@@ -1,11 +1,5 @@
 //Import models here from relationships.js
-const {
-    Concert,
-    Genre,
-    User,
-    Friendship,
-    FriendRequest,
-} = require('./relationships');
+const { Concert, Genre, User, Friendship } = require('./relationships');
 
 User.findUser = (id) => {
     return User.findByPk(id, {
@@ -57,4 +51,4 @@ User.deleteConcert = async (userId, concertId) => {
     await user.removeConcert(concertId);
 };
 //Export models here and into index.js
-module.exports = { Concert, Genre, User, Friendship, FriendRequest };
+module.exports = { Concert, Genre, User, Friendship };

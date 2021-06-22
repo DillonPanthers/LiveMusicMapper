@@ -6,7 +6,6 @@ import {
     Marker,
     InfoWindow,
 } from '@react-google-maps/api';
-import axios from 'axios';
 
 import { GlobalState } from '../contexts/Store';
 import personalizedMarkerIcon from './Map/personalizedMarkerIcon';

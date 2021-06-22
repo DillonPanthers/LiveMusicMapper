@@ -1,11 +1,4 @@
-const {
-    db,
-    Concert,
-    Genre,
-    User,
-    Friendship,
-    FriendRequest,
-} = require('../server/db/index'); // import models from index so we have access to hooks and magic methods
+const { db, Concert, Genre, User, Friendship } = require('../server/db/index'); // import models from index so we have access to hooks and magic methods
 
 const { users } = require('./data/users');
 const { concerts } = require('./data/concerts');
