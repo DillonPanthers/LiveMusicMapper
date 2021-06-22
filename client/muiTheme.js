@@ -9,10 +9,29 @@ const theme = createMuiTheme({
             fontSize: '5rem',
             lineHeight: '1.15',
         },
+        h3: {
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 'bold',
+            color: '#FFFFFF',
+        },
         h4: {
             fontFamily: 'Montserrat, sans-serif',
             fontWeight: 'bold',
             color: '#FFFFFF',
+        },
+        h5: {
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 'bold',
+            color: '#FFFFFF',
+        },
+        h6: {
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 'bold',
+            color: '#FFFFFF',
+            lineHeight: '1.15',
+        },
+        caption: {
+            fontSize: '0.75rem',
         },
     },
     palette: {

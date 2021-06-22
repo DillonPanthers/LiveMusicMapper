@@ -22,12 +22,7 @@ export const getEvents = async (locationData, radius, genre) => {
     }
 };
 
-export const getTopArtistsEvents = async (
-    user,
-    locationData,
-    radius,
-    TICKETMASTERAPIKEY
-) => {
+export const getTopArtistsEvents = async (user, locationData, radius) => {
     try {
         let { artists } = user;
         let events = [];
@@ -37,7 +32,6 @@ export const getTopArtistsEvents = async (
                 artists,
                 'keyword',
                 latlong,
-                TICKETMASTERAPIKEY,
                 radius
             );
         }
@@ -50,8 +44,7 @@ export const getTopArtistsEvents = async (
 export const getRecommendedArtistsEvents = async (
     user,
     locationData,
-    radius,
-    TICKETMASTERAPIKEY
+    radius
 ) => {
     try {
         let { recommendedArtists } = user;
@@ -62,7 +55,6 @@ export const getRecommendedArtistsEvents = async (
                 recommendedArtists,
                 'keyword',
                 latlong,
-                TICKETMASTERAPIKEY,
                 radius
             );
         }
@@ -72,12 +64,7 @@ export const getRecommendedArtistsEvents = async (
     }
 };
 
-export const getTopGenresEvents = async (
-    user,
-    locationData,
-    radius,
-    TICKETMASTERAPIKEY
-) => {
+export const getTopGenresEvents = async (user, locationData, radius) => {
     try {
         let { ticketmasterGenres } = user;
         let events = [];
@@ -87,7 +74,6 @@ export const getTopGenresEvents = async (
                 ticketmasterGenres,
                 'classificationName',
                 latlong,
-                TICKETMASTERAPIKEY,
                 radius
             );
         }
@@ -97,13 +83,7 @@ export const getTopGenresEvents = async (
     }
 };
 
-const callTicketmasterApi = async (
-    object,
-    parameterType,
-    latlong,
-    TICKETMASTERAPIKEY,
-    radius
-) => {
+const callTicketmasterApi = async (object, parameterType, latlong, radius) => {
     let array = Object.keys(object);
     console.log(array);
     let events = [];

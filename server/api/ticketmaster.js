@@ -33,7 +33,6 @@ router.get('/genres', async (req, res, next) => {
 });
 
 // GET /api/ticketmaster/spotify-user
-
 router.get('/spotify-user', async (req, res, next) => {
     try {
         const { parameterType, name, latlong, radius } = req.query;

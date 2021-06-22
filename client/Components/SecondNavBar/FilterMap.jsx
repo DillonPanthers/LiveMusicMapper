@@ -6,6 +6,7 @@ import { GlobalState } from '../../contexts/Store';
 import { getVenueObject, getEvents } from './utils';
 
 import OutlinedButton from '../StyledComponents/OutlinedButton';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 
 const useStyles = makeStyles((theme) => ({
     menu: {
@@ -36,6 +37,7 @@ const Filter = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState();
     const [genreList, setGenres] = useState([]);
+    const [eventsLoading, setEventsLoading] = useState(false);
 
     const { location, venues, genres, theRadius, mapViews, personalization } =
         useContext(GlobalState);
@@ -77,20 +79,22 @@ const Filter = () => {
         genre !== '' ? `: ${getGenreName(genre, genreList)}` : '';
 
     const filterMapData = async (event) => {
+        setEventsLoading(true);
+
         const { myValue } = event.currentTarget.dataset;
-
         const events = await getEvents(locationData, radius, myValue);
-
         const venueObj = await getVenueObject(events);
 
         setGenre(myValue);
         setVenues(venueObj);
         setMapView('');
         setPersonalized(false);
+        setEventsLoading(false);
     };
 
     return (
         <>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             <OutlinedButton
                 className={classes.button}
                 variant="outlined"

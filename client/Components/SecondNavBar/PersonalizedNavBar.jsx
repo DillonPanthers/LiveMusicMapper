@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
 
-import { TICKETMASTERAPIKEY } from '../../secret';
 import { GlobalState } from '../../contexts/Store';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 
 import {
     getEvents,
@@ -88,38 +88,40 @@ const PersonalizedNavBar = (props) => {
         </Icon>
     );
 
+    const [eventsLoading, setEventsLoading] = useState(false);
+
     const getAllEvents = async () => {
+        setEventsLoading(true);
         setGenre('');
         genre = '';
         let tmEvents = await getEvents(locationData, radius, genre);
 
         const venueObj = await getVenueObject(tmEvents);
+
         setVenues(venueObj);
         setMapView('');
         setPersonalized(false);
+        setEventsLoading(false);
     };
 
     const getAllTopArtistsEvents = async () => {
-        let tmEvents = await getTopArtistsEvents(
-            user,
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY
-        );
+        setEventsLoading(true);
+        let tmEvents = await getTopArtistsEvents(user, locationData, radius);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
         setMapView('topArtists');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     const getAllRecommendedArtistsEvents = async () => {
+        setEventsLoading(true);
         let tmEvents = await getRecommendedArtistsEvents(
             user,
             locationData,
-            radius,
-            TICKETMASTERAPIKEY
+            radius
         );
 
         const venueObj = await getVenueObject(tmEvents);
@@ -127,25 +129,24 @@ const PersonalizedNavBar = (props) => {
         setMapView('recommendedArtists');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     const getAllTopGenres = async () => {
-        let tmEvents = await getTopGenresEvents(
-            user,
-            locationData,
-            radius,
-            TICKETMASTERAPIKEY
-        );
+        setEventsLoading(true);
+        let tmEvents = await getTopGenresEvents(user, locationData, radius);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
         setMapView('topGenres');
         setPersonalized(true);
         setGenre('');
+        setEventsLoading(false);
     };
 
     return (
         <div>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.root}>
                     <OutlinedButton

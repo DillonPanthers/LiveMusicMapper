@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
     GoogleMap,
     LoadScript,
@@ -8,13 +7,10 @@ import {
 } from '@react-google-maps/api';
 
 import { GlobalState } from '../../contexts/Store';
-import {
-    TICKETMASTERAPIKEY,
-    REACT_APP_GOOGLEAPIKEY,
-    GOOGLE_MAP_ID,
-} from '../../secret';
+import { REACT_APP_GOOGLEAPIKEY, GOOGLE_MAP_ID } from '../../secret';
 
 import Loading from '../Loading/Loading';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 import Sidebar from '../Sidebar/Sidebar';
 import GuestNavBar from '../SecondNavBar/GuestNavBar';
 import PersonalizedNavBar from '../SecondNavBar/PersonalizedNavBar';
@@ -32,6 +28,8 @@ import markerIcon from './markerIcon';
 // Marker colors for non-personalized events are aqua
 import personalizedMarkerIcon from './personalizedMarkerIcon';
 
+import './InfoWindow.scss';
+
 function Map() {
     const [state, setState] = useState({
         selectedEventLat: 0,
@@ -42,6 +40,7 @@ function Map() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [initialCall, setInitialCall] = useState(true);
+    const [eventsLoading, setEventsLoading] = useState(true);
 
     const {
         currSingleVenue,
@@ -75,41 +74,36 @@ function Map() {
         };
 
         const getVenueData = async () => {
-            // call ticketmaster API data using fields based on map view setting
+            setEventsLoading(true);
             let tmEvents;
 
             if (mapView === '') {
                 tmEvents = await getEvents(locationData, radius, genre);
             }
+
             if (mapView === 'topArtists') {
                 tmEvents = await getTopArtistsEvents(
                     user,
                     locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
+                    radius
                 );
             }
             if (mapView === 'recommendedArtists') {
                 tmEvents = await getRecommendedArtistsEvents(
                     user,
                     locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
+                    radius
                 );
             }
             if (mapView === 'topGenres') {
-                tmEvents = await getTopGenresEvents(
-                    user,
-                    locationData,
-                    radius,
-                    TICKETMASTERAPIKEY
-                );
+                tmEvents = await getTopGenresEvents(user, locationData, radius);
             }
 
             // take ticketmaster data and convert it to an object with venues as the keys. Each venue will have its own object containing keys for venue information and events
             const venueObj = await getVenueObject(tmEvents);
 
             setVenues(venueObj);
+            setEventsLoading(false);
         };
 
         if (locationData.lon && locationData.lat) {
@@ -185,10 +179,12 @@ function Map() {
     };
 
     const marker = personalized ? personalizedMarkerIcon : markerIcon;
+
     return isLoading ? (
         <Loading loading={isLoading} />
     ) : (
         <div>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             {user.spotifyId ? <PersonalizedNavBar /> : <GuestNavBar />}
             <LoadScript
                 googleMapsApiKey={REACT_APP_GOOGLEAPIKEY}
@@ -247,11 +243,7 @@ function Map() {
                                 lng: state.selectedEventLong,
                             }}
                         >
-                            <div>
-                                <Link to={`/venue/${singleVenue.venueData.id}`}>
-                                    {state.selectedEventName}
-                                </Link>
-                            </div>
+                            <div>{state.selectedEventName}</div>
                         </InfoWindow>
                     )}
                 </GoogleMap>

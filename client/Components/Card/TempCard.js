@@ -16,27 +16,55 @@ import {
 import axios from 'axios';
 
 import { GlobalState } from '../../contexts/Store';
+import { getDateInStringFormat, getConcertImage } from './utils';
 
-const useStyles = makeStyles({
-    root: {
-        width: '16rem',
-        marginTop: 10,
-        marginBottom: 10,
-        color: 'white',
-        backgroundColor: '#000A47',
-        '&:hover': {
-            boxShadow: '2px 2px 5px #01072a',
+import OutlinedButton from '../StyledComponents/OutlinedButton';
+
+const useStyles = makeStyles((theme) => {
+    const hexColor = theme.palette.text.primary;
+
+    return {
+        root: {
+            width: '16rem',
+            marginTop: 10,
+            marginBottom: 10,
+            color: 'white',
+            backgroundColor: '#000A47',
+            '&:hover': {
+                boxShadow: '2px 2px 5px #01072a',
+            },
         },
-    },
-    media: {
-        height: 140,
-    },
-    heart: {
-        color: 'pink',
-    },
-    clear: {
-        color: 'red',
-    },
+        media: {
+            height: 140,
+            objectFit: 'contain',
+            position: 'top',
+        },
+        heart: {
+            color: 'pink',
+        },
+        clear: {
+            color: 'red',
+        },
+        link: {
+            marginTop: '1rem',
+            textDecoration: 'inherit',
+            color: 'inherit',
+            width: '100%',
+        },
+        outlinedButton: {
+            height: '2.25rem',
+            fontSize: '0.65rem',
+            marginBottom: '1rem',
+            color: hexColor,
+            borderColor: hexColor,
+            padding: '0 20px',
+        },
+        cardActions: {
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: '#363073',
+        },
+    };
 });
 
 export default function TempCard({ concertData, isAttending }) {
@@ -65,33 +93,21 @@ export default function TempCard({ concertData, isAttending }) {
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
-                        image="https://www.ravejungle.com/wp-content/uploads/2018/09/rave-ravejungle-696x464-696x464.jpg"
+                        image={getConcertImage(concertData)}
                         title="glass"
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h6" component="h2">
                             {concertData.name}
                         </Typography>
-                        <Typography>
-                            Start Date: {concertData.dates.start.localDate}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                        >
-                            <Link
-                                to={`/concert/${concertData.id}`}
-                                onClick={() => {
-                                    setCurrConcert(concertData);
-                                }}
-                            >
-                                Click here to get to single concert page
-                            </Link>
+                        <Typography variant="caption">
+                            {getDateInStringFormat(
+                                concertData.dates.start.localDate
+                            )}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions className={classes.cardActions}>
                     {user.id ? (
                         !isAttending ? (
                             <IconButton onClick={() => addConcert(concertData)}>
@@ -105,10 +121,29 @@ export default function TempCard({ concertData, isAttending }) {
                             </IconButton>
                         )
                     ) : (
-                        <Link to="/login">
-                            <Typography>login to add concert</Typography>
+                        <Link to={`/login`} className={classes.link}>
+                            <OutlinedButton
+                                variant="outlined"
+                                className={classes.outlinedButton}
+                            >
+                                LOG IN TO SAVE&nbsp;EVENT
+                            </OutlinedButton>
                         </Link>
-                    )}
+                    )}{' '}
+                    <Link
+                        to={`/concert/${concertData.id}`}
+                        onClick={() => {
+                            setCurrConcert(concertData);
+                        }}
+                        className={classes.link}
+                    >
+                        <OutlinedButton
+                            variant="outlined"
+                            className={classes.outlinedButton}
+                        >
+                            SEE&nbsp;EVENT DETAILS
+                        </OutlinedButton>
+                    </Link>
                 </CardActions>
             </Card>
         )

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, AppBar, Toolbar, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import { GlobalState } from '../../contexts/Store';
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 import Filter from './FilterMap';
+import LoadingOnCard from '../Loading/LoadingOnCard';
 
 import { getEvents, getVenueObject } from './utils';
 
@@ -65,6 +66,8 @@ const GuestNavBar = (props) => {
     const [radius, setRadius] = theRadius;
     let [genre, setGenre] = genres;
 
+    const [eventsLoading, setEventsLoading] = useState(false);
+
     const svgIcon = (
         <Icon>
             <img src="spotify.svg" className={classes.icon} />
@@ -72,16 +75,19 @@ const GuestNavBar = (props) => {
     );
 
     const getAllEvents = async () => {
+        setEventsLoading(true);
         setGenre('');
         genre = '';
         let tmEvents = await getEvents(locationData, radius, genre);
 
         const venueObj = await getVenueObject(tmEvents);
         setVenues(venueObj);
+        setEventsLoading(false);
     };
 
     return (
         <div>
+            {eventsLoading ? <LoadingOnCard loading={eventsLoading} /> : <></>}
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.root}>
                     <OutlinedButton
