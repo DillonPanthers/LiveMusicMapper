@@ -14,7 +14,7 @@ const { genres } = require('./data/genres');
 const init = async () => {
     try {
         await db.sync({ force: true });
-        const [vikki, alejandra, inderprit, craig, max, mango, water] =
+        const [vikki, alejandra, craig, inderprit, max, mango, water] =
             await Promise.all(users.map((user) => User.create(user)));
 
         const [concert] = await Promise.all(

@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
         flexBasis: '30%',
         margin: '.6rem',
     },
+    
+    avatar: {
+        width: '75px',
+        height: '75px',
+    }
 }));
 
 const FriendsList = ({ friends }) => {
@@ -54,7 +59,7 @@ const FriendsList = ({ friends }) => {
                                 to={`/user/${friend.id}`}
                                 className={classes.link}
                             >
-                                <Avatar src="/public/profile_pic_placeholder.png">{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
+                                <Avatar className = {classes.avatar} src="/public/profile_pic_placeholder.png">{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
                                 {`${friend.firstName} ${friend.lastName}`}
                             </Link>
                         </div>
