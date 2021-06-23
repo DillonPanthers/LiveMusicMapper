@@ -11,13 +11,52 @@ import { makeStyles } from '@material-ui/core';
 import { GlobalState } from '../../contexts/Store';
 import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
 import Header from './Header';
+import FriendsList from '../User/FriendsList';
 
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
         display: 'flex',
         flexDirection: 'column',
         height: '90vh',
-        border: '1px solid white',
+        overflowY: 'scroll',
+    },
+
+    lowerContainer: {
+        display: 'flex',
+        height: '85vh',
+    },
+
+    right: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '2',
+        marginLeft: '.5rem',
+        marginRight: '1rem',
+    },
+
+    left: {
+        marginLeft: '1rem',
+        marginRight: '.5rem',
+        flex: '1',
+        backgroundColor: '#382B71',
+        padding: '.5rem',
+    },
+    map: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    friends: {
+        display: 'flex',
+        backgroundColor: '#382B71',
+        marginTop: '1.5rem',
+    },
+
+    list: {
+        flex: '2',
+    },
+
+    button: {
+        flex: '1',
     },
 }));
 
@@ -63,7 +102,8 @@ const Dashboard = () => {
         };
 
         if (user.id) {
-            setFriends(user.friends);
+            const userFriends = user.friends.slice(0, 3);
+            setFriends(userFriends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);
 
@@ -98,19 +138,86 @@ const Dashboard = () => {
     };
     return googleInfo.GOOGLE_MAP_KEY.length ? (
         <div className={classes.outerContainer}>
-            <Header userInfo={user} />
-            <div style={{ display: 'flex' }}>
-                {/*TO DO: USER LOADING SCREEN*/}
-                <div style={{ marginRight: '10px' }}></div>
-                <div>
-                    <p>{`${text} (${numConcerts})`}</p>
-                    <ul>
-                        {concerts.map((concert) => (
-                            <li
-                                key={concert.id}
-                            >{`${concert.name} (${concert.date})`}</li>
-                        ))}
-                    </ul>
+            <Header userInfo={user} /> {/*Upper Div*/}
+            <div className={classes.lowerContainer}>
+                <div className={classes.left}>Left</div>
+                <div className={classes.right}>
+                    <div className={classes.map}>
+                        <LoadScript
+                            googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
+                            mapIds={googleInfo.GOOGLE_MAP_ID}
+                        >
+                            <GoogleMap
+                                onClick={onMapClick}
+                                zoom={10}
+                                center={{
+                                    lat: userLocation.lat,
+                                    lng: userLocation.lon,
+                                }}
+                                mapContainerStyle={{
+                                    height: '60vh',
+                                    width: '75vw',
+                                }}
+                                options={{
+                                    mapTypeControl: false,
+                                    fullscreenControl: false,
+                                    mapId: googleInfo.GOOGLE_MAP_ID,
+                                }}
+                            >
+                                {venues
+                                    ? Object.keys(venues).map((venue, idx) => {
+                                          if (venues[venue][0].lat) {
+                                              return (
+                                                  <Marker
+                                                      key={venues[venue][0].id}
+                                                      onClick={() =>
+                                                          onMarkerPopup(
+                                                              venues[venue][0]
+                                                                  .lat,
+                                                              venues[venue][0]
+                                                                  .lon,
+                                                              venue,
+                                                              venues[venue]
+                                                          )
+                                                      }
+                                                      position={{
+                                                          lat: +venues[venue][0]
+                                                              .lat,
+                                                          lng: +venues[venue][0]
+                                                              .lon,
+                                                      }}
+                                                      icon={
+                                                          personalizedMarkerIcon
+                                                      }
+                                                  />
+                                              );
+                                          }
+                                      })
+                                    : null}
+
+                                {markerState.isOpen && (
+                                    <InfoWindow
+                                        position={{
+                                            lat: markerState.selectedEventLat,
+                                            lng: markerState.selectedEventLong,
+                                        }}
+                                    >
+                                        <div style={{ color: 'black' }}>
+                                            {/* <Link to={`/venue/${singleVenue.venueData.id}`}> */}
+                                            {markerState.selectedVenueName}
+                                            {/* </Link> */}
+                                        </div>
+                                    </InfoWindow>
+                                )}
+                            </GoogleMap>
+                        </LoadScript>
+                    </div>
+                    <div className={classes.friends}>
+                        <div className={classes.list}>
+                            <FriendsList friends={friends} />
+                        </div>
+                        <div className={classes.button}>hello</div>
+                    </div>
                 </div>
             </div>
         </div>
