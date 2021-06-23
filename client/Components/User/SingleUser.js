@@ -1,13 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import {
-    Button,
-    Container,
-    Typography,
-    makeStyles,
-    Avatar,
-    Icon,
-    Link,
-} from '@material-ui/core';
+import { Typography, makeStyles, Avatar, Icon, Link } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -22,7 +14,6 @@ import OutlinedButton from '../StyledComponents/OutlinedButton';
 const useStyles = makeStyles((theme) => ({
     upperContainer: {
         display: 'flex',
-        alignItems: 'center',
         backgroundColor: 'black',
         padding: '.75rem',
         height: '10rem',
@@ -53,11 +44,11 @@ const useStyles = makeStyles((theme) => ({
     outlinedButton: {
         margin: '1rem',
         height: '2.5rem',
-        width: '12rem',
+        width: '8rem',
     },
     containedButton: {
         height: '2.5rem',
-        width: '12rem',
+        width: '8rem',
     },
 
     spotifyIcon: {
@@ -66,6 +57,18 @@ const useStyles = makeStyles((theme) => ({
 
     link: {
         marginTop: '.6rem',
+    },
+    text: {
+        display: 'flex',
+        marginLeft: '.5rem',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
+    userInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0.5rem',
     },
 }));
 
@@ -183,9 +186,12 @@ function SingleUser(props) {
                             />
                             <div className={classes.preview}>
                                 <div className={classes.spotifyIcon}>
-                                    <Typography variant="h4">
-                                        {`${user.firstName} ${user.lastName}`}
-                                    </Typography>
+                                    <div className={classes.userInfo}>
+                                        <Typography variant="h4">
+                                            {`${user.firstName} ${user.lastName}`}
+                                        </Typography>
+                                        <Typography>{`Attending ${user.concerts.length} Events |  ${theMutualFriends.length} Mutual Friends`}</Typography>
+                                    </div>
                                     {user.spotifyId &&
                                     (user.isPublic ||
                                         friendship === 'friends') ? (
@@ -206,49 +212,67 @@ function SingleUser(props) {
                                         <></>
                                     )}
                                 </div>
-                                <Typography variant="subtitle1">{`Attending ${user.concerts.length} Events |  ${theMutualFriends.length} Mutual Friends`}</Typography>
-                                {user.spotifyId ? (
-                                    <Typography variant="subtitle1">{`Top Genre: ${
-                                        Object.keys(user.ticketmasterGenres)[0]
-                                    }`}</Typography>
-                                ) : (
+                                {friendship === 'friends' ? (
                                     <></>
+                                ) : (
+                                    <div>
+                                        <ContainedButton
+                                            onClick={onButtonClick}
+                                            variant="contained"
+                                            className={classes.containedButton}
+                                        >
+                                            {friendship === 'notFriends'
+                                                ? 'add friend'
+                                                : friendship === 'sentRequest'
+                                                ? 'requested'
+                                                : 'accept friend'}
+                                        </ContainedButton>
+                                        {friendship === 'recievedRequest' ? (
+                                            <OutlinedButton
+                                                onClick={() =>
+                                                    rejectFriend(user)
+                                                }
+                                                variant="outlined"
+                                                className={
+                                                    classes.outlinedButton
+                                                }
+                                            >
+                                                Reject
+                                            </OutlinedButton>
+                                        ) : null}
+                                    </div>
                                 )}
                             </div>
                         </div>
-                        {friendship === 'friends' ? (
-                            <></>
-                        ) : (
-                            <div>
-                                <ContainedButton
-                                    onClick={onButtonClick}
-                                    variant="contained"
-                                    className={classes.containedButton}
-                                >
-                                    {friendship === 'notFriends'
-                                        ? 'add friend'
-                                        : friendship === 'sentRequest'
-                                        ? 'requested'
-                                        : 'accept friend'}
-                                </ContainedButton>
-                                {friendship === 'recievedRequest' ? (
-                                    <OutlinedButton
-                                        onClick={() => rejectFriend(user)}
-                                        variant="outlined"
-                                        className={classes.outlinedButton}
-                                    >
-                                        Reject
-                                    </OutlinedButton>
-                                ) : null}
-                            </div>
-                        )}
+
+                        <div className={classes.text}>
+                            {user.spotifyId ? (
+                                <>
+                                    <Typography>{`Top Genre: ${
+                                        Object.keys(user.ticketmasterGenres)[0]
+                                    }`}</Typography>
+                                    <Typography>{`Top Artists: ${Object.keys(
+                                        user.artists
+                                    )
+                                        .slice(0, 3)
+                                        .join(' | ')}`}</Typography>
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
                     </div>
                     <div>
                         {/*user profile */}
                         {isProfile ? (
                             <Redirect to="/dashboard" />
                         ) : friendship === 'friends' || user.isPublic ? (
-                            <UserInfo />
+                            <UserInfo
+                                concerts={user.concerts}
+                                friends={user.friends}
+                                currUserFriends={currentUser.friends}
+                                userId={user.id}
+                            />
                         ) : (
                             <div>Private Profile</div>
                         )}
