@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         flex: '1',
     },
+
+    link: {
+        marginTop: '.75rem',
+    },
 }));
 
 const Header = ({ userInfo }) => {
@@ -62,6 +66,7 @@ const Header = ({ userInfo }) => {
                         target="_blank"
                         rel="noreferrer"
                         href={`http://open.spotify.com/user/${userInfo.spotifyId}`}
+                        className={classes.link}
                     >
                         <Icon color="primary">
                             <img
