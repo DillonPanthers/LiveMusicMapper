@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Typography, makeStyles } from '@material-ui/core';
 
+import ContainedButton from '../StyledComponents/ContainedButton';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FriendsList = ({ friends, numOfFriends, text }) => {
     const classes = useStyles();
+    const filteredFriends = friends.filter(friend => friend.friendship.status === "accepted");
     const friendsNum = numOfFriends ? numOfFriends : friends.length;
     return friends.length ? (
         <>
@@ -49,11 +52,11 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {text} {`(${friendsNum})`}
+                {text} {`(${filteredFriends.length})`}
             </Typography>
             <div className={classes.root}>
-                {friends.map((friend) => {
-                    return friend.friendship.status === 'accepted' ? (
+                {filteredFriends.map((friend) => {
+                    return (
                         <div key={friend.id} className={classes.individual}>
                             <Link
                                 to={`/user/${friend.id}`}
@@ -65,8 +68,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                                 >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
                                 {`${friend.firstName} ${friend.lastName}`}
                             </Link>
-                        </div>
-                    ) : null;
+                        </div>)
                 })}
             </div>{' '}
         </>
@@ -78,7 +80,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {'No Friends :('}
+                {'No Mutual Friends :('}
             </Typography>
         </div>
     );
