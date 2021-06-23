@@ -10,6 +10,7 @@ import { mutualFriends } from '../../contexts/concertUtil';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
+import SpotifyBadge from '../StyledComponents/SpotifyBadge';
 
 const useStyles = makeStyles((theme) => ({
     upperContainer: {
@@ -180,10 +181,19 @@ function SingleUser(props) {
                 <>
                     <div className={classes.upperContainer}>
                         <div className={classes.info}>
-                            <Avatar
-                                className={classes.avatar}
-                                src={user.imageUrl}
-                            />
+                            {user.spotifyId &&
+                            (user.isPublic || friendship === 'friends') ? (
+                                <SpotifyBadge
+                                    spotifyId={user.spotifyId}
+                                    imageUrl={user.imageUrl}
+                                />
+                            ) : (
+                                <Avatar
+                                    className={classes.avatar}
+                                    src={user.imageUrl}
+                                />
+                            )}
+
                             <div className={classes.preview}>
                                 <div className={classes.spotifyIcon}>
                                     <div className={classes.userInfo}>
@@ -192,25 +202,6 @@ function SingleUser(props) {
                                         </Typography>
                                         <Typography>{`Attending ${user.concerts.length} Events |  ${theMutualFriends.length} Mutual Friends`}</Typography>
                                     </div>
-                                    {user.spotifyId &&
-                                    (user.isPublic ||
-                                        friendship === 'friends') ? (
-                                        <Link
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            href={`http://open.spotify.com/user/${user.spotifyId}`}
-                                            className={classes.link}
-                                        >
-                                            <Icon color="primary">
-                                                <img
-                                                    className={classes.spotify}
-                                                    src="Spotify_Icon_RGB_Green.png"
-                                                />
-                                            </Icon>
-                                        </Link>
-                                    ) : (
-                                        <></>
-                                    )}
                                 </div>
                                 {friendship === 'friends' ? (
                                     <></>
