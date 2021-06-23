@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import NavBar from './NavBar';
@@ -8,6 +8,7 @@ import Auth from './Login/Auth';
 import Dashboard from './Dashboard/Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
+import SignUp from './SignUp/SignUp';
 import SingleVenue from './Venues/SingleVenue';
 import SingleUser from './User/SingleUser';
 import FriendRequests from './User/FriendRequests';
@@ -40,6 +41,7 @@ const Main = () => {
                     <Route exact component={Auth} path="/auth/:token" />
                     <Route exact component={Dashboard} path="/dashboard" />
                     <Route exact component={Login} path="/login" />
+                    <Route exact component={SignUp} path="/signup" />
                     <Route exact component={SingleVenue} path="/venue/:id" />
                     <Route exact component={SingleUser} path="/user/:id" />
                     <Route exact component={Search} path="/search" />

@@ -95,7 +95,9 @@ const NavBar = (props) => {
                                     </Link>
                                 </Button>
                                 <Button className={classes.button}>
-                                    Sign&nbsp;up
+                                    <Link to="/signup" className={classes.link}>
+                                        Sign&nbsp;up
+                                    </Link>
                                 </Button>
                             </>
                         )}
