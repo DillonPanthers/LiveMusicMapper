@@ -32,7 +32,7 @@ const Loading = ({ loading }) => {
         <div className={classes.root}>
             <Card className={classes.card}>
                 <BounceLoader color={'#1DE9B6'} loading={loading} size={50} />
-                <Typography className={classes.text}>Loading...</Typography>
+                <Typography className={classes.text}>Loading</Typography>
             </Card>
         </div>
     );
