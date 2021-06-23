@@ -1,44 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Paper, Typography, Avatar } from '@material-ui/core';
+import { Paper, Typography, Avatar } from '@material-ui/core';
 
 const ConcertFriendsList = ({ classes, friends }) => {
     return (
         <>
             {friends.length ? (
                 <>
-                    <Typography
-                        variant="h6"
-                        color="secondary"
-                        className={classes.headline}
-                    >
-                        FRIENDS ATTENDING
+                    <Typography variant="h4">
+                        Friends Attending
                     </Typography>
-                    <Grid container spacing={3}>
+                    <div className={classes.container}>
                         {friends.map((friend) => (
-                            <Grid
-                                item
-                                className={classes.avatar}
-                                key={friend.id}
-                            >
-                                <Avatar
+                            <Link to={`/user/${friend.id}`} className={classes.link}>
+                                <Paper
+                                    className={classes.paper}
                                     key={friend.id}
-                                    alt={`${friend.firstName} ${friend.lastName}`}
-                                    src={`/${friend.imageUrl}`}
-                                ></Avatar>
-                                <Link to={`/user/${friend.id}`}>
-                                    <Typography color="secondary">{`${friend.firstName} ${friend.lastName}`}</Typography>
-                                </Link>
-                            </Grid>
+                                >
+                                    <Avatar
+                                        className={`${classes.item} ${classes.avatar}`}
+                                        key={friend.id}
+                                        alt={`${friend.firstName} ${friend.lastName}`}
+                                        src={`/${friend.imageUrl}`}
+                                    />
+                                    <Typography
+                                        className={classes.item}>{`${friend.firstName} ${friend.lastName}`}
+                                    </Typography>
+                                </Paper>
+                            </Link>
                         ))}
-                    </Grid>
+                    </div>
                 </>
             ) : (
-                <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    className={classes.headline}
-                >
+                <Typography variant="h4">
                     No Friends Attending
                 </Typography>
             )}

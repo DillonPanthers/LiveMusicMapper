@@ -1,18 +1,41 @@
 import React, { useEffect, useContext, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
 import { GlobalState } from '../../contexts/Store';
 import { attendingFriends } from '../../contexts/concertUtil';
 import ConcertFriendsList from './ConcertFriendList';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
+    container: {
+        marginTop: '1rem',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gridGap: '1rem'
     },
     paper: {
-        height: 140,
-        width: 50,
+        padding: '1rem',
+        width: '7rem',
+        height: '8.5rem',
+        background: theme.palette.background.default,
+        '&:hover': {
+            background: theme.palette.primary.main,
+            color: theme.palette.background.default,
+            boxShadow: '2px 2px 5px #01072a',
+        },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        rowGap: '0.75rem'
+    },
+    item: {
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    avatar: {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
+        backgroundColor: theme.palette.accent.main
     },
     control: {
         padding: theme.spacing(2),
@@ -20,13 +43,9 @@ const useStyles = makeStyles((theme) => ({
         height: '30vh',
         overflow: 'scroll',
     },
-    avatar: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    headline: {
-        padding: 10,
+    link: {
+        textDecoration: 'inherit',
+        color: 'inherit',
     },
 }));
 

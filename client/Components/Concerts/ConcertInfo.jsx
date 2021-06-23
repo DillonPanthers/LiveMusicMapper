@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#311b92',
         minHeight: '25rem',
         margin: '1.5rem 0.75rem 1.5rem 0.75rem',
-        padding: '1rem',
+        padding: '1.5rem',
+        alignSelf: 'flex-start'
     },
     container: {
         display: 'flex',
