@@ -266,12 +266,12 @@ function SingleUser(props) {
                                 userId={user.id}
                             />
                         ) : (
-                            <div>Private Profile</div>
+                            <div></div>
                         )}
                     </div>
                 </>
             ) : (
-                <div>Private Profile</div>
+                <div></div>
             )}
         </>
     );
