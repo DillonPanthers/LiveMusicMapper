@@ -44,6 +44,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
     const classes = useStyles();
     const filteredFriends = friends.filter(friend => friend.friendship.status === "accepted");
     const friendsNum = numOfFriends ? numOfFriends : friends.length;
+
     return friends.length ? (
         <>
             <Typography
@@ -80,7 +81,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {'No Mutual Friends :('}
+                {'No Mutual Friends'}
             </Typography>
         </div>
     );
