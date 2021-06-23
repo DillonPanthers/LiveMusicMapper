@@ -111,7 +111,9 @@ function FriendRequests() {
                             className={classes.link}
                             to={`/user/${request.userId}`}
                         >
-                            <Avatar>{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                            <Avatar
+                                src={request.userInfo.imageUrl}
+                            >{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
                             <div className={classes.name}>
                                 {request.userInfo.fullName}
                             </div>

@@ -53,10 +53,7 @@ const Header = ({ userInfo }) => {
     return (
         <div className={classes.upperContainer}>
             <div className={classes.info}>
-                <Avatar
-                    className={classes.avatar}
-                    src="profile_pic_placeholder.png"
-                />
+                <Avatar className={classes.avatar} src={userInfo.imageUrl} />
 
                 <Typography variant="h4" className={classes.name}>
                     {`${userInfo.firstName} ${userInfo.lastName}`}

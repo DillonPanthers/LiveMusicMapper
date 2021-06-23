@@ -7,12 +7,13 @@ const ConcertFriendsList = ({ classes, friends }) => {
         <>
             {friends.length ? (
                 <>
-                    <Typography variant="h4">
-                        Friends Attending
-                    </Typography>
+                    <Typography variant="h4">Friends Attending</Typography>
                     <div className={classes.container}>
                         {friends.map((friend) => (
-                            <Link to={`/user/${friend.id}`} className={classes.link}>
+                            <Link
+                                to={`/user/${friend.id}`}
+                                className={classes.link}
+                            >
                                 <Paper
                                     className={classes.paper}
                                     key={friend.id}
@@ -21,10 +22,10 @@ const ConcertFriendsList = ({ classes, friends }) => {
                                         className={`${classes.item} ${classes.avatar}`}
                                         key={friend.id}
                                         alt={`${friend.firstName} ${friend.lastName}`}
-                                        src={`/${friend.imageUrl}`}
+                                        src={`${friend.imageUrl}`}
                                     />
-                                    <Typography
-                                        className={classes.item}>{`${friend.firstName} ${friend.lastName}`}
+                                    <Typography className={classes.item}>
+                                        {`${friend.firstName} ${friend.lastName}`}
                                     </Typography>
                                 </Paper>
                             </Link>
@@ -32,9 +33,7 @@ const ConcertFriendsList = ({ classes, friends }) => {
                     </div>
                 </>
             ) : (
-                <Typography variant="h4">
-                    No Friends Attending
-                </Typography>
+                <Typography variant="h4">No Friends Attending</Typography>
             )}
         </>
     );

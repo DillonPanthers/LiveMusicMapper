@@ -9,7 +9,6 @@ import Dashboard from './Dashboard/Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
 import SignUp from './SignUp/SignUp';
-import SingleVenue from './Venues/SingleVenue';
 import SingleUser from './User/SingleUser';
 import FriendRequests from './User/FriendRequests';
 import Search from './User/Search';
@@ -42,7 +41,6 @@ const Main = () => {
                     <Route exact component={Dashboard} path="/dashboard" />
                     <Route exact component={Login} path="/login" />
                     <Route exact component={SignUp} path="/signup" />
-                    <Route exact component={SingleVenue} path="/venue/:id" />
                     <Route exact component={SingleUser} path="/user/:id" />
                     <Route exact component={Search} path="/search" />
                     <Route exact component={AllFriends} path="/friends" />
