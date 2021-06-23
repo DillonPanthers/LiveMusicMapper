@@ -107,17 +107,16 @@ function FriendRequests() {
             {friendRequests.map((request) => {
                 return (
                     <div key={request.userId} className={classes.friend}>
-                        <Typography>
-                            <Link
-                                className={classes.link}
-                                to={`/user/${request.userId}`}
-                            >
-                                <Avatar>{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
-                                <div className={classes.name}>
-                                    {request.userInfo.fullName}
-                                </div>
-                            </Link>
-                        </Typography>
+                        <Link
+                            className={classes.link}
+                            to={`/user/${request.userId}`}
+                        >
+                            <Avatar>{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                            <div className={classes.name}>
+                                {request.userInfo.fullName}
+                            </div>
+                        </Link>
+
                         <Button
                             className={classes.button}
                             onClick={() =>

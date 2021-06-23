@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
     },
     text: {
-        textDecoration: 'underline',
         padding: '.5rem',
     },
     link: {
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const FriendsList = ({ friends, numOfFriends }) => {
+const FriendsList = ({ friends, numOfFriends, text }) => {
     const classes = useStyles();
     const friendsNum = numOfFriends ? numOfFriends : friends.length;
     return friends.length ? (
@@ -50,7 +49,7 @@ const FriendsList = ({ friends, numOfFriends }) => {
                 component="h2"
                 className={classes.text}
             >
-                Friends {`(${friendsNum})`}
+                {text} {`(${friendsNum})`}
             </Typography>
             <div className={classes.root}>
                 {friends.map((friend) => {

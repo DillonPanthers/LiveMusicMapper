@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
         overflowY: 'scroll',
     },
     text: {
-        textDecoration: 'underline',
         padding: '0.75rem',
     },
 }));
@@ -63,7 +62,7 @@ const AllFriends = () => {
     return user.friends ? (
         <div className={classes.root}>
             <div className={classes.left}>
-                <FriendsList friends={user.friends} />
+                <FriendsList friends={user.friends} text="Friends" />
             </div>
             <div className={classes.right}>
                 <div className={classes.search}>

@@ -223,6 +223,7 @@ const Dashboard = () => {
                             <FriendsList
                                 friends={friends}
                                 friendNum={numOfFriends}
+                                text="Friends"
                             />
                         </div>
                         <div className={classes.verticalLine}></div>
