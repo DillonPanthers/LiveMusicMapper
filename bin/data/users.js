@@ -26,7 +26,7 @@ const users = [
         email: 'alenewvill@gmail.com',
         password: '1234',
         imageUrl:
-            'https://drive.google.com/file/d/1CvxiHRxum6-7AJLwHK5YNjAxBem79syY/view?usp=sharing',
+            'https://lh3.googleusercontent.com/d/1CvxiHRxum6-7AJLwHK5YNjAxBem79syY',
         isAdmin: true,
     },
     {
@@ -41,6 +41,8 @@ const users = [
         firstName: 'Inderprit',
         lastName: 'Singh',
         email: 'singhinderprit1992@gmail.com',
+        imageUrl:
+            'https://lh3.googleusercontent.com/d/1GO2-NmrBG9g_uKvi9JMR2La7diS8wkyf',
         password: '1234',
         isAdmin: true,
     },
