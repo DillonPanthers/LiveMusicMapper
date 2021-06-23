@@ -113,7 +113,9 @@ const Search = () => {
                               to={`/user/${user.id}`}
                           >
                               <div className={classes.people}>
-                                  <Avatar src="profile_pic_placeholder.png">{`${user.firstName[0]}${user.lastName[0]}`}</Avatar>
+                                  <Avatar
+                                      src={user.imageUrl}
+                                  >{`${user.firstName[0]}${user.lastName[0]}`}</Avatar>
                                   <Typography>{user.fullName}</Typography>
                               </div>
                           </Link>

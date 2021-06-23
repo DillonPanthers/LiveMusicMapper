@@ -25,6 +25,8 @@ const users = [
         lastName: 'Villanueva',
         email: 'alenewvill@gmail.com',
         password: '1234',
+        imageUrl:
+            'https://drive.google.com/file/d/1CvxiHRxum6-7AJLwHK5YNjAxBem79syY/view?usp=sharing',
         isAdmin: true,
     },
     {
