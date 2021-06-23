@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         backgroundColor: 'rgba(20,20,30,0.80)',
         position: 'absolute',
-        paddingTop: '9vh',
+        paddingTop: 64,
         zIndex: '1',
     },
     link: {

@@ -3,8 +3,20 @@ const router = require('express').Router();
 const { User, Friendship } = require('../db/index');
 const { requireToken } = require('./utils/utils');
 
-// TODO: add a route to create a user
+// POST /api/user/ - creates a new user
+router.post('/', async (req, res, next) => {
+    try {
+        const {
+            body: { firstName, lastName, email, password },
+        } = req;
+        const newUserDetails = { firstName, lastName, email, password };
+        res.status(201).send(await User.create(newUserDetails));
+    } catch (err) {
+        next(err);
+    }
+});
 
+// GET /api/user/id/search
 router.get('/search', requireToken, async (req, res, next) => {
     try {
         //I want to just send back users that have a public profile, if that's the case maybe we won't need a requiretoken to access that user data?

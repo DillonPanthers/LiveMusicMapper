@@ -11,3 +11,13 @@
     font-family: Montserrat, sans-serif;
     color: #000a47;
  }
+
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #363073;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #000A47;
+    border: 2px solid #363073;
+}

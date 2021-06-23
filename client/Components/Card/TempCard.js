@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => {
     return {
         root: {
             width: '16rem',
-            marginTop: 10,
+            marginTop: 0,
             marginBottom: 10,
             color: 'white',
             backgroundColor: '#000A47',

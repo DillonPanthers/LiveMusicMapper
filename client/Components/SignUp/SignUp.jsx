@@ -1,15 +1,15 @@
 import React from 'react';
-import { Typography, Grid, Card, makeStyles, Icon } from '@material-ui/core';
+import { Typography, Card, makeStyles, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
-import EmailSignIn from './EmailSignIn';
+import EmailSignUp from './EmailSignUp';
 import ContainedButton from '../StyledComponents/ContainedButton';
 
+// TODO: Nice to have - error message to prevent existing user from signing up
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: '100vw',
-        minHeight: '85vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     title: {
-        paddingBottom: '8%',
+        paddingBottom: '5%',
     },
     label: {
-        paddingTop: '8%',
+        paddingTop: '6%',
     },
     secondaryLink: {
         color: 'inherit',
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Login = () => {
+const Signup = () => {
     const classes = useStyles();
 
     const svgIcon = (
@@ -63,33 +63,33 @@ const Login = () => {
 
     return (
         <>
-            <Grid className={classes.root}>
+            <div className={classes.root}>
                 <Card className={classes.card}>
                     <Typography variant="h4" className={classes.title}>
-                        Welcome Back
+                        Hello, there!
                     </Typography>
 
                     <a href="/api/spotify/login" className={classes.link}>
                         <ContainedButton startIcon={svgIcon}>
-                            LOG IN WITH SPOTIFY ACCOUNT
+                            SIGN UP WITH A SPOTIFY ACCOUNT
                         </ContainedButton>
                     </a>
 
                     <div className={classes.divider}>
                         <p>or</p>
                     </div>
-                    <EmailSignIn />
+                    <EmailSignUp />
                     <Typography className={classes.label}>
-                        Don't have an account?{' '}
-                        <Link to="/signup" className={classes.secondaryLink}>
-                            <strong>SIGN UP</strong>
+                        Already have an account?{' '}
+                        <Link to="/login" className={classes.secondaryLink}>
+                            <strong>LOG IN</strong>
                         </Link>
                     </Typography>
                 </Card>
-            </Grid>
+            </div>
             <Background />
         </>
     );
 };
 
-export default Login;
+export default Signup;

@@ -31,7 +31,7 @@ const Loading = ({ loading }) => {
                 // css={override}
                 size={50}
             />
-            <Typography className={classes.text}>Loading...</Typography>
+            <Typography className={classes.text}>Loading</Typography>
         </div>
     );
 };
