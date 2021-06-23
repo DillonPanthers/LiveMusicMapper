@@ -21,6 +21,10 @@ const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SCOPES = process.env.SCOPES;
 const AUTH_REDIRECT =
     process.env.AUTH_REDIRECT || 'http://localhost:3000/#/auth/';
+const ERROR_AUTH_REDIRECT =
+    process.env.ERROR_AUTH_REDIRECT ||
+    'http://localhost:3000/#/unauthorizeduser';
+// TODO: Do I need to add process.env.ERROR_AUTH_REDIRECT to .env file
 
 // GET /api/spotify/login
 router.get('/login', (req, res, next) => {
@@ -66,7 +70,6 @@ router.get('/callback', async (req, res, next) => {
             'https://api.spotify.com/v1/me',
             access_token
         );
-        // console.log(userData);
 
         let { email, id, display_name } = userData;
         console.log('userData', userData);
@@ -134,8 +137,16 @@ router.get('/callback', async (req, res, next) => {
             user.ticketmasterGenres = ticketmasterGenres;
             await user.save();
         } else if (!user) {
-            let [firstName, lastName] = display_name.split(' ');
-            if (!lastName) lastName = '';
+            let firstName = '';
+            let lastName = '';
+
+            if (display_name === '' || !display_name) {
+                firstName = 'User';
+            } else {
+                let [_firstName, _lastName] = display_name.split(' ');
+                firstName = _firstName;
+                if (!_lastName) lastName = '';
+            }
 
             user = await User.create({
                 spotifyId: id,
@@ -157,6 +168,7 @@ router.get('/callback', async (req, res, next) => {
             })}`
         );
     } catch (error) {
+        res.redirect(ERROR_AUTH_REDIRECT);
         console.log(error);
         next(error);
     }
