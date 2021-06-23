@@ -1,5 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Button, Container, Typography } from '@material-ui/core';
+import {
+    Button,
+    Container,
+    Typography,
+    makeStyles,
+    Avatar,
+} from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,9 +13,59 @@ import { GlobalState } from '../../contexts/Store';
 import { SocketContext } from '../../contexts/SocketContext';
 import UserInfo from './UserInfo';
 
-//TODO: update some css and make look better
+import ContainedButton from '../StyledComponents/ContainedButton';
+import OutlinedButton from '../StyledComponents/OutlinedButton';
+
+const useStyles = makeStyles((theme) => ({
+    upperContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'black',
+        padding: '.75rem',
+        height: '10rem',
+    },
+    avatar: {
+        margin: '.5rem',
+        width: '100px',
+        height: '100px',
+    },
+
+    name: {
+        marginLeft: '.5rem',
+    },
+
+    spotify: {
+        width: '1.5rem',
+        height: '1.5rem',
+        marginLeft: '.5rem',
+    },
+
+    spotifyInfo: {
+        display: 'flex',
+        alignSelf: 'flex-end',
+        alignItems: 'flex-end',
+        flexDirection: 'column',
+    },
+    info: {
+        display: 'flex',
+        alignItems: 'center',
+        flex: '1',
+    },
+
+    outlinedButton: {
+        margin: '1rem',
+        height: '2.5rem',
+        width: '12rem',
+    },
+    containedButton: {
+        height: '2.5rem',
+        width: '12rem',
+    },
+}));
 
 function SingleUser(props) {
+    const classes = useStyles();
+
     const { auth, getUserData } = useContext(GlobalState);
     const { addFriend, acceptFriendReq, rejectFriendReq } =
         useContext(SocketContext);
@@ -102,43 +158,65 @@ function SingleUser(props) {
         rejectFriendReq(requesterId);
     };
 
-    return isLoggedIn ? (
-        <Container>
-            <Container>{user.fullName ? user.fullName : null}</Container>
-            {friendship === 'friends' ? (
-                <Typography>you are friends!</Typography>
-            ) : (
-                //BUTTONS
+    return (
+        <>
+            {isLoggedIn ? (
+                <>
+                    <div className={classes.upperContainer}>
+                        <div className={classes.info}>
+                            <Avatar
+                                className={classes.avatar}
+                                src="profile_pic_placeholder.png"
+                            />
 
-                <Container>
-                    <Button onClick={onButtonClick} variant="contained">
-                        {friendship === 'notFriends'
-                            ? 'add friend'
-                            : friendship === 'sentRequest'
-                            ? 'requested'
-                            : 'accept friend'}
-                    </Button>{' '}
-                    {friendship === 'recievedRequest' ? (
-                        <Button
-                            onClick={() => rejectFriend(user)}
-                            variant="contained"
-                        >
-                            Reject
-                        </Button>
-                    ) : null}
-                </Container>
-            )}
-            {/*user profile */}
-            {isProfile ? (
-                <Redirect to="/dashboard" />
-            ) : friendship === 'friends' || user.isPublic ? (
-                <UserInfo />
+                            <Typography variant="h4" className={classes.name}>
+                                {`${user.firstName} ${user.lastName}`}
+                            </Typography>
+                        </div>
+                        {friendship === 'friends' ? (
+                            <Typography>you are friends!</Typography>
+                        ) : (
+                            //BUTTONS
+
+                            <div>
+                                <ContainedButton
+                                    onClick={onButtonClick}
+                                    variant="contained"
+                                    className={classes.containedButton}
+                                >
+                                    {friendship === 'notFriends'
+                                        ? 'add friend'
+                                        : friendship === 'sentRequest'
+                                        ? 'requested'
+                                        : 'accept friend'}
+                                </ContainedButton>
+                                {friendship === 'recievedRequest' ? (
+                                    <OutlinedButton
+                                        onClick={() => rejectFriend(user)}
+                                        variant="outlined"
+                                        className={classes.outlinedButton}
+                                    >
+                                        Reject
+                                    </OutlinedButton>
+                                ) : null}
+                            </div>
+                        )}
+                    </div>
+                    <div>
+                        {/*user profile */}
+                        {isProfile ? (
+                            <Redirect to="/dashboard" />
+                        ) : friendship === 'friends' || user.isPublic ? (
+                            <UserInfo />
+                        ) : (
+                            <div>Private Profile</div>
+                        )}
+                    </div>
+                </>
             ) : (
                 <div>Private Profile</div>
             )}
-        </Container>
-    ) : (
-        <div>Private Profile</div>
+        </>
     );
 }
 
