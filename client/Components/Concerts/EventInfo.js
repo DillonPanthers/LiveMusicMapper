@@ -90,6 +90,7 @@ const EventInfo = ({ concertInfo, friends }) => {
                                 {concertFriends.map((friend) => (
                                     <Avatar
                                         key={friend.id}
+                                        src={friend.imageUrl}
                                         className={classes.avatar}
                                     >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
                                 ))}
