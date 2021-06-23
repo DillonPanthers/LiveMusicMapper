@@ -134,8 +134,8 @@ const users = [
         isAdmin: true,
     },
     {
-        firstName: 'Eric P. Katz',
-        lastName: 'Bottle',
+        firstName: 'Eric P.',
+        lastName: 'Katz (also known as Prof)',
         email: 'prof@gmail.com',
         password: '1234',
         isAdmin: true,
