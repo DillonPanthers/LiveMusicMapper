@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '25rem',
         margin: '1.5rem 0.75rem 1.5rem 0.75rem',
         padding: '1.5rem',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     container: {
         display: 'flex',
@@ -136,22 +136,33 @@ export default function ConcertInfo({ single_concert, artistName }) {
                             </ContainedButton>
                         </a>
                     ) : null}
-                    {!isAttending ? (
-                        <OutlinedButton
-                            variant="outlined"
-                            className={classes.outlinedButton}
-                            onClick={() => addConcert(single_concert)}
-                        >
-                            I'M&nbsp;ATTENDING
-                        </OutlinedButton>
+                    {user.id ? (
+                        !isAttending ? (
+                            <OutlinedButton
+                                variant="outlined"
+                                className={classes.outlinedButton}
+                                onClick={() => addConcert(single_concert)}
+                            >
+                                I'M&nbsp;ATTENDING
+                            </OutlinedButton>
+                        ) : (
+                            <OutlinedButton
+                                variant="outlined"
+                                className={classes.outlinedButton}
+                                onClick={() => removeConcert(single_concert.id)}
+                            >
+                                REMOVE&nbsp;CONCERT
+                            </OutlinedButton>
+                        )
                     ) : (
-                        <OutlinedButton
-                            variant="outlined"
-                            className={classes.outlinedButton}
-                            onClick={() => removeConcert(single_concert.id)}
-                        >
-                            REMOVE&nbsp;CONCERT
-                        </OutlinedButton>
+                        <Link className={classes.link} to="/login">
+                            <OutlinedButton
+                                variant="outlined"
+                                className={classes.outlinedButton}
+                            >
+                                Login To Add Concert
+                            </OutlinedButton>
+                        </Link>
                     )}
                 </div>
                 {single_concert.images ? (

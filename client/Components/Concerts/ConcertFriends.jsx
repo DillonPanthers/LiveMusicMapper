@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gridGap: '1rem'
+        gridGap: '1rem',
     },
     paper: {
         padding: '1rem',
