@@ -69,6 +69,7 @@ router.get('/callback', async (req, res, next) => {
         // console.log(userData);
 
         let { email, id, display_name } = userData;
+        console.log('userData', userData);
         email = email.toLowerCase();
 
         /* Find user with an email that matches one used in Spotify account */

@@ -14,7 +14,11 @@ import { mutualFriends } from '../../contexts/concertUtil';
 const useStyles = makeStyles(() => ({
     lowerContainer: {
         display: 'flex',
+        height: '20vh',
+    },
+    container: {
         height: '60vh',
+        overflowY: 'scroll',
     },
     right: {
         display: 'flex',
@@ -42,7 +46,7 @@ const UserInfo = ({ concerts, friends, currUserFriends, userId }) => {
 
     return (
         <div className={classes.lowerContainer}>
-            <div>
+            <div className={classes.container}>
                 <UpcomingEvents
                     concerts={concerts}
                     friends={currUserFriends}

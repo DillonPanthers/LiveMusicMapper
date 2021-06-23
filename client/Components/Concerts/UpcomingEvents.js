@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
         flex: '1',
         backgroundColor: 'rgba(20, 20, 30, 0.8)',
         padding: '.5rem',
-        overflowY: 'scroll',
-        height: '85vh',
     },
     text: {},
 }));
