@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '25rem',
         margin: '1.5rem 0.75rem 1.5rem 0.75rem',
         padding: '1.5rem',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     container: {
         display: 'flex',

@@ -13,6 +13,7 @@ import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
 import Header from './Header';
 import FriendsList from '../User/FriendsList';
 import ContainedButton from '../StyledComponents/ContainedButton';
+import UpcomingEvents from '../Concerts/UpcomingEvents';
 
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
@@ -32,14 +33,6 @@ const useStyles = makeStyles((theme) => ({
         flex: '2',
         marginLeft: '.5rem',
         marginRight: '1rem',
-    },
-
-    left: {
-        marginLeft: '1rem',
-        marginRight: '.5rem',
-        flex: '1',
-        backgroundColor: '#382B71',
-        padding: '.5rem',
     },
 
     map: {
@@ -155,11 +148,11 @@ const Dashboard = () => {
         <div className={classes.outerContainer}>
             <Header userInfo={user} /> {/*Upper Div*/}
             <div className={classes.lowerContainer}>
-                <div className={classes.left}>Left</div>
+                <UpcomingEvents concerts={concerts} friends={user.friends} />
                 <div className={classes.right}>
                     <div className={classes.map}>
                         <LoadScript
-                            googleMapsApiKey={'googleInfo.GOOGLE_MAP_KEY'}
+                            googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
                             mapIds={googleInfo.GOOGLE_MAP_ID}
                         >
                             <GoogleMap
@@ -218,9 +211,7 @@ const Dashboard = () => {
                                         }}
                                     >
                                         <div style={{ color: 'black' }}>
-                                            {/* <Link to={`/venue/${singleVenue.venueData.id}`}> */}
                                             {markerState.selectedVenueName}
-                                            {/* </Link> */}
                                         </div>
                                     </InfoWindow>
                                 )}
