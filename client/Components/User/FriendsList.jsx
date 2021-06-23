@@ -61,7 +61,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                             >
                                 <Avatar
                                     className={classes.avatar}
-                                    src="/public/profile_pic_placeholder.png"
+                                    src={friend.imageUrl}
                                 >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
                                 {`${friend.firstName} ${friend.lastName}`}
                             </Link>

@@ -182,7 +182,7 @@ function SingleUser(props) {
                         <div className={classes.info}>
                             <Avatar
                                 className={classes.avatar}
-                                src="profile_pic_placeholder.png"
+                                src={user.imageUrl}
                             />
                             <div className={classes.preview}>
                                 <div className={classes.spotifyIcon}>

@@ -6,6 +6,8 @@ const users = [
         email: 'vikkiwchan@gmail.com',
         password: '1234',
         isAdmin: true,
+        imageUrl:
+            'https://lh3.googleusercontent.com/d/1xm-8yLhUDvRvsPexXPgTtXMTphyFJ4qc',
         genres: ['electronic', 'pop', 'soul', 'r&b', 'indie rock'],
         artists: {
             'Harry Styles': '6KImCVD70vtIoJWnq6nGn3',
@@ -25,6 +27,8 @@ const users = [
         lastName: 'Villanueva',
         email: 'alenewvill@gmail.com',
         password: '1234',
+        imageUrl:
+            'https://lh3.googleusercontent.com/d/1CvxiHRxum6-7AJLwHK5YNjAxBem79syY',
         isAdmin: true,
     },
     {
@@ -39,6 +43,8 @@ const users = [
         firstName: 'Inderprit',
         lastName: 'Singh',
         email: 'singhinderprit1992@gmail.com',
+        imageUrl:
+            'https://lh3.googleusercontent.com/d/1GO2-NmrBG9g_uKvi9JMR2La7diS8wkyf',
         password: '1234',
         isAdmin: true,
     },
