@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '100',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '5%',
+        padding: '2.5% 5%',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
     },
