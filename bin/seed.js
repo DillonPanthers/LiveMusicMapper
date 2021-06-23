@@ -16,7 +16,6 @@ const init = async () => {
             })
         );
 
-        await vikki.addConcert(concert);
         await vikki.addFriend(alejandra);
         await craig.addFriend(alejandra);
         await inderprit.addFriend(alejandra);

@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
 const UpcomingEvents = ({ concerts, friends }) => {
     const classes = useStyles();
 
+    console.log('concerts in upcoming events', concerts);
+
     return (
         <div className={classes.left}>
             <Typography className={classes.text} variant="h5">

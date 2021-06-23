@@ -248,7 +248,11 @@ function SingleUser(props) {
                         {isProfile ? (
                             <Redirect to="/dashboard" />
                         ) : friendship === 'friends' || user.isPublic ? (
-                            <UserInfo />
+                            <UserInfo
+                                concerts={user.concerts}
+                                friends={user.friends}
+                                currUserFriends={currentUser.friends}
+                            />
                         ) : (
                             <div>Private Profile</div>
                         )}
