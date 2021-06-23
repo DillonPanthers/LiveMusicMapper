@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const FriendsList = ({ friends, numOfFriends, text }) => {
+const FriendsList = ({ friends, friendNum, text }) => {
     const classes = useStyles();
     const filteredFriends = friends.filter(friend => friend.friendship.status === "accepted");
-    const friendsNum = numOfFriends ? numOfFriends : friends.length;
+    const friendsNum = friendNum ? friendNum : filteredFriends.length;
 
     return friends.length ? (
         <>
@@ -53,7 +53,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {text} {`(${filteredFriends.length})`}
+                {text} {`(${friendsNum})`}
             </Typography>
             <div className={classes.root}>
                 {filteredFriends.map((friend) => {

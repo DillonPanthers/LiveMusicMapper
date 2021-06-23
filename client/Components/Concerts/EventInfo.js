@@ -84,7 +84,7 @@ const EventInfo = ({ concertInfo, friends }) => {
                             <Typography variant="caption">
                                 {concertFriends.length
                                     ? 'Friends Attending'
-                                    : 'No Friends Attending'}
+                                    : 'No Other Friends Attending'}
                             </Typography>
                             <AvatarGroup max={4}>
                                 {concertFriends.map((friend) => (

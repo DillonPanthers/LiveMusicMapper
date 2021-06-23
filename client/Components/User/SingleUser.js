@@ -86,6 +86,7 @@ function SingleUser(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [friends, setFriends] = useState([]);
     const [theMutualFriends, setMutualFriends] = useState([]);
+    const [filteredFriends, setFilteredFriends] = useState([]);
 
     useEffect(() => {
         // console.log('auth here useeffect', currentUser);
@@ -102,7 +103,7 @@ function SingleUser(props) {
             if (currentUser.id) {
                 setFriendship(checkStatus());
                 setIsLoggedIn(true);
-
+                //filter out the pending friend
                 const muts = mutualFriends(
                     currentUser.friends,
                     user.data.friends
