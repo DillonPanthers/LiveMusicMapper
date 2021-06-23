@@ -12,6 +12,7 @@ import { GlobalState } from '../../contexts/Store';
 import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
 import Header from './Header';
 import FriendsList from '../User/FriendsList';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
@@ -23,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
     lowerContainer: {
         display: 'flex',
-        height: '85vh',
     },
 
     right: {
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#382B71',
         padding: '.5rem',
     },
+
     map: {
         display: 'flex',
         justifyContent: 'center',
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         backgroundColor: '#382B71',
         marginTop: '1.5rem',
+        alignItems: 'center',
     },
 
     list: {
@@ -56,7 +58,18 @@ const useStyles = makeStyles((theme) => ({
     },
 
     button: {
+        display: 'flex',
         flex: '1',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '& *': {
+            textDecoration: 'none',
+        },
+    },
+    verticalLine: {
+        borderLeft: '0.1rem solid white',
+        height: '75%',
+        margin: '1rem',
     },
 }));
 
@@ -136,6 +149,8 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
+    const numOfFriends = user.friends ? user.friends.length : 0;
+
     return googleInfo.GOOGLE_MAP_KEY.length ? (
         <div className={classes.outerContainer}>
             <Header userInfo={user} /> {/*Upper Div*/}
@@ -144,7 +159,7 @@ const Dashboard = () => {
                 <div className={classes.right}>
                     <div className={classes.map}>
                         <LoadScript
-                            googleMapsApiKey={googleInfo.GOOGLE_MAP_KEY}
+                            googleMapsApiKey={'googleInfo.GOOGLE_MAP_KEY'}
                             mapIds={googleInfo.GOOGLE_MAP_ID}
                         >
                             <GoogleMap
@@ -214,9 +229,19 @@ const Dashboard = () => {
                     </div>
                     <div className={classes.friends}>
                         <div className={classes.list}>
-                            <FriendsList friends={friends} />
+                            <FriendsList
+                                friends={friends}
+                                friendNum={numOfFriends}
+                            />
                         </div>
-                        <div className={classes.button}>hello</div>
+                        <div className={classes.verticalLine}></div>
+                        <div className={classes.button}>
+                            <Link to="/friends">
+                                <ContainedButton>
+                                    View All Friends
+                                </ContainedButton>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

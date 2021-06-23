@@ -32,15 +32,16 @@ const useStyles = makeStyles((theme) => ({
         flexBasis: '30%',
         margin: '.6rem',
     },
-    
+
     avatar: {
         width: '75px',
         height: '75px',
-    }
+    },
 }));
 
-const FriendsList = ({ friends }) => {
+const FriendsList = ({ friends, numOfFriends }) => {
     const classes = useStyles();
+    const friendsNum = numOfFriends ? numOfFriends : friends.length;
     return friends.length ? (
         <>
             <Typography
@@ -49,7 +50,7 @@ const FriendsList = ({ friends }) => {
                 component="h2"
                 className={classes.text}
             >
-                Friends
+                Friends {`(${friendsNum})`}
             </Typography>
             <div className={classes.root}>
                 {friends.map((friend) => {
@@ -59,7 +60,10 @@ const FriendsList = ({ friends }) => {
                                 to={`/user/${friend.id}`}
                                 className={classes.link}
                             >
-                                <Avatar className = {classes.avatar} src="/public/profile_pic_placeholder.png">{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
+                                <Avatar
+                                    className={classes.avatar}
+                                    src="/public/profile_pic_placeholder.png"
+                                >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
                                 {`${friend.firstName} ${friend.lastName}`}
                             </Link>
                         </div>
