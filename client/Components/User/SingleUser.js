@@ -237,7 +237,8 @@ function SingleUser(props) {
                         </div>
 
                         <div className={classes.text}>
-                            {user.spotifyId ? (
+                            {user.spotifyId &&
+                            (user.isPublic || friendship === 'friends') ? (
                                 <>
                                     <Typography>{`Top Genre: ${
                                         Object.keys(user.ticketmasterGenres)[0]
