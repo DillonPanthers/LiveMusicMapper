@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import LandingPage from './LandingPage/LandingPage.jsx';
 import Map from './Map/Map';
 import Auth from './Login/Auth';
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
 import SingleConcert from './Concerts/SingleConcert';
 import Login from './Login/Login';
 import SingleVenue from './Venues/SingleVenue';
