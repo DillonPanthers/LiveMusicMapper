@@ -30,6 +30,7 @@ const users = [
         imageUrl:
             'https://lh3.googleusercontent.com/d/1CvxiHRxum6-7AJLwHK5YNjAxBem79syY',
         isAdmin: true,
+        isPublic: false,
     },
     {
         firstName: 'Craig',
