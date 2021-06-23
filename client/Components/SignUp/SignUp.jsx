@@ -6,6 +6,7 @@ import Background from '../AnimatedBackground/Background';
 import EmailSignUp from './EmailSignUp';
 import ContainedButton from '../StyledComponents/ContainedButton';
 
+// TODO: Nice to have - error message to prevent existing user from signing up
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: '100vw',

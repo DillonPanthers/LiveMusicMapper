@@ -9,11 +9,11 @@ const useStyles = makeStyles((theme) => ({
     container: {
         width: '85%',
         textAlign: 'center',
-        paddingTop: '10vh',
+        paddingTop: 64,
         [theme.breakpoints.down('xs')]: {
             width: '85%',
         },
-        zIndex: '1000',
+        zIndex: '2',
         position: 'fixed',
         top: '50%',
         left: '50%',
@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'inherit',
     },
     text: {
-        fontSize: '5rem',
-        lineHeight: '1.15'
+        fontSize: '12vh',
+        lineHeight: '1.15',
     },
 }));
 
