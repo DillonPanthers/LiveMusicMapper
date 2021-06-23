@@ -15,15 +15,14 @@ const useStyles = makeStyles((theme) => ({
         overflowY: 'scroll',
         height: '85vh',
     },
-    text: {
-        textDecoration: 'underline',
-    },
+    text: {},
 }));
 
-const UpcomingEvents = ({ concerts, friends }) => {
+const UpcomingEvents = ({ concerts, friends, userId }) => {
     const classes = useStyles();
-
-    console.log('concerts in upcoming events', concerts);
+    const filteredFriends = userId
+        ? friends.filter((friend) => friend.id !== userId)
+        : friends;
 
     return (
         <div className={classes.left}>
@@ -34,7 +33,7 @@ const UpcomingEvents = ({ concerts, friends }) => {
                 <EventInfo
                     key={concert.id}
                     concertInfo={concert}
-                    friends={friends}
+                    friends={filteredFriends}
                 />
             ))}
         </div>

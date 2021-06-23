@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
         overflowY: 'scroll',
     },
     text: {
-        textDecoration: 'underline',
         padding: '0.75rem',
     },
 }));

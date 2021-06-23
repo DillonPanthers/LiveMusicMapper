@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
     },
     text: {
-        textDecoration: 'underline',
         padding: '.5rem',
     },
     link: {

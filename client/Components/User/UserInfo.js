@@ -6,13 +6,15 @@ import FriendsList from './FriendsList';
 import { mutualFriends } from '../../contexts/concertUtil';
 
 //TODO: In all friends, add paper to friends avatars
-//TODO: Let Vikki know about the main page not being responsive because it blocks functionality.
 //TODO: Make width of card responsive in UpcomingEvents component
 //TODO: Create Top Artists in UserInfo and add styling to mutual friends in UserInfo
+//TODO: Changing Height of upcoming events component
+//TODO: Change seed public default for img and replace parts of the code that use it with user.imgUrl
 
 const useStyles = makeStyles(() => ({
     lowerContainer: {
         display: 'flex',
+        height: '60vh',
     },
     right: {
         display: 'flex',
@@ -33,19 +35,25 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const UserInfo = ({ concerts, friends, currUserFriends }) => {
+const UserInfo = ({ concerts, friends, currUserFriends, userId }) => {
     const classes = useStyles();
     const mutuals = mutualFriends(currUserFriends, friends);
     console.log(mutuals, 'mutuals here');
 
     return (
         <div className={classes.lowerContainer}>
-            <UpcomingEvents concerts={concerts} friends={friends} />
+            <div>
+                <UpcomingEvents
+                    concerts={concerts}
+                    friends={currUserFriends}
+                    userId={userId}
+                />
+            </div>
             <div className={classes.right}>
-                <div className={classes.artist}>Top Artists</div>
                 <div className={classes.friend}>
                     <FriendsList friends={mutuals} text="Mutual Friends" />
                 </div>
+                {/* <div className={classes.artist}></div> */}
             </div>
         </div>
     );
