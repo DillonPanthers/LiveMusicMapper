@@ -99,15 +99,21 @@ function SingleUser(props) {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
             setUser(user.data);
+
             setFriends(user.data.friends);
             if (currentUser.id) {
                 setFriendship(checkStatus());
                 setIsLoggedIn(true);
-                //filter out the pending friend
-                const muts = mutualFriends(
-                    currentUser.friends,
-                    user.data.friends
+                const currFriends = currentUser.friends.filter(
+                    (friend) => friend.friendship.status === 'accepted'
                 );
+                const userDataFriends = user.data.friends.filter(
+                    (friend) => friend.friendship.status === 'accepted'
+                );
+                //filter out the pending
+
+                const muts = mutualFriends(currFriends, userDataFriends);
+
                 setMutualFriends(muts);
             }
         };
@@ -262,8 +268,14 @@ function SingleUser(props) {
                         ) : friendship === 'friends' || user.isPublic ? (
                             <UserInfo
                                 concerts={user.concerts}
-                                friends={user.friends}
-                                currUserFriends={currentUser.friends}
+                                friends={user.friends.filter(
+                                    (friend) =>
+                                        friend.friendship.status === 'accepted'
+                                )}
+                                currUserFriends={currentUser.friends.filter(
+                                    (friend) =>
+                                        friend.friendship.status === 'accepted'
+                                )}
                                 userId={user.id}
                             />
                         ) : (

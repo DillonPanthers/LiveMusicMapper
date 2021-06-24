@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import { Paper, Typography, Avatar } from '@material-ui/core';
 
 const ConcertFriendsList = ({ classes, friends }) => {
+
+    const filteredFriends = friends.filter(friend => friend.friendship.status === 'accepted');
+
     return (
         <>
             {friends.length ? (
                 <>
                     <Typography variant="h4">Friends Attending</Typography>
                     <div className={classes.container}>
-                        {friends.map((friend) => (
+                        {filteredFriends.map((friend) => (
                             <Link
                                 to={`/user/${friend.id}`}
                                 className={classes.link}
