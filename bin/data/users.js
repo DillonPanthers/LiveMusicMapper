@@ -1,4 +1,3 @@
-// TODO: Seed more users
 const faker = require('faker');
 
 function getRandomIntInclusive(min, max) {

@@ -38,10 +38,8 @@ const EmailSignUp = () => {
         const { token } = response.data;
         window.localStorage.setItem('token', token);
         getUserData();
-        // NOTE: To save on Google Map API calls, changed redirect to '/' homepage temporarily.
         if (token) {
-            //NOTE: Temporarily redirects to home to save google maps api calls, we can change it back to /dashboard later once we finish
-            history.push('/');
+            history.push('/map');
         }
     };
 

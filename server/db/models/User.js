@@ -101,13 +101,9 @@ User.beforeCreate(async (user) => {
 // verifies user by their token
 User.byToken = async (token) => {
     try {
-        // console.log('----> User.byToken', token);
-        // console.log(1);
         const { id } = jwt.verify(token, process.env.JWT_SECRET);
         let user = await User.findUser(id);
-        // console.log(2);
         if (user) {
-            // console.log(3);
             return user;
         }
         const error = Error('bad credentials');

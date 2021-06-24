@@ -13,7 +13,6 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import { socket, SocketContext } from '../../contexts/SocketContext';
 
-//TODO: Fix with CSS
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',

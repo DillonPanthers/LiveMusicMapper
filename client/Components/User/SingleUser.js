@@ -92,7 +92,6 @@ function SingleUser(props) {
     const [theMutualFriends, setMutualFriends] = useState([]);
 
     useEffect(() => {
-        // console.log('auth here useeffect', currentUser);
         const { id } = props.match.params;
         if (id === currentUser.id) {
             setIsProfile(true);

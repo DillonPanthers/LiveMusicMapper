@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// TO DO: Check out why spotify/ticketmast api route isnnt working
-// TO DO: Once above is figured out, delete TM api key from secret.js
-
 /* Grabs all events from ticketmaster to populate venue data for the markers */
 export const getEvents = async (locationData, radius, genre) => {
     try {
@@ -85,7 +82,6 @@ export const getTopGenresEvents = async (user, locationData, radius) => {
 
 const callTicketmasterApi = async (object, parameterType, latlong, radius) => {
     let array = Object.keys(object);
-    console.log(array);
     let events = [];
 
     while (array.length) {
@@ -99,30 +95,7 @@ const callTicketmasterApi = async (object, parameterType, latlong, radius) => {
             if (data._embedded) events.push(data._embedded.events[0]);
         }
     }
-    //#region
-    /*
-    if (array.length) {
-        for (let i = 0; i < array.length; i++) {
-            let name = array[i];
 
-            console.log('name & index', name, i);
-
-            const { data } = await axios.get(
-                `https://app.ticketmaster.com/discovery/v2/events.json?segmentName=music&${parameterType}=${name}&size=200&latlong=${latlong}&radius=${radius}&apikey=${TICKETMASTERAPIKEY}`
-            );
-
-            //Back End Routes
-            // const { data } = await axios.get('/api/ticketmaster/spotify-user', {
-            //     params: { parameterType, name, latlong, radius },
-            // });
-
-            if (data._embedded) events.push(data._embedded.events[0]);
-        }
-    }
-    */
-    //#endregion
-
-    console.log(events);
     return events;
 };
 
@@ -156,7 +129,6 @@ const getTime = () => {
 };
 // defers a function for 1 second
 const sleep = (ms) => {
-    console.log(getTime());
     return new Promise((accept) => {
         setTimeout(() => {
             accept();
