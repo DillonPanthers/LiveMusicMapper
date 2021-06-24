@@ -133,11 +133,6 @@ function FriendRequests() {
             {friendRequests.map((request) => {
                 return (
                     <div key={request.userId}>
-                        {/* <Link
-                            className={classes.link}
-                            to={`/user/${request.userId}`}
-                        >
-                            {' '} */}
                         <Paper className={classes.paper}>
                             <Link
                                 to={`/user/${request.userId}`}
@@ -170,7 +165,6 @@ function FriendRequests() {
                                 REJECT
                             </Button>
                         </Paper>
-                        {/* </Link> */}
                     </div>
                 );
             })}
