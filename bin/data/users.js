@@ -185,8 +185,8 @@ const users = [
         isAdmin: true,
     },
     {
-        firstName: 'Eric P.',
-        lastName: 'Katz (also known as Prof)',
+        firstName: 'Prof',
+        lastName: 'Katz',
         email: 'prof@gmail.com',
         imageUrl: randomImages(),
         password: '1234',
@@ -367,6 +367,15 @@ const users = [
         imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
+    },
+    {
+        firstName: 'Eliot',
+        lastName: 'Szwajkowski',
+        email: 'eliot@gmail.com',
+        imageUrl: randomImages(),
+        password: '1234',
+        isAdmin: true,
+        isPublic: false,
     },
 ];
 
