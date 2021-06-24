@@ -52,9 +52,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//logged in user
-//did we have friends.length? for reason
-
 const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
     const [concertFriends, setConcertFriends] = useState([]);
     const [attending, setAttending] = useState(false);
@@ -66,9 +63,9 @@ const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
                 concertInfo.id,
                 friends
             );
-            console.log(attendees);
             setAttending(attendees.includes(loggedInUserId));
             setConcertFriends(myFriends);
+            setInDashboard(window.location.hash.includes('dashboard'));
         };
 
         if (concertInfo.id) {
@@ -99,11 +96,19 @@ const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
                                 <Typography variant="caption">
                                     {convertTime(concertInfo.time)}
                                 </Typography>
+                                {attending && !inDashboard ? (
+                                    <Typography
+                                        variant="caption"
+                                        color="primary"
+                                    >
+                                        You are attending this event!
+                                    </Typography>
+                                ) : null}
                             </div>
                         </CardContent>
                         <CardActions className={classes.cardActions}>
                             <Typography variant="caption">
-                                {concertFriends.length
+                                {concertFriends.length && attending
                                     ? 'Friends Attending'
                                     : 'No Other Friends Attending'}
                             </Typography>

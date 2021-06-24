@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         height: '14rem',
     },
     list: {
-        flex: '2',
+        flex: '3',
         padding: '1.5rem',
     },
 
@@ -110,7 +110,7 @@ const Dashboard = () => {
             const filteredFriends = user.friends.filter(
                 (friend) => friend.friendship.status === 'accepted'
             );
-            const userFriends = filteredFriends.slice(0, 3);
+            const userFriends = filteredFriends.slice(0, 5);
             setUserFriends(userFriends);
             setNumOfFriends(filteredFriends.length);
             setFriends(filteredFriends);
