@@ -77,16 +77,9 @@ const FriendsList = ({ friends, friendNum, text }) => {
             </div>{' '}
         </>
     ) : (
-        <div className={classes.container}>
-            <Typography
-                gutterBottom
-                variant="h6"
-                component="h2"
-                className={classes.text}
-            >
-                {`No ${text}`}
-            </Typography>
-        </div>
+        <Typography gutterBottom variant="h6" className={classes.text}>
+            {`No ${text}`}
+        </Typography>
     );
 };
 

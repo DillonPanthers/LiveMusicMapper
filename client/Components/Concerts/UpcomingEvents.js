@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#363073',
         padding: '1.5rem',
         textAlign: 'left',
-        overflowY: 'scroll',
+        overflowY: 'auto',
         height: '40rem', // NOTE: changed for production quality
     },
 }));

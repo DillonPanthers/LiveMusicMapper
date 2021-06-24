@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '1.5rem 0.75rem',
         height: '87vh',
         padding: '1.5rem',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     search: {
         display: 'flex',
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '2',
         backgroundColor: '#382B71',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     text: {
         padding: '1.5rem',
