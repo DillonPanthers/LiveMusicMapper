@@ -48,6 +48,7 @@ const init = async () => {
             thompson,
             yiru,
             zaina,
+            eliot,
         ] = await Promise.all(users.map((user) => User.create(user)));
 
         const [concert] = await Promise.all(
@@ -56,13 +57,38 @@ const init = async () => {
             })
         );
 
-        await vikki.addFriend(alejandra);
-        await craig.addFriend(alejandra);
-        await inderprit.addFriend(alejandra);
+        await prof.addFriend(vikki);
+        await keri.addFriend(vikki);
+        await danny.addFriend(vikki);
+        await stanley.addFriend(vikki);
+        await thompson.addFriend(vikki);
+        await zaina.addFriend(vikki);
+        await eliot.addFriend(vikki);
+
+        await stanley.addFriend(craig);
+        await thompson.addFriend(craig);
+        await zaina.addFriend(craig);
+        await prof.addFriend(craig);
+        await eliot.addFriend(craig);
+
         await mango.addFriend(alejandra);
         await max.addFriend(alejandra);
         await water.addFriend(alejandra);
+        await alcott.addFriend(alejandra);
+        await russel.addFriend(alejandra);
+        await anna.addFriend(alejandra);
+        await craig.addFriend(alejandra);
+        await vikki.addFriend(alejandra);
+
         await max.addFriend(inderprit);
+        await manu.addFriend(inderprit);
+        await stanley.addFriend(inderprit);
+        await arjan.addFriend(inderprit);
+        await felicia.addFriend(inderprit);
+        await prof.addFriend(inderprit);
+        await zaina.addFriend(inderprit);
+        await thompson.addFriend(inderprit);
+        await sam.addFriend(inderprit);
 
         await Promise.all(genres.map((genre) => Genre.create(genre)));
 

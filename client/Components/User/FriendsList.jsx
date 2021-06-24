@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gridGap: '1rem',
-        minHeight: '44rem',
+        minHeight: '20rem',
         marginTop: '1.5rem',
     },
     paper: {
@@ -56,7 +56,7 @@ const FriendsList = ({ friends, friendNum, text }) => {
             <div className={classes.container}>
                 {filteredFriends.map((friend) => {
                     return (
-                        <div key={friend.id}>
+                        <div key={friend.id} >
                             <Link
                                 to={`/user/${friend.id}`}
                                 className={classes.link}

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         },
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         rowGap: '0.5rem',
     },
     item: {
@@ -52,12 +52,19 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'gray',
         width: '5rem',
         height: '1.5rem',
+        zIndex: '100',
     },
     link: {
+        alignSelf: 'center',
+        color: 'inherit',
         textDecoration: 'none',
         '&:hover': {
-            color: '#1DE9B6',
+            color: 'black',
         },
+    },
+    newAvatar: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 }));
 
@@ -126,43 +133,38 @@ function FriendRequests() {
             {friendRequests.map((request) => {
                 return (
                     <div key={request.userId}>
-                        <Link
-                            className={classes.link}
-                            to={`/user/${request.userId}`}
-                        >
-                            {' '}
-                            <Paper className={classes.paper}>
-                                <Avatar
-                                    className={`${classes.item} ${classes.avatar}`}
-                                    src={request.userInfo.imageUrl}
-                                >{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                        <Paper className={classes.paper}>
+                            <Link
+                                to={`/user/${request.userId}`}
+                                className={classes.link}
+                            >
+                                <div className={classes.newAvatar}>
+                                    <Avatar
+                                        className={`${classes.item} ${classes.avatar}`}
+                                        src={request.userInfo.imageUrl}
+                                    >{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                                </div>
                                 <Typography className={classes.item}>
                                     {request.userInfo.fullName}
                                 </Typography>
-                                <Button
-                                    className={`${classes.item} ${classes.button}`}
-                                    onClick={() =>
-                                        acceptFriend(request.userId, user.id)
-                                    }
-                                >
-                                    ADD
-                                </Button>
-                                <Button
-                                    onClick={() =>
-                                        rejectFriend(request.userId, user.id)
-                                    }
-                                    className={`${classes.item} ${classes.button}`}
-                                >
-                                    REJECT
-                                </Button>
-                                {/* <Button
-                            onClick={() => blockFriend()}
-                            className={classes.button}
-                        >
-                            Block
-                        </Button> */}
-                            </Paper>
-                        </Link>
+                            </Link>
+                            <Button
+                                className={`${classes.item} ${classes.button}`}
+                                onClick={() =>
+                                    acceptFriend(request.userId, user.id)
+                                }
+                            >
+                                ADD
+                            </Button>
+                            <Button
+                                onClick={() =>
+                                    rejectFriend(request.userId, user.id)
+                                }
+                                className={`${classes.item} ${classes.button}`}
+                            >
+                                REJECT
+                            </Button>
+                        </Paper>
                     </div>
                 );
             })}

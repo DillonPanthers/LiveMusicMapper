@@ -237,7 +237,7 @@ function SingleUser(props) {
                                                     classes.outlinedButton
                                                 }
                                             >
-                                                Reject
+                                                REJECT
                                             </OutlinedButton>
                                         ) : null}
                                     </div>
