@@ -86,7 +86,6 @@ function SingleUser(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [friends, setFriends] = useState([]);
     const [theMutualFriends, setMutualFriends] = useState([]);
-    const [filteredFriends, setFilteredFriends] = useState([]);
 
     useEffect(() => {
         // console.log('auth here useeffect', currentUser);
