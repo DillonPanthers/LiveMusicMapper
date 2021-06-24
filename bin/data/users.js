@@ -74,7 +74,7 @@ const users = [
     {
         firstName: 'Inderprit',
         lastName: 'Singh',
-        email: 'singhinderprit1992@gmail.com',
+        email: 'narutoip@hotmail.com',
         imageUrl:
             'https://lh3.googleusercontent.com/d/1GO2-NmrBG9g_uKvi9JMR2La7diS8wkyf',
         password: '1234',
