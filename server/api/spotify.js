@@ -24,7 +24,6 @@ const AUTH_REDIRECT =
 const ERROR_AUTH_REDIRECT =
     process.env.ERROR_AUTH_REDIRECT ||
     'http://localhost:3000/#/unauthorizeduser';
-// TODO: Do I need to add process.env.ERROR_AUTH_REDIRECT to .env file
 
 // GET /api/spotify/login
 router.get('/login', (req, res, next) => {
