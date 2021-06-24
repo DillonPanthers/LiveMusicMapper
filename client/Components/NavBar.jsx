@@ -81,24 +81,24 @@ const NavBar = (props) => {
                             </Link>
                         </Typography>
                         {location.pathname !== '/map' && (
-                            <Button className={classes.button}>
-                                <Link to="/map" className={classes.link}>
+                            <Link to="/map" className={classes.link}>
+                                <Button className={classes.button}>
                                     View&nbsp;Map
-                                </Link>
-                            </Button>
+                                </Button>
+                            </Link>
                         )}
                         {!user.id && (
                             <>
-                                <Button className={classes.button}>
-                                    <Link to="/login" className={classes.link}>
+                                <Link to="/login" className={classes.link}>
+                                    <Button className={classes.button}>
                                         Log&nbsp;in
-                                    </Link>
-                                </Button>
-                                <Button className={classes.button}>
-                                    <Link to="/signup" className={classes.link}>
+                                    </Button>
+                                </Link>
+                                <Link to="/signup" className={classes.link}>
+                                    <Button className={classes.button}>
                                         Sign&nbsp;up
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                             </>
                         )}
                         {user.id && (

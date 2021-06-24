@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '2',
         marginBottom: '1.5rem',
         backgroundColor: '#382B71',
+        overflowY: 'auto',
     },
     pending: {
         display: 'flex',
