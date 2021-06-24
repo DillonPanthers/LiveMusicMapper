@@ -24,6 +24,8 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column',
         flex: '2',
         margin: '1.5rem 0.75rem',
+        height: '40vh',
+        overflow: 'auto',
     },
     artist: {
         flex: '2',
