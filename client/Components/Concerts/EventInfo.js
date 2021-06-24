@@ -40,10 +40,15 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(6),
         height: theme.spacing(6),
         backgroundColor: theme.palette.accent.main,
+        border: 'none',
     },
     link: {
         textDecoration: 'inherit',
         color: 'inherit',
+    },
+    caption: {
+        display: 'flex',
+        flexDirection: 'column',
     },
 }));
 
@@ -76,9 +81,14 @@ const EventInfo = ({ concertInfo, friends }) => {
                             >
                                 {concertInfo.name}
                             </Typography>
-                            <Typography variant="caption">
-                                {getDateInStringFormat(concertInfo.date)}
-                            </Typography>
+                            <div className={classes.caption}>
+                                <Typography variant="caption">
+                                    {getDateInStringFormat(concertInfo.date)}
+                                </Typography>
+                                <Typography variant="caption">
+                                    {convertTime(concertInfo.time)}
+                                </Typography>
+                            </div>
                         </CardContent>
                         <CardActions className={classes.cardActions}>
                             <Typography variant="caption">
