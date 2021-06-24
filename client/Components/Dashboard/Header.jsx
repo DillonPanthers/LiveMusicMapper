@@ -1,5 +1,15 @@
 import React from 'react';
-import { Typography, makeStyles, Avatar, Link, Icon } from '@material-ui/core';
+import {
+    Badge,
+    Typography,
+    makeStyles,
+    withStyles,
+    Avatar,
+    Link,
+    Icon,
+} from '@material-ui/core';
+
+import SpotifyBadge from '../StyledComponents/SpotifyBadge';
 
 const useStyles = makeStyles((theme) => ({
     upperContainer: {
@@ -9,14 +19,15 @@ const useStyles = makeStyles((theme) => ({
         padding: '1.5rem',
         height: '10rem',
     },
+
+    name: {
+        marginLeft: '.5rem',
+    },
+
     avatar: {
         margin: '.5rem',
         width: '100px',
         height: '100px',
-    },
-
-    name: {
-        marginLeft: '.5rem',
     },
 
     spotify: {
@@ -53,28 +64,21 @@ const Header = ({ userInfo }) => {
     return (
         <div className={classes.upperContainer}>
             <div className={classes.info}>
-                <Avatar className={classes.avatar} src={userInfo.imageUrl} />
+                {userInfo.spotifyId ? (
+                    <SpotifyBadge
+                        spotifyId={userInfo.spotifyId}
+                        imageUrl={userInfo.imageUrl}
+                    />
+                ) : (
+                    <Avatar
+                        className={classes.avatar}
+                        src={userInfo.imageUrl}
+                    />
+                )}
 
                 <Typography variant="h4" className={classes.name}>
                     {`${userInfo.firstName} ${userInfo.lastName}`}
                 </Typography>
-                {userInfo.spotifyId ? (
-                    <Link
-                        target="_blank"
-                        rel="noreferrer"
-                        href={`http://open.spotify.com/user/${userInfo.spotifyId}`}
-                        className={classes.link}
-                    >
-                        <Icon color="primary">
-                            <img
-                                className={classes.spotify}
-                                src="Spotify_Icon_RGB_Green.png"
-                            />
-                        </Icon>
-                    </Link>
-                ) : (
-                    <></>
-                )}
             </div>
             {userInfo.spotifyId ? (
                 <div className={classes.spotifyInfo}>

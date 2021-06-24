@@ -15,7 +15,7 @@ export const convertTime = (time) => {
     }
 
     timeValue += minutes < 10 ? ':0' + minutes : ':' + minutes;
-    timeValue += hours >= 12 ? ' P.M.' : ' A.M.';
+    timeValue += hours >= 12 ? ' pm' : ' am';
     return timeValue;
 };
 

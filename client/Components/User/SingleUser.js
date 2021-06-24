@@ -10,6 +10,7 @@ import { mutualFriends } from '../../contexts/concertUtil';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
+import SpotifyBadge from '../StyledComponents/SpotifyBadge';
 
 const useStyles = makeStyles((theme) => ({
     upperContainer: {
@@ -97,15 +98,21 @@ function SingleUser(props) {
             const { id } = props.match.params;
             const user = await axios.get(`/api/user/${id}`);
             setUser(user.data);
+
             setFriends(user.data.friends);
             if (currentUser.id) {
                 setFriendship(checkStatus());
                 setIsLoggedIn(true);
-
-                const muts = mutualFriends(
-                    currentUser.friends,
-                    user.data.friends
+                const currFriends = currentUser.friends.filter(
+                    (friend) => friend.friendship.status === 'accepted'
                 );
+                const userDataFriends = user.data.friends.filter(
+                    (friend) => friend.friendship.status === 'accepted'
+                );
+                //filter out the pending
+
+                const muts = mutualFriends(currFriends, userDataFriends);
+
                 setMutualFriends(muts);
             }
         };
@@ -180,10 +187,19 @@ function SingleUser(props) {
                 <>
                     <div className={classes.upperContainer}>
                         <div className={classes.info}>
-                            <Avatar
-                                className={classes.avatar}
-                                src={user.imageUrl}
-                            />
+                            {user.spotifyId &&
+                            (user.isPublic || friendship === 'friends') ? (
+                                <SpotifyBadge
+                                    spotifyId={user.spotifyId}
+                                    imageUrl={user.imageUrl}
+                                />
+                            ) : (
+                                <Avatar
+                                    className={classes.avatar}
+                                    src={user.imageUrl}
+                                />
+                            )}
+
                             <div className={classes.preview}>
                                 <div className={classes.spotifyIcon}>
                                     <div className={classes.userInfo}>
@@ -192,25 +208,6 @@ function SingleUser(props) {
                                         </Typography>
                                         <Typography>{`Attending ${user.concerts.length} Events |  ${theMutualFriends.length} Mutual Friends`}</Typography>
                                     </div>
-                                    {user.spotifyId &&
-                                    (user.isPublic ||
-                                        friendship === 'friends') ? (
-                                        <Link
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            href={`http://open.spotify.com/user/${user.spotifyId}`}
-                                            className={classes.link}
-                                        >
-                                            <Icon color="primary">
-                                                <img
-                                                    className={classes.spotify}
-                                                    src="Spotify_Icon_RGB_Green.png"
-                                                />
-                                            </Icon>
-                                        </Link>
-                                    ) : (
-                                        <></>
-                                    )}
                                 </div>
                                 {friendship === 'friends' ? (
                                     <></>
@@ -246,7 +243,8 @@ function SingleUser(props) {
                         </div>
 
                         <div className={classes.text}>
-                            {user.spotifyId ? (
+                            {user.spotifyId &&
+                            (user.isPublic || friendship === 'friends') ? (
                                 <>
                                     <Typography>{`Top Genre: ${
                                         Object.keys(user.ticketmasterGenres)[0]
@@ -269,17 +267,23 @@ function SingleUser(props) {
                         ) : friendship === 'friends' || user.isPublic ? (
                             <UserInfo
                                 concerts={user.concerts}
-                                friends={user.friends}
-                                currUserFriends={currentUser.friends}
+                                friends={user.friends.filter(
+                                    (friend) =>
+                                        friend.friendship.status === 'accepted'
+                                )}
+                                currUserFriends={currentUser.friends.filter(
+                                    (friend) =>
+                                        friend.friendship.status === 'accepted'
+                                )}
                                 userId={user.id}
                             />
                         ) : (
-                            <div>Private Profile</div>
+                            <div></div>
                         )}
                     </div>
                 </>
             ) : (
-                <div>Private Profile</div>
+                <div></div>
             )}
         </>
     );

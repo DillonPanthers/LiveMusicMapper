@@ -42,8 +42,6 @@ const useStyles = makeStyles(() => ({
 const UserInfo = ({ concerts, friends, currUserFriends, userId }) => {
     const classes = useStyles();
     const mutuals = mutualFriends(currUserFriends, friends);
-    console.log(mutuals, 'mutuals here');
-
     return (
         <div className={classes.lowerContainer}>
             <div className={classes.container}>

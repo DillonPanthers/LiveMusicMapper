@@ -2,41 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Typography, Paper, makeStyles } from '@material-ui/core';
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         display: 'flex',
-//         flexWrap: 'wrap',
-//     },
-//     text: {
-//         padding: '.5rem',
-//     },
-//     link: {
-//         textDecoration: 'none',
-//         color: 'white',
-//         '&:hover': {
-//             color: '#1DE9B6',
-//         },
-//         display: 'flex',
-//         alignItems: 'center',
-//         flexDirection: 'column',
-//         '& *': {
-//             margin: '.5rem',
-//         },
-//     },
+import ContainedButton from '../StyledComponents/ContainedButton';
 
-//     individual: {
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         flexBasis: '30%',
-//         margin: '.6rem',
-//     },
-
-//     avatar: {
-//         width: '75px',
-//         height: '75px',
-//     },
-// }));
 const useStyles = makeStyles((theme) => ({
     container: {
         marginTop: '1rem',
@@ -81,17 +48,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const FriendsList = ({ friends, numOfFriends, text }) => {
+const FriendsList = ({ friends, friendNum, text }) => {
     const classes = useStyles();
-    const friendsNum = numOfFriends ? numOfFriends : friends.length;
+    const filteredFriends = friends.filter(
+        (friend) => friend.friendship.status === 'accepted'
+    );
+    const friendsNum = friendNum ? friendNum : filteredFriends.length;
+
     return friends.length ? (
         <>
             <Typography variant="h6">
                 {text} {`(${friendsNum})`}
             </Typography>
             <div className={classes.container}>
-                {friends.map((friend) => {
-                    return friend.friendship.status === 'accepted' ? (
+                {filteredFriends.map((friend) => {
+                    return (
                         <div key={friend.id} className={classes.individual}>
                             <Link
                                 to={`/user/${friend.id}`}
@@ -108,7 +79,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                                 </Paper>
                             </Link>
                         </div>
-                    ) : null;
+                    );
                 })}
             </div>{' '}
         </>
@@ -120,7 +91,7 @@ const FriendsList = ({ friends, numOfFriends, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {'No Friends :('}
+                {'No Mutual Friends'}
             </Typography>
         </div>
     );
