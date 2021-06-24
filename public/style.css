@@ -14,10 +14,10 @@
 
 body::-webkit-scrollbar {
     width: 12px;
-    background-color: #363073;
+    background-color: #1B1C1F;
 }
 
 body::-webkit-scrollbar-thumb {
     background-color: #000A47;
-    border: 2px solid #363073;
+    border: 2px solid #1B1C1F;
 }
