@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
         '& *': {
             textDecoration: 'none',
         },
+        marginRight: '1.5rem',
     },
     verticalLine: {
         borderLeft: '0.1rem solid white',
@@ -237,7 +238,7 @@ const Dashboard = () => {
                         <div className={classes.button}>
                             <Link to="/friends">
                                 <ContainedButton>
-                                    View All Friends
+                                    VIEW ALL FRIENDS
                                 </ContainedButton>
                             </Link>
                         </div>

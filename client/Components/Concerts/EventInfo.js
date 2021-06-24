@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
     },
     cardRoot: {
         width: '16rem',

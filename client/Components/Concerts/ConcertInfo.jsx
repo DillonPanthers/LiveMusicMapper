@@ -161,7 +161,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
                                 variant="outlined"
                                 className={classes.outlinedButton}
                             >
-                                Login To Add Concert
+                                LOG IN TO ADD CONCERT
                             </OutlinedButton>
                         </Link>
                     )}
@@ -175,7 +175,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
             </div>
             <div className={classes.container}>
                 <div className={classes.detailsElement}>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h6" gutterBottom>
                         Venue Details
                     </Typography>
                     {single_concert._embedded ? (

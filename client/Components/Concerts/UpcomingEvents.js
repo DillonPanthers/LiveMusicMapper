@@ -11,10 +11,9 @@ const useStyles = makeStyles((theme) => ({
         flex: '1',
         backgroundColor: '#363073',
         padding: '1.5rem',
-        alignItems: 'center',
         textAlign: 'left',
         overflowY: 'scroll',
-        height: '39.5rem',
+        height: '44rem',
     },
 }));
 

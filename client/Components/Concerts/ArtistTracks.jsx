@@ -1,9 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { Typography, makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../../contexts/Store';
 
+const useStyles = makeStyles((theme) => ({
+    text: {
+        padding: '1.5rem',
+        alignSelf: 'flex-start',
+    },
+}));
+
 function ArtistTracks({ artistName }) {
+    const classes = useStyles();
     const { auth } = useContext(GlobalState);
     const [user, setUser] = auth;
     const [artistId, setArtistId] = useState('');
@@ -40,7 +49,9 @@ function ArtistTracks({ artistName }) {
             allow="encrypted-media"
         ></iframe>
     ) : (
-        <h2>No Artist Tracks Found</h2>
+        <Typography className={classes.text} variant="h6">
+            No Artist Tracks Found
+        </Typography>
     );
 }
 
