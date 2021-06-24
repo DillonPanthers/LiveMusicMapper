@@ -34,6 +34,7 @@ const useStyles = makeStyles(() => ({
         flex: '2',
         backgroundColor: '#382B71',
         padding: '1.5rem',
+        height: '40rem',
     },
 }));
 

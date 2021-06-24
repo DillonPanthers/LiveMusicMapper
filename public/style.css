@@ -12,12 +12,6 @@
     color: #000a47;
  }
 
-body::-webkit-scrollbar {
-    width: 12px;
-    background-color: #080808;
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: #000A47;
-    border: 2px solid #080808;
+body{
+  overflow-y: scroll,
 }
