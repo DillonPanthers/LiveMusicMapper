@@ -108,7 +108,7 @@ const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
                         </CardContent>
                         <CardActions className={classes.cardActions}>
                             <Typography variant="caption">
-                                {concertFriends.length && attending
+                                {concertFriends.length
                                     ? 'Friends Attending'
                                     : 'No Other Friends Attending'}
                             </Typography>
