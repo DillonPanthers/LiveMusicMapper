@@ -7,7 +7,7 @@ async function attendingFriends(id, friends) {
     const concert_friends = friends.filter((friend) =>
         concertAttendeesId.includes(friend.id)
     );
-    return concert_friends;
+    return [concert_friends, concertAttendeesId];
 }
 
 const mutualFriends = (usersFriends, friendsHomies) => {

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     text: {},
 }));
 
-const UpcomingEvents = ({ concerts, friends, userId }) => {
+const UpcomingEvents = ({ concerts, friends, userId, loggedInUserId }) => {
     const classes = useStyles();
     const filteredFriends = userId
         ? friends.filter((friend) => friend.id !== userId)
@@ -34,6 +34,7 @@ const UpcomingEvents = ({ concerts, friends, userId }) => {
                     key={concert.id}
                     concertInfo={concert}
                     friends={filteredFriends}
+                    loggedInUserId={loggedInUserId}
                 />
             ))}
         </div>

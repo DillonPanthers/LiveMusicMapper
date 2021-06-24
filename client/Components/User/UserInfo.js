@@ -35,7 +35,13 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const UserInfo = ({ concerts, friends, currUserFriends, userId }) => {
+const UserInfo = ({
+    concerts,
+    friends,
+    currUserFriends,
+    userId,
+    loggedInUserId,
+}) => {
     const classes = useStyles();
     const mutuals = mutualFriends(currUserFriends, friends);
     return (
@@ -45,6 +51,7 @@ const UserInfo = ({ concerts, friends, currUserFriends, userId }) => {
                     concerts={concerts}
                     friends={currUserFriends}
                     userId={userId}
+                    loggedInUserId={loggedInUserId}
                 />
             </div>
             <div className={classes.right}>

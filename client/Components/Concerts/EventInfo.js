@@ -52,18 +52,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const EventInfo = ({ concertInfo, friends }) => {
+//logged in user
+//did we have friends.length? for reason
+
+const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
+    const [concertFriends, setConcertFriends] = useState([]);
+    const [attending, setAttending] = useState(false);
+    const [inDashboard, setInDashboard] = useState(false);
+
     useEffect(() => {
         const grabFriends = async () => {
-            const myFriends = await attendingFriends(concertInfo.id, friends);
+            const [myFriends, attendees] = await attendingFriends(
+                concertInfo.id,
+                friends
+            );
+            console.log(attendees);
+            setAttending(attendees.includes(loggedInUserId));
             setConcertFriends(myFriends);
         };
-        if (friends.length && concertInfo.id) {
+
+        if (concertInfo.id) {
             grabFriends();
         }
     }, []);
-    const [concertFriends, setConcertFriends] = useState([]);
-
     const classes = useStyles();
     return (
         <div className={classes.root}>

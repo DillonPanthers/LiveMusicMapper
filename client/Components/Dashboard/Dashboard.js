@@ -154,7 +154,11 @@ const Dashboard = () => {
         <div className={classes.outerContainer}>
             <Header userInfo={user} /> {/*Upper Div*/}
             <div className={classes.lowerContainer}>
-                <UpcomingEvents concerts={concerts} friends={friends} />
+                <UpcomingEvents
+                    concerts={concerts}
+                    friends={friends}
+                    loggedInUserId={user.id}
+                />
                 <div className={classes.right}>
                     <div className={classes.map}>
                         <LoadScript
