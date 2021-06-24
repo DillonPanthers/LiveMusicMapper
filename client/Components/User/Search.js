@@ -30,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
     people: {
         display: 'flex',
         alignItems: 'center',
-        '& *': {
+        '& p': {
             margin: '0.5rem',
             color: 'white',
         },
+        margin: '1rem',
     },
     link: {
         textDecoration: 'none',
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     searchedUsers: {
         display: 'flex',
         flexDirection: 'column',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
 }));
 
