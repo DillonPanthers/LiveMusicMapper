@@ -85,6 +85,8 @@ const Dashboard = () => {
     const [concerts, setConcerts] = useState([]);
     const [venues, setVenues] = useState({});
     const [text, setText] = useState('Upcoming Concerts');
+    const [numOfFriends, setNumOfFriends] = useState(0);
+    const [userFriends, setUserFriends] = useState([]);
     const [googleInfo, setGoogleInfo] = googleInformation;
 
     const [markerState, setMarkerState] = useState({
@@ -108,8 +110,13 @@ const Dashboard = () => {
         };
 
         if (user.id) {
-            const userFriends = user.friends.slice(0, 3);
-            setFriends(userFriends);
+            const filteredFriends = user.friends.filter(
+                (friend) => friend.friendship.status === 'accepted'
+            );
+            const userFriends = filteredFriends.slice(0, 3);
+            setUserFriends(userFriends);
+            setNumOfFriends(filteredFriends.length);
+            setFriends(filteredFriends);
             setVenues(venueObj(user.concerts));
             setNumConcerts(user.concerts.length);
 
@@ -142,13 +149,12 @@ const Dashboard = () => {
         setConcerts(user.concerts.sort(compareDate));
         setText('Upcoming Concerts');
     };
-    const numOfFriends = user.friends ? user.friends.length : 0;
 
     return googleInfo.GOOGLE_MAP_KEY.length ? (
         <div className={classes.outerContainer}>
             <Header userInfo={user} /> {/*Upper Div*/}
             <div className={classes.lowerContainer}>
-                <UpcomingEvents concerts={concerts} friends={user.friends} />
+                <UpcomingEvents concerts={concerts} friends={friends} />
                 <div className={classes.right}>
                     <div className={classes.map}>
                         <LoadScript
@@ -221,7 +227,7 @@ const Dashboard = () => {
                     <div className={classes.friends}>
                         <div className={classes.list}>
                             <FriendsList
-                                friends={friends}
+                                friends={userFriends}
                                 friendNum={numOfFriends}
                                 text="Friends"
                             />
