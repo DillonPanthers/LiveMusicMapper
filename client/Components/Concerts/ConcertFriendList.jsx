@@ -39,8 +39,7 @@ const ConcertFriendsList = ({ classes, friends }) => {
             ) : (
                 <>
                     <Typography variant="h6">
-                        Currently, you do not have any friends attending this
-                        event
+                        No friends attending this event
                     </Typography>
                 </>
             )}
