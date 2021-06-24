@@ -1,61 +1,66 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Typography, makeStyles } from '@material-ui/core';
+import { Avatar, Typography, Paper, makeStyles } from '@material-ui/core';
 
 import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    container: {
+        marginTop: '1rem',
         display: 'flex',
+        flexDirection: 'row',
         flexWrap: 'wrap',
+        gridGap: '1rem',
     },
-    text: {
-        padding: '.5rem',
+    paper: {
+        padding: '1rem',
+        width: '7rem',
+        height: '8.5rem',
+        background: theme.palette.background.default,
+        '&:hover': {
+            background: theme.palette.primary.main,
+            color: theme.palette.background.default,
+            boxShadow: '2px 2px 5px #01072a',
+        },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        rowGap: '0.75rem',
+    },
+    item: {
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    avatar: {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
+        backgroundColor: theme.palette.accent.main,
+    },
+    control: {
+        padding: theme.spacing(2),
+        width: '30vw',
+        height: '30vh',
+        overflow: 'scroll',
     },
     link: {
-        textDecoration: 'none',
-        color: 'white',
-        '&:hover': {
-            color: '#1DE9B6',
-        },
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        '& *': {
-            margin: '.5rem',
-        },
-    },
-
-    individual: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        flexBasis: '30%',
-        margin: '.6rem',
-    },
-
-    avatar: {
-        width: '75px',
-        height: '75px',
+        textDecoration: 'inherit',
+        color: 'inherit',
     },
 }));
 
 const FriendsList = ({ friends, friendNum, text }) => {
     const classes = useStyles();
-    const filteredFriends = friends.filter(friend => friend.friendship.status === "accepted");
+    const filteredFriends = friends.filter(
+        (friend) => friend.friendship.status === 'accepted'
+    );
     const friendsNum = friendNum ? friendNum : filteredFriends.length;
 
     return friends.length ? (
         <>
-            <Typography
-                gutterBottom
-                variant="h6"
-                component="h2"
-                className={classes.text}
-            >
+            <Typography variant="h6">
                 {text} {`(${friendsNum})`}
             </Typography>
-            <div className={classes.root}>
+            <div className={classes.container}>
                 {filteredFriends.map((friend) => {
                     return (
                         <div key={friend.id} className={classes.individual}>
@@ -63,13 +68,18 @@ const FriendsList = ({ friends, friendNum, text }) => {
                                 to={`/user/${friend.id}`}
                                 className={classes.link}
                             >
-                                <Avatar
-                                    className={classes.avatar}
-                                    src={friend.imageUrl}
-                                >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
-                                {`${friend.firstName} ${friend.lastName}`}
+                                <Paper className={classes.paper}>
+                                    <Avatar
+                                        className={`${classes.item} ${classes.avatar}`}
+                                        src={friend.imageUrl}
+                                    >{`${friend.firstName[0]}${friend.lastName[0]}`}</Avatar>
+                                    <Typography className={classes.item}>
+                                        {`${friend.firstName} ${friend.lastName}`}
+                                    </Typography>
+                                </Paper>
                             </Link>
-                        </div>)
+                        </div>
+                    );
                 })}
             </div>{' '}
         </>

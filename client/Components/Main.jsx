@@ -13,6 +13,7 @@ import SingleUser from './User/SingleUser';
 import FriendRequests from './User/FriendRequests';
 import Search from './User/Search';
 import AllFriends from './User/AllFriends';
+import UnauthorizedUser from './Error handling/UnauthorizedUser';
 
 import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
@@ -53,6 +54,11 @@ const Main = () => {
                         exact
                         component={SingleConcert}
                         path="/concert/:id"
+                    />
+                    <Route
+                        exact
+                        component={UnauthorizedUser}
+                        path="/unauthorizeduser"
                     />
                 </Switch>
             </Router>

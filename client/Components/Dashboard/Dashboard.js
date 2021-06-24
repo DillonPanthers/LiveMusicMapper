@@ -22,19 +22,16 @@ const useStyles = makeStyles((theme) => ({
         height: '90vh',
         overflowY: 'scroll',
     },
-
     lowerContainer: {
         display: 'flex',
+        margin: '0rem 0.75rem 0rem 0.75rem',
     },
-
     right: {
         display: 'flex',
         flexDirection: 'column',
         flex: '2',
-        marginLeft: '.5rem',
-        marginRight: '1rem',
+        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
     },
-
     map: {
         display: 'flex',
         justifyContent: 'center',
@@ -43,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         backgroundColor: '#382B71',
         marginTop: '1.5rem',
-        alignItems: 'center',
+        height: '14rem',
     },
-
     list: {
         flex: '2',
+        padding: '1.5rem',
     },
 
     button: {
@@ -61,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
     },
     verticalLine: {
         borderLeft: '0.1rem solid white',
-        height: '75%',
-        margin: '1rem',
+        margin: '1.5rem',
+        justifyContent: 'center',
     },
 }));
 
@@ -170,7 +167,7 @@ const Dashboard = () => {
                                 }}
                                 mapContainerStyle={{
                                     height: '60vh',
-                                    width: '75vw',
+                                    width: '70vw',
                                 }}
                                 options={{
                                     mapTypeControl: false,
