@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Typography, Paper, makeStyles } from '@material-ui/core';
 
-import ContainedButton from '../StyledComponents/ContainedButton';
-
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
@@ -11,12 +9,13 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         gridGap: '1rem',
         minHeight: '44rem',
+        marginTop: '1.5rem',
     },
     paper: {
         padding: '1rem',
         width: '7rem',
         height: '8.5rem',
-        background: theme.palette.background.default,
+        background: '#000021',
         '&:hover': {
             background: theme.palette.primary.main,
             color: theme.palette.background.default,
@@ -35,12 +34,6 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(6),
         height: theme.spacing(6),
         backgroundColor: theme.palette.accent.main,
-    },
-    control: {
-        padding: theme.spacing(2),
-        width: '30vw',
-        height: '30vh',
-        overflow: 'scroll',
     },
     link: {
         textDecoration: 'inherit',
@@ -63,7 +56,7 @@ const FriendsList = ({ friends, friendNum, text }) => {
             <div className={classes.container}>
                 {filteredFriends.map((friend) => {
                     return (
-                        <div key={friend.id} className={classes.individual}>
+                        <div key={friend.id}>
                             <Link
                                 to={`/user/${friend.id}`}
                                 className={classes.link}

@@ -38,9 +38,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '2',
         backgroundColor: '#382B71',
-        padding: '1.5rem',
         overflowY: 'scroll',
-        rowGap: '0.75rem',
+    },
+    text: {
+        padding: '1.5rem',
     },
 }));
 

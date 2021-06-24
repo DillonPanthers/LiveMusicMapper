@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         margin: theme.spacing(1),
-        backgroundColor: '#363073',
+        backgroundColor: '#000021',
     },
     label: {
         padding: '0.75rem',

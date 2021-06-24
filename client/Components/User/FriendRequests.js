@@ -1,5 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Typography, Button, Avatar, makeStyles } from '@material-ui/core';
+import {
+    Typography,
+    Button,
+    Avatar,
+    makeStyles,
+    Paper,
+} from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -9,36 +15,50 @@ import { socket, SocketContext } from '../../contexts/SocketContext';
 
 //TODO: Fix with CSS
 const useStyles = makeStyles((theme) => ({
-    margin: theme.spacing(1),
-    root: {
+    container: {
+        display: 'flex',
+        flex: '2',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gridGap: '1rem',
+        alignItems: 'flex-start',
+        margin: '0rem 1.5rem',
+    },
+    paper: {
+        padding: '0.75rem',
+        width: '7rem',
+        height: '12rem',
+        background: '#000021',
+        '&:hover': {
+            background: theme.palette.primary.main,
+            color: theme.palette.background.default,
+            boxShadow: '2px 2px 5px #01072a',
+        },
         display: 'flex',
         flexDirection: 'column',
-        flex: '2',
         alignItems: 'flex-start',
+        rowGap: '0.5rem',
+    },
+    item: {
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    avatar: {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
+        backgroundColor: theme.palette.accent.main,
     },
     button: {
         color: 'white',
         backgroundColor: 'gray',
-        maxHeight: '20px',
-        marginRight: '5px',
-        marginLeft: '5px',
-    },
-    friend: {
-        margin: '0.5rem',
+        width: '5rem',
+        height: '1.5rem',
     },
     link: {
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        margin: '0.5rem',
         textDecoration: 'none',
         '&:hover': {
             color: '#1DE9B6',
         },
-    },
-    name: {
-        display: 'flex',
-        alignItems: 'center',
-        color: 'white',
     },
 }));
 
@@ -103,50 +123,55 @@ function FriendRequests() {
     };
 
     return friendRequests.length > 0 ? (
-        <div className={classes.root}>
+        <div className={classes.container}>
             {friendRequests.map((request) => {
                 return (
-                    <div key={request.userId} className={classes.friend}>
+                    <div key={request.userId}>
                         <Link
                             className={classes.link}
                             to={`/user/${request.userId}`}
                         >
-                            <Avatar
-                                src={request.userInfo.imageUrl}
-                            >{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
-                            <div className={classes.name}>
-                                {request.userInfo.fullName}
-                            </div>
-                        </Link>
-
-                        <Button
-                            className={classes.button}
-                            onClick={() =>
-                                acceptFriend(request.userId, user.id)
-                            }
-                        >
-                            Add
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                rejectFriend(request.userId, user.id)
-                            }
-                            className={classes.button}
-                        >
-                            Reject
-                        </Button>
-                        {/* <Button
+                            {' '}
+                            <Paper className={classes.paper}>
+                                <Avatar
+                                    className={`${classes.item} ${classes.avatar}`}
+                                    src={request.userInfo.imageUrl}
+                                >{`${request.userInfo.firstName[0]}${request.userInfo.lastName[0]}`}</Avatar>
+                                <Typography className={classes.item}>
+                                    {request.userInfo.fullName}
+                                </Typography>
+                                <Button
+                                    className={`${classes.item} ${classes.button}`}
+                                    onClick={() =>
+                                        acceptFriend(request.userId, user.id)
+                                    }
+                                >
+                                    ADD
+                                </Button>
+                                <Button
+                                    onClick={() =>
+                                        rejectFriend(request.userId, user.id)
+                                    }
+                                    className={`${classes.item} ${classes.button}`}
+                                >
+                                    REJECT
+                                </Button>
+                                {/* <Button
                             onClick={() => blockFriend()}
                             className={classes.button}
                         >
                             Block
                         </Button> */}
+                            </Paper>
+                        </Link>
                     </div>
                 );
             })}
         </div>
     ) : (
-        <Typography>No pending friend Requests</Typography>
+        <Typography className={classes.container}>
+            No pending friend Requests
+        </Typography>
     );
 }
 
