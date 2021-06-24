@@ -17,8 +17,6 @@ const mutualFriends = (usersFriends, friendsHomies) => {
     const mutuals = usersFriends.filter((friend) =>
         friendHomiesIds.includes(friend.id)
     );
-
-    // console.log(mutuals, 'mutuals in util function here');
     //we are returning an array of the mutual friends here
     return mutuals;
 };

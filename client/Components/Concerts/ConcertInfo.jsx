@@ -113,7 +113,6 @@ export default function ConcertInfo({ single_concert, artistName }) {
         </Icon>
     );
 
-    console.log('singleConcert', single_concert);
     return (
         <>
             <div className={classes.upperContainer}>

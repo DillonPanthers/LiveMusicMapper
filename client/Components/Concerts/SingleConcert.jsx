@@ -4,9 +4,6 @@ import axios from 'axios';
 import { GlobalState } from '../../contexts/Store';
 import ConcertInfo from './ConcertInfo';
 
-// TODO: Fix CSS
-// TODO: Not Logged In View
-
 export default function SingleConcert(props) {
     const { id } = props.match.params;
     const { currSingleConcert } = useContext(GlobalState);

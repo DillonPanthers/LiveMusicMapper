@@ -2,12 +2,6 @@ const { Genre } = require('../../db/index');
 const axios = require('axios');
 const { closest, distance } = require('fastest-levenshtein');
 
-/*
-Updates existing genres with latest genres listed first in array. as spotify profile matures, place new genres in front of the array and pop off the older genres if the array length exceeds N.
-    EX: existingArray = ['electronic', 'pop', 'soul', 'r&b', 'indie rock']
-    EX: newArray = ['new wave', 'folk', 'blues', 'country', 'classical','latin', 'electronic', 'pop', 'soul', 'r&b' ]
-NOTE: may need to increase N value for genres because mutiple genres may be attached to a single artist from spotify data
-*/
 const consolidateArray = (existingArray, newArray, n) => {
     newArray = newArray.reduce((acc, elem) => {
         if (!existingArray.includes(elem)) acc.push(elem);
@@ -93,9 +87,6 @@ const getPersonalizedTMGenres = async (spotifyGenres) => {
     return spotifyGenres.reduce((acc, genre) => {
         const closestGenre = closest(genre, tmArray);
         const matchRating = distance(genre, closestGenre);
-        // console.log('match-rating', matchRating);
-        // console.log('....> spotify genre:', genre);
-        // console.log('----> closest genre:', closestGenre);
         const id = tmGenres[closestGenre];
         return !(closestGenre in acc) && matchRating < 10
             ? { ...acc, [closestGenre]: id }

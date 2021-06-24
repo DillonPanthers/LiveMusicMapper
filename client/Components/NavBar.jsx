@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// TODO: ADD LINKS TO TITLE & BUTTONS
 const NavBar = (props) => {
     const location = useLocation();
     const classes = useStyles();

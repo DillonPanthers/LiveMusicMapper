@@ -153,7 +153,7 @@ function Map() {
             const lat1 = this.getCenter().lat();
             const lng1 = this.getCenter().lng();
 
-            //TO DO: CHECK IF EB IS ALWAYS SECOND
+            //TODO: CHECK IF EB IS ALWAYS SECOND
             const zoomDir = this.getBounds();
             const keys = Object.keys(zoomDir);
             const lat2 = zoomDir[keys[0]].g;
