@@ -84,7 +84,7 @@ const FriendsList = ({ friends, friendNum, text }) => {
                 component="h2"
                 className={classes.text}
             >
-                {'No Mutual Friends'}
+                {`No ${text}`}
             </Typography>
         </div>
     );
