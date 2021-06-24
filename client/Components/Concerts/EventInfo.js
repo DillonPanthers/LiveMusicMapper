@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 10,
         marginBottom: 10,
         color: 'white',
-        backgroundColor: '#000A47',
+        backgroundColor: '#000000',
         '&:hover': {
             boxShadow: '2px 2px 5px #01072a',
         },
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        backgroundColor: '#000021',
+        backgroundColor: '#000A47',
     },
     avatar: {
         width: theme.spacing(6),

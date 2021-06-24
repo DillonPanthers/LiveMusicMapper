@@ -6,11 +6,11 @@ import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        marginTop: '1rem',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         gridGap: '1rem',
+        minHeight: '44rem',
     },
     paper: {
         padding: '1rem',
@@ -84,7 +84,7 @@ const FriendsList = ({ friends, friendNum, text }) => {
             </div>{' '}
         </>
     ) : (
-        <div>
+        <div className={classes.container}>
             <Typography
                 gutterBottom
                 variant="h6"

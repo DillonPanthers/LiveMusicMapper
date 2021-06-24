@@ -18,14 +18,12 @@ const useStyles = makeStyles(() => ({
     },
     container: {
         height: '60vh',
-        overflowY: 'scroll',
     },
     right: {
         display: 'flex',
         flexDirection: 'column',
         flex: '2',
-        marginLeft: '.5rem',
-        marginRight: '1rem',
+        margin: '1.5rem 0.75rem',
     },
     artist: {
         flex: '2',
@@ -34,8 +32,8 @@ const useStyles = makeStyles(() => ({
     },
     friend: {
         flex: '2',
-        margin: '0.5rem',
         backgroundColor: '#382B71',
+        padding: '1.5rem',
     },
 }));
 

@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
     },
     lowerContainer: {
         display: 'flex',
-        margin: '0rem 0.75rem 0rem 0.75rem',
+        margin: '0rem 0.75rem',
     },
     right: {
         display: 'flex',
         flexDirection: 'column',
         flex: '2',
-        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
+        margin: '1.5rem 0.75rem',
     },
     map: {
         display: 'flex',
