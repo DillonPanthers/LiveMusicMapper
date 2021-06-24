@@ -7,13 +7,16 @@ const useStyles = makeStyles((theme) => ({
     left: {
         display: 'flex',
         flexDirection: 'column',
-        marginLeft: '1rem',
-        marginRight: '.5rem',
+        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
         flex: '1',
-        backgroundColor: 'rgba(20, 20, 30, 0.8)',
-        padding: '.5rem',
+        backgroundColor: '#363073',
+        padding: '1.5rem',
+        alignItems: 'center',
+        textAlign: 'left',
+        overflowY: 'scroll',
+        height: '39.5rem',
     },
-    text: {},
+    concertList: {},
 }));
 
 const UpcomingEvents = ({ concerts, friends, userId }) => {
@@ -24,7 +27,7 @@ const UpcomingEvents = ({ concerts, friends, userId }) => {
 
     return (
         <div className={classes.left}>
-            <Typography className={classes.text} variant="h5">
+            <Typography variant="h6" gutterBottom>
                 {`Upcoming Events (${concerts.length})`}
             </Typography>
             {concerts.map((concert) => (

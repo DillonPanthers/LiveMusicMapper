@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
     spotifyFrame: {
         minHeight: '25rem',
-        margin: '1.8rem 0.75rem 1.5rem 0.75rem',
+        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
         alignSelf: 'flex-start',
     },
     detailsElement: {

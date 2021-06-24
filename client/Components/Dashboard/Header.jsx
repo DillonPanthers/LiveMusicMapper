@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         backgroundColor: 'black',
-        padding: '.75rem',
+        padding: '1.5rem',
         height: '10rem',
     },
     avatar: {
