@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Paper, Typography, Avatar } from '@material-ui/core';
 
 const ConcertFriendsList = ({ classes, friends }) => {
-    const filteredFriends = friends.length
-        ? friends.filter((friend) => friend.friendship.status === 'accepted')
-        : [];
+    const filteredFriends = friends.filter(
+        (friend) => friend.friendship.status === 'accepted'
+    );
 
     return (
         <>
