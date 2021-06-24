@@ -19,18 +19,16 @@ const useStyles = makeStyles((theme) => ({
     outerContainer: {
         display: 'flex',
         flexDirection: 'column',
-        height: '90vh',
-        overflowY: 'scroll',
     },
     lowerContainer: {
         display: 'flex',
-        margin: '0rem 0.75rem 0rem 0.75rem',
+        margin: '0rem 0.75rem',
     },
     right: {
         display: 'flex',
         flexDirection: 'column',
         flex: '2',
-        margin: '1.5rem 0.75rem 1.5rem 0.75rem',
+        margin: '1.5rem 0.75rem',
     },
     map: {
         display: 'flex',
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
         flex: '3',
         padding: '1.5rem',
     },
-
     button: {
         display: 'flex',
         flex: '1',
@@ -55,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
         '& *': {
             textDecoration: 'none',
         },
+        marginRight: '1.5rem',
+    },
+    buttonStyle: {
+        fontSize: '0.75rem',
+        height: '2.5rem',
     },
     verticalLine: {
         borderLeft: '0.1rem solid white',
@@ -170,7 +172,7 @@ const Dashboard = () => {
                                     lng: userLocation.lon,
                                 }}
                                 mapContainerStyle={{
-                                    height: '60vh',
+                                    height: '24.5rem',
                                     width: '70vw',
                                 }}
                                 options={{
@@ -236,8 +238,10 @@ const Dashboard = () => {
                         <div className={classes.verticalLine}></div>
                         <div className={classes.button}>
                             <Link to="/friends">
-                                <ContainedButton>
-                                    View All Friends
+                                <ContainedButton
+                                    className={classes.buttonStyle}
+                                >
+                                    VIEW&nbsp;ALL&nbsp;FRIENDS
                                 </ContainedButton>
                             </Link>
                         </div>

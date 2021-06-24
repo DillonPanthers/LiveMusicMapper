@@ -11,7 +11,7 @@ const ConcertFriendsList = ({ classes, friends }) => {
         <>
             {friends.length ? (
                 <>
-                    <Typography variant="h4">Friends Attending</Typography>
+                    <Typography variant="h6">Friends Attending</Typography>
                     <div className={classes.container}>
                         {filteredFriends.map((friend) => (
                             <Link
@@ -37,7 +37,12 @@ const ConcertFriendsList = ({ classes, friends }) => {
                     </div>
                 </>
             ) : (
-                <Typography variant="h4">No Friends Attending</Typography>
+                <>
+                    <Typography variant="h6">
+                        Currently, you do not have any friends attending this
+                        event
+                    </Typography>
+                </>
             )}
         </>
     );

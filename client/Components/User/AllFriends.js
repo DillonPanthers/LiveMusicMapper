@@ -9,28 +9,28 @@ import FriendsList from './FriendsList';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        justifyContent: 'space-evenly',
+        margin: '0rem 0.75rem',
     },
     right: {
         display: 'flex',
         flex: '1',
         flexDirection: 'column',
-        margin: '.75rem',
+        margin: '1.5rem 0.75rem',
         height: '87vh',
     },
     left: {
         backgroundColor: '#382B71',
         flex: '2',
-        margin: '.75rem',
+        margin: '1.5rem 0.75rem',
         height: '87vh',
-        padding: '0.75rem',
-        overflowY: 'scroll',
+        padding: '1.5rem',
+        overflowY: 'auto',
     },
     search: {
         display: 'flex',
         flexDirection: 'column',
         flex: '2',
-        marginBottom: '.75rem',
+        marginBottom: '1.5rem',
         backgroundColor: '#382B71',
     },
     pending: {
@@ -38,11 +38,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: '2',
         backgroundColor: '#382B71',
-        padding: '.5rem',
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     text: {
-        padding: '0.75rem',
+        padding: '1.5rem',
     },
 }));
 
@@ -69,12 +68,7 @@ const AllFriends = () => {
                     <Search />
                 </div>
                 <div className={classes.pending}>
-                    <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        className={classes.text}
-                    >
+                    <Typography variant="h6" className={classes.text}>
                         Pending Friend Requests
                     </Typography>
                     <FriendRequests />
