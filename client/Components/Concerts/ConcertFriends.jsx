@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        rowGap: '0.75rem'
+        rowGap: '0.75rem',
     },
     item: {
         alignSelf: 'center',
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         width: theme.spacing(6),
         height: theme.spacing(6),
-        backgroundColor: theme.palette.accent.main
+        backgroundColor: theme.palette.accent.main,
     },
     control: {
         padding: theme.spacing(2),
@@ -58,7 +58,10 @@ function FriendsAttending({ concert }) {
 
     useEffect(() => {
         const grabFriends = async () => {
-            const concert_friends = await attendingFriends(concert.id, friends);
+            const [concert_friends, attendees] = await attendingFriends(
+                concert.id,
+                friends
+            );
             setConcertFriends(concert_friends);
         };
         if (user.id && concert.id) {

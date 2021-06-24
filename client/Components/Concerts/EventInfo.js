@@ -52,18 +52,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const EventInfo = ({ concertInfo, friends }) => {
+const EventInfo = ({ concertInfo, friends, loggedInUserId }) => {
+    const [concertFriends, setConcertFriends] = useState([]);
+    const [attending, setAttending] = useState(false);
+    const [inDashboard, setInDashboard] = useState(false);
+
     useEffect(() => {
         const grabFriends = async () => {
-            const myFriends = await attendingFriends(concertInfo.id, friends);
+            const [myFriends, attendees] = await attendingFriends(
+                concertInfo.id,
+                friends
+            );
+            setAttending(attendees.includes(loggedInUserId));
             setConcertFriends(myFriends);
+            setInDashboard(window.location.hash.includes('dashboard'));
         };
-        if (friends.length && concertInfo.id) {
+
+        if (concertInfo.id) {
             grabFriends();
         }
     }, []);
-    const [concertFriends, setConcertFriends] = useState([]);
-
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -88,6 +96,14 @@ const EventInfo = ({ concertInfo, friends }) => {
                                 <Typography variant="caption">
                                     {convertTime(concertInfo.time)}
                                 </Typography>
+                                {attending && !inDashboard ? (
+                                    <Typography
+                                        variant="caption"
+                                        color="primary"
+                                    >
+                                        You are attending this event!
+                                    </Typography>
+                                ) : null}
                             </div>
                         </CardContent>
                         <CardActions className={classes.cardActions}>

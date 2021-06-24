@@ -276,6 +276,7 @@ function SingleUser(props) {
                                         friend.friendship.status === 'accepted'
                                 )}
                                 userId={user.id}
+                                loggedInUserId={currentUser.id}
                             />
                         ) : (
                             <div></div>
