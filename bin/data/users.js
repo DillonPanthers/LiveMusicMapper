@@ -1,4 +1,32 @@
 // TODO: Seed more users
+const faker = require('faker');
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
+
+const randomImages = () => {
+    const funcArr = [
+        faker.image.animals,
+        faker.image.city,
+        faker.image.food,
+        faker.image.nightlife,
+        faker.image.transport,
+        faker.image.nature,
+        faker.image.fashion,
+        faker.image.business,
+        faker.image.sports,
+        faker.image.avatar,
+        faker.image.abstract,
+    ];
+    const randomIndex = getRandomIntInclusive(0, funcArr.length - 1);
+
+    const image = funcArr[randomIndex];
+    return image();
+};
+
 const users = [
     {
         firstName: 'Vikki',
@@ -53,6 +81,7 @@ const users = [
         firstName: 'Max',
         lastName: 'Dog',
         email: 'maxdog@gmail.com',
+        imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
     },
@@ -60,6 +89,7 @@ const users = [
         firstName: 'Mango',
         lastName: 'Cat',
         email: 'mangocat@gmail.com',
+        imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
     },
@@ -67,6 +97,7 @@ const users = [
         firstName: 'Water',
         lastName: 'Bottle',
         email: 'waterbottle@gmail.com',
+        imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
     },
@@ -74,6 +105,7 @@ const users = [
         firstName: 'Alcott',
         lastName: 'Vernon',
         email: 'alcott@gmail.com',
+        imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
     },
@@ -81,6 +113,7 @@ const users = [
         firstName: 'Anna',
         lastName: 'Litoskaya',
         email: 'anna@gmail.com',
+        imageUrl: randomImages(),
         password: '1234',
         isAdmin: true,
     },
