@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
         overflowY: 'scroll',
         height: '39.5rem',
     },
-    concertList: {},
 }));
 
 const UpcomingEvents = ({ concerts, friends, userId }) => {
