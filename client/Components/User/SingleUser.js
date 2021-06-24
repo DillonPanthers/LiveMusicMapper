@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     text: {
         display: 'flex',
         marginLeft: '.5rem',
+        marginRight: '1rem',
         flexDirection: 'column',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '0.5rem',
     },
     container: {
-        margin: '0rem 0.75rem 0rem 0.75rem',
+        margin: '0rem 0.75rem',
     },
 }));
 
@@ -249,14 +250,20 @@ function SingleUser(props) {
                             {user.spotifyId &&
                             (user.isPublic || friendship === 'friends') ? (
                                 <>
-                                    <Typography>{`Top Genre | ${
-                                        Object.keys(user.ticketmasterGenres)[0]
-                                    }`}</Typography>
-                                    <Typography>{`Top Artists | ${Object.keys(
-                                        user.artists
-                                    )
-                                        .slice(0, 3)
-                                        .join(' | ')}`}</Typography>
+                                    <Typography>
+                                        <strong>Top Genres&nbsp;</strong>
+                                        {`| ${
+                                            Object.keys(
+                                                user.ticketmasterGenres
+                                            )[0]
+                                        }`}
+                                    </Typography>
+                                    <Typography>
+                                        <strong>Top Artists&nbsp;</strong>
+                                        {`| ${Object.keys(user.artists)
+                                            .slice(0, 3)
+                                            .join(' | ')}`}
+                                    </Typography>
                                 </>
                             ) : (
                                 <></>
