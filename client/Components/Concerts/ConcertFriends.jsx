@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '1rem',
         width: '7rem',
         height: '8.5rem',
-        background: theme.palette.background.default,
+        background: '#000021',
         '&:hover': {
             background: theme.palette.primary.main,
             color: theme.palette.background.default,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         width: '30vw',
         height: '30vh',
-        overflow: 'scroll',
+        overflow: 'auto',
     },
     link: {
         textDecoration: 'inherit',
