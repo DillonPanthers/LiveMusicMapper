@@ -64,14 +64,6 @@ const users = [
         isPublic: false,
     },
     {
-        firstName: 'Craig',
-        lastName: 'Ferreira',
-        email: 'ferreira.craig@gmail.com',
-        password: '1234',
-        isAdmin: true,
-        isPublic: false,
-    },
-    {
         firstName: 'Inderprit',
         lastName: 'Singh',
         email: 'narutoip@hotmail.com',

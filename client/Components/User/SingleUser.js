@@ -151,18 +151,17 @@ function SingleUser(props) {
         getUser();
     }, [props.match.params.id, currentUser, user.id, friends.length]);
 
-    const onButtonClick = async (event) => {
-        const action = event.target.innerHTML;
+    const onButtonClick = async (text) => {
         const friendId = user.id;
         const userId = currentUser.id;
-        if (action === 'add friend') {
+        if (text === 'notFriends') {
             await axios.post('/api/user/add-friend', {
                 friendId,
                 userId,
             });
             getUserData();
             addFriend(friendId);
-        } else if (action === 'accept friend') {
+        } else if (text === 'recievedRequest') {
             await axios.post('/api/user/accept-friend', {
                 requesterId: friendId,
                 inviteeId: userId,
@@ -217,7 +216,9 @@ function SingleUser(props) {
                                 ) : (
                                     <div>
                                         <ContainedButton
-                                            onClick={onButtonClick}
+                                            onClick={() =>
+                                                onButtonClick(friendship)
+                                            }
                                             variant="contained"
                                             className={classes.containedButton}
                                         >

@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gridGap: '1rem',
-        minHeight: '20rem',
         marginTop: '1.5rem',
     },
     paper: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const FriendsList = ({ friends, friendNum, text }) => {
     const classes = useStyles();
     const filteredFriends = friends.filter(
-        (friend) => friend.friendship.status === 'accepted' && friend.firstName !== 'Craig'
+        (friend) => friend.friendship.status === 'accepted'
     );
     const friendsNum = friendNum ? friendNum : filteredFriends.length;
 
@@ -56,7 +55,7 @@ const FriendsList = ({ friends, friendNum, text }) => {
             <div className={classes.container}>
                 {filteredFriends.map((friend) => {
                     return (
-                        <div key={friend.id} >
+                        <div key={friend.id}>
                             <Link
                                 to={`/user/${friend.id}`}
                                 className={classes.link}
