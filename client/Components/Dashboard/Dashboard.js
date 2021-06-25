@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '3',
         padding: '1.5rem',
     },
+
     button: {
         display: 'flex',
         flex: '1',
