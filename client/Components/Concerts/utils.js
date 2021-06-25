@@ -28,8 +28,13 @@ export const getWorkingImage = (imageArr) => {
 export const displayAddress = (venue) => {
     const address = venue.address ? venue.address.line1 : '';
     const city = venue.city ? venue.city.name : '';
-    const state = venue.state ? venue.state.stateCode : '';
+    const state = venue.state.stateCode
+        ? venue.state.stateCode
+        : venue.state.name
+        ? venue.state.name
+        : '';
     const country = venue.country ? venue.country.countryCode : '';
     const postalCode = venue.postalCode ? venue.postalCode : '';
-    return { address, city, state, country, postalCode };
+    const location = `${address}, \n${city}, ${state} ${postalCode} ${country}`;
+    return location;
 };

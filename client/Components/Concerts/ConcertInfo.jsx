@@ -9,7 +9,7 @@ import ConcertFriends from './ConcertFriends';
 import ContainedButton from '../StyledComponents/ContainedButton';
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 
-import { convertTime, getWorkingImage } from './utils';
+import { convertTime, getWorkingImage, displayAddress } from './utils';
 import { getDateInStringFormat } from '../Card/utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -175,23 +175,31 @@ export default function ConcertInfo({ single_concert, artistName }) {
             </div>
             <div className={classes.container}>
                 <div className={classes.detailsElement}>
-                    <Typography variant="h6" gutterBottom>
-                        Venue Details
-                    </Typography>
                     {single_concert._embedded ? (
                         <Typography variant="h6" gutterBottom>
-                            Name:&nbsp;
                             {single_concert._embedded.venues[0].name}
                         </Typography>
+                    ) : (
+                        <></>
+                    )}
+                    {single_concert._embedded ? (
+                        <>
+                            <Typography gutterBottom>
+                                <strong>Address: </strong> <br />
+                                {displayAddress(
+                                    single_concert._embedded.venues[0]
+                                )}
+                            </Typography>
+                        </>
                     ) : null}
                     {single_concert.dates ? (
-                        <Typography variant="h6">
-                            Start Time:&nbsp;
+                        <Typography gutterBottom>
+                            <strong>Start Time: </strong>
                             {single_concert.dates.start.localTime
                                 ? convertTime(
                                       single_concert.dates.start.localTime
                                   )
-                                : 'No Specific Time Set'}
+                                : 'TBD'}
                         </Typography>
                     ) : null}
                     {single_concert.pleaseNote ? (
