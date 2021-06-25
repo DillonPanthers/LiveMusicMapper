@@ -43,9 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const FriendsList = ({ friends, friendNum, text }) => {
     const classes = useStyles();
     const filteredFriends = friends.filter(
-        (friend) =>
-            friend.friendship.status === 'accepted' &&
-            friend.firstName !== 'Craig'
+        (friend) => friend.friendship.status === 'accepted'
     );
     const friendsNum = friendNum ? friendNum : filteredFriends.length;
 

@@ -10,7 +10,6 @@ const init = async () => {
         const [
             vikki,
             alejandra,
-            craig,
             inderprit,
             max,
             mango,
@@ -65,19 +64,12 @@ const init = async () => {
         await zaina.addFriend(vikki);
         await eliot.addFriend(vikki);
 
-        await stanley.addFriend(craig);
-        await thompson.addFriend(craig);
-        await zaina.addFriend(craig);
-        await prof.addFriend(craig);
-        await eliot.addFriend(craig);
-
         await mango.addFriend(alejandra);
         await max.addFriend(alejandra);
         await water.addFriend(alejandra);
         await alcott.addFriend(alejandra);
         await russel.addFriend(alejandra);
         await anna.addFriend(alejandra);
-        await craig.addFriend(alejandra);
         await vikki.addFriend(alejandra);
 
         await max.addFriend(inderprit);
