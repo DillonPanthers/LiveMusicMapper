@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
         padding: '1rem',
         width: '7rem',
         height: '8.5rem',
-        background: theme.palette.background.default,
+        background: '#000021',
         '&:hover': {
             background: theme.palette.primary.main,
             color: theme.palette.background.default,
-            boxShadow: '2px 2px 5px #01072a',
+            boxShadow: '#000021',
         },
         display: 'flex',
         flexDirection: 'column',
