@@ -26,3 +26,8 @@
     background-color: #c9c9c9;
     border: 1.5px solid #838282;
 }
+
+body::-webkit-scrollbar-thumb {
+    background-color: #000021;
+    border: 1px solid #0b0c0f;
+}
