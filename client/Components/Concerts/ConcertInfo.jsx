@@ -79,7 +79,6 @@ export default function ConcertInfo({ single_concert, artistName }) {
     const [isAttending, setIsAttending] = useState(false);
 
     useEffect(() => {
-        console.log(single_concert, 'here');
         const checkIfAttending = () => {
             return user.concerts.some(
                 (concert) => concert.id === single_concert.id
