@@ -6,14 +6,11 @@ export const getEvents = async (locationData, radius, genre) => {
         const latlong = locationData.lat + ',' + locationData.lon;
         const genreId = genre.length ? `genreId=${genre}&` : '';
 
-        const {
-            data: {
-                _embedded: { events },
-            },
-        } = await axios.get('/api/ticketmaster/genres', {
+        const { data } = await axios.get('/api/ticketmaster/genres', {
             params: { latlong, radius, genreId },
         });
-        return events;
+
+        return data._embedded ? data._embedded.events : [];
     } catch (error) {
         console.log(error);
     }
@@ -107,22 +104,25 @@ const callTicketmasterApi = async (object, parameterType, latlong, radius) => {
   }
  * Below I am modifying those fields. For each of the events I am populating the concerts part of the venue in the object I already set up above.
  */
-export const getVenueObject = (eventObj) =>
-    eventObj.reduce((venObj, concert) => {
-        const venueName = concert._embedded.venues[0].name;
-        if (!venObj[venueName]) {
-            // grab venue data set it as property of venObj
-            const venueData = concert._embedded.venues[0];
-            venObj[venueName] = {
-                venueData,
-                venueEvents: [concert],
-            };
-        } else {
-            venObj[venueName].venueEvents.push(concert);
-        }
-        return venObj;
-    }, {});
-
+export const getVenueObject = (eventObj) => {
+    if (eventObj) {
+        return eventObj.reduce((venObj, concert) => {
+            const venueName = concert._embedded.venues[0].name;
+            if (!venObj[venueName]) {
+                // grab venue data set it as property of venObj
+                const venueData = concert._embedded.venues[0];
+                venObj[venueName] = {
+                    venueData,
+                    venueEvents: [concert],
+                };
+            } else {
+                venObj[venueName].venueEvents.push(concert);
+            }
+            return venObj;
+        }, {});
+    }
+    return {};
+};
 // prints out current time based on seconds
 const getTime = () => {
     return (new Date().getTime() % 60000) / 1000;

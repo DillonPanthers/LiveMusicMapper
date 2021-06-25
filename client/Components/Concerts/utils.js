@@ -24,3 +24,12 @@ export const getWorkingImage = (imageArr) => {
         if (image.ratio === '3_2' && image.width > 500) return image.url;
     }
 };
+
+export const displayAddress = (venue) => {
+    const address = venue.address ? venue.address.line1 : '';
+    const city = venue.city ? venue.city.name : '';
+    const state = venue.state ? venue.state.stateCode : '';
+    const country = venue.country ? venue.country.countryCode : '';
+    const postalCode = venue.postalCode ? venue.postalCode : '';
+    return { address, city, state, country, postalCode };
+};

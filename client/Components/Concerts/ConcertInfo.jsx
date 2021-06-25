@@ -79,6 +79,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
     const [isAttending, setIsAttending] = useState(false);
 
     useEffect(() => {
+        console.log(single_concert, 'here');
         const checkIfAttending = () => {
             return user.concerts.some(
                 (concert) => concert.id === single_concert.id
@@ -186,7 +187,11 @@ export default function ConcertInfo({ single_concert, artistName }) {
                     {single_concert.dates ? (
                         <Typography variant="h6">
                             Start Time:&nbsp;
-                            {convertTime(single_concert.dates.start.localTime)}
+                            {single_concert.dates.start.localTime
+                                ? convertTime(
+                                      single_concert.dates.start.localTime
+                                  )
+                                : 'No Specific Time Set'}
                         </Typography>
                     ) : null}
                     {single_concert.pleaseNote ? (
