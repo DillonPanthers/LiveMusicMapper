@@ -129,7 +129,11 @@ export default function ConcertInfo({ single_concert, artistName }) {
                         </Typography>
                     ) : null}
                     {single_concert.url ? (
-                        <a className={classes.link} href={single_concert.url}>
+                        <a
+                            className={classes.link}
+                            href={single_concert.url}
+                            target="_blank"
+                        >
                             <ContainedButton
                                 className={classes.containedButton}
                             >

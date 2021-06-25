@@ -35,6 +35,6 @@ export const displayAddress = (venue) => {
         : '';
     const country = venue.country ? venue.country.countryCode : '';
     const postalCode = venue.postalCode ? venue.postalCode : '';
-    const location = `${address}, \n${city}, ${state} ${postalCode} ${country}`;
+    const location = `${address}, ${city}, ${state} ${postalCode} ${country}`;
     return location;
 };
