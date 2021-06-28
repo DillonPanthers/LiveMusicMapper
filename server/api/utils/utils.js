@@ -14,6 +14,31 @@ const requireToken = async (req, res, next) => {
     }
 };
 
+const checkValidFields = (firstName, lastName, email, password) => {
+    const error = new Error('All fields are required');
+    error.status = 400;
+    if (
+        firstName === '' ||
+        lastName === '' ||
+        email === '' ||
+        password === ''
+    ) {
+        throw error;
+    }
+};
+
+const validEmail = (email) => {
+    const re =
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(email)) {
+        const error = new Error('Not a valid email address');
+        error.status = 400;
+        throw error;
+    }
+};
+
 module.exports = {
     requireToken,
+    checkValidFields,
+    validEmail,
 };

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
+        width: '24rem',
     },
     text: {
         marginBottom: '8%',
@@ -21,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
     errorContainer: {
         display: 'flex',
         marginBottom: '8%',
+    },
+    errorMsg: {
         justifyContent: 'center',
         border: '2px solid red',
         backgroundColor: 'white',
+        alignItems: 'align-start',
     },
     error: {
         color: 'red',
@@ -38,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'red',
         display: 'flex',
         padding: '0.5rem',
-        justifyContent: 'center',
         width: '4rem',
+        flex: 1,
     },
 }));
 
@@ -77,7 +80,9 @@ const EmailSignIn = () => {
                     <div className={classes.iconContainer}>
                         <WarningIcon className={classes.icon} />
                     </div>
-                    <p className={classes.error}>{errorMsg}</p>
+                    <div className={classes.errorMsg}>
+                        <p className={classes.error}>{errorMsg}</p>
+                    </div>
                 </div>
             ) : (
                 <></>

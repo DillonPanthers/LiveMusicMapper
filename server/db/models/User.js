@@ -149,4 +149,13 @@ User.generateToken = async (id) => {
     }
 };
 
+User.checkDuplicate = async (email) => {
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+        const error = new Error('This email address is already in use');
+        error.status = 409;
+        throw error;
+    }
+};
+
 module.exports = { User };

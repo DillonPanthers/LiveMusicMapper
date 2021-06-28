@@ -14,6 +14,7 @@ import FriendRequests from './User/FriendRequests';
 import Search from './User/Search';
 import AllFriends from './User/AllFriends';
 import UnauthorizedUser from './Error handling/UnauthorizedUser';
+/* import About from './About/About; - Team Page tbd */
 
 import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
