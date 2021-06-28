@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid red',
         backgroundColor: 'white',
         alignItems: 'align-start',
+        width: '85%',
     },
     error: {
         color: 'red',
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         padding: '0.5rem',
         width: '4rem',
+        alignItems: 'center',
+        justifyContent: 'center',
         flex: 1,
     },
 }));
