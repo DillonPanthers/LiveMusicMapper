@@ -118,7 +118,7 @@ User.byToken = async (token) => {
 
 // generates token for user & adds signature on the backend
 User.authenticate = async ({ email, password }) => {
-    let error = new Error('Please enter all required fields.');
+    let error = new Error('All fields are required.');
     error.status = 401;
 
     if (email === '' || password === '') throw error;
