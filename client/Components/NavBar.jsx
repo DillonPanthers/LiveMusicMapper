@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         color: 'white',
+        padding: '1rem',
+    },
+    icon: {
+        color: 'white',
+        margin: '1rem',
+        verticalAlign: 'middle',
     },
 }));
 
@@ -82,9 +88,7 @@ const NavBar = (props) => {
                         </Typography>
                         {location.pathname !== '/map' && (
                             <Link to="/map" className={classes.link}>
-                                <Button className={classes.button}>
-                                    <MapIcon />
-                                </Button>
+                                <MapIcon className={classes.icon} />
                             </Link>
                         )}
                         {!user.id && (
@@ -113,7 +117,7 @@ const NavBar = (props) => {
                                         <PeopleAltTwoToneIcon color="primary" />
                                     ) : (
                                         <PeopleAltTwoToneIcon
-                                            style={{ color: 'gray' }}
+                                            className={classes.icon}
                                         />
                                     )}
                                 </Link>

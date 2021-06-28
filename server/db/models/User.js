@@ -123,10 +123,20 @@ User.authenticate = async ({ email, password }) => {
             email,
         },
     });
-    if (user && (await bcrypt.compare(password, user.password))) {
-        return jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+    let error;
+    if (user) {
+        if (user.spotifyId) {
+            error = new Error(
+                "Looks like you've already connected your Spotify account. Please log in with your Spotify account instead."
+            );
+        } else if (await bcrypt.compare(password, user.password)) {
+            return jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        }
+    } else {
+        error = new Error(
+            "The Username and Password don't match our records, please check them and try logging in again."
+        );
     }
-    const error = Error('bad credentials');
     error.status = 401;
     throw error;
 };
