@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
+import MapIcon from '@material-ui/icons/Map';
 
 import { GlobalState } from '../contexts/Store';
 import { socket } from '../contexts/SocketContext';
@@ -82,7 +83,7 @@ const NavBar = (props) => {
                         {location.pathname !== '/map' && (
                             <Link to="/map" className={classes.link}>
                                 <Button className={classes.button}>
-                                    View&nbsp;Map
+                                    <MapIcon />
                                 </Button>
                             </Link>
                         )}

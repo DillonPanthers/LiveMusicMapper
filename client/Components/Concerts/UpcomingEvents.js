@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '1.5rem',
         textAlign: 'left',
         overflowY: 'auto',
-        height: '40rem', // NOTE: changed for production quality
+        height: '40rem',
     },
 }));
 

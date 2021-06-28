@@ -55,6 +55,7 @@ const UnauthorizedUser = () => {
                     <a
                         href="https://github.com/DillonPanthers/capstone/issues"
                         className={classes.link}
+                        target="_blank"
                     >
                         <ContainedButton size="medium">
                             CONTACT US HERE
