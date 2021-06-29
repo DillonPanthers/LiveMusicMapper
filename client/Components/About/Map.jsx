@@ -1,19 +1,45 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     GoogleMap,
     LoadScript,
     Marker,
     InfoWindow,
 } from '@react-google-maps/api';
+import { makeStyles } from '@material-ui/core';
 
 import { GlobalState } from '../../contexts/Store';
 import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
+import teamInfo from './teamInfo';
+
+const useStyles = makeStyles((theme) => ({
+    infoWindow: {
+        color: theme.palette.background.dark,
+    },
+}));
 
 const Map = () => {
-    const { auth, getUserData, location, getUserLocation, googleInformation } =
-        useContext(GlobalState);
+    const classes = useStyles();
+
+    const { googleInformation } = useContext(GlobalState);
 
     const [googleInfo, setGoogleInfo] = googleInformation;
+
+    const [markerState, setMarkerState] = useState({
+        isOpen: false,
+        lat: 0,
+        lng: 0,
+        name: '',
+    });
+
+    const onMarkerPopup = (lat, lng, name) => {
+        setMarkerState({
+            ...markerState,
+            lat,
+            lng,
+            name,
+            isOpen: true,
+        });
+    };
 
     return (
         <div>
@@ -22,7 +48,6 @@ const Map = () => {
                 mapIds={googleInfo.GOOGLE_MAP_ID}
             >
                 <GoogleMap
-                    // onClick={onMapClick}
                     zoom={5}
                     center={{
                         lat: 36.17745,
@@ -37,43 +62,32 @@ const Map = () => {
                         mapId: googleInfo.GOOGLE_MAP_ID,
                     }}
                 >
-                    {/* {venues
-                        ? Object.keys(venues).map((venue, idx) => {
-                              if (venues[venue][0].lat) {
-                                  return (
-                                      <Marker
-                                          key={venues[venue][0].id}
-                                          onClick={() =>
-                                              onMarkerPopup(
-                                                  venues[venue][0].lat,
-                                                  venues[venue][0].lon,
-                                                  venue,
-                                                  venues[venue]
-                                              )
-                                          }
-                                          position={{
-                                              lat: +venues[venue][0].lat,
-                                              lng: +venues[venue][0].lon,
-                                          }}
-                                          icon={personalizedMarkerIcon}
-                                      />
-                                  );
-                              }
-                          })
-                        : null} */}
+                    {teamInfo.map((user, idx) => (
+                        <Marker
+                            key={idx}
+                            onClick={() =>
+                                onMarkerPopup(user.lat, user.lng, user.name)
+                            }
+                            position={{
+                                lat: +user.lat,
+                                lng: +user.lng,
+                            }}
+                            icon={personalizedMarkerIcon}
+                        />
+                    ))}
 
-                    {/* {markerState.isOpen && (
+                    {markerState.isOpen && (
                         <InfoWindow
                             position={{
-                                lat: markerState.selectedEventLat,
-                                lng: markerState.selectedEventLong,
+                                lat: markerState.lat,
+                                lng: markerState.lng,
                             }}
                         >
-                            <div style={{ color: 'black' }}>
-                                {markerState.selectedVenueName}
+                            <div className={classes.infoWindow}>
+                                {markerState.name}
                             </div>
                         </InfoWindow>
-                    )} */}
+                    )}
                 </GoogleMap>
             </LoadScript>
         </div>
