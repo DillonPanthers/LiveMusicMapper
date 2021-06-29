@@ -1,17 +1,18 @@
 import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 import ourStory from './ourStory';
 import Map from './Map';
 import ProfileCardsList from './ProfileCardsList';
 import TechLogosSection from './TechLogosSection';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 // TODO: breakpoints for responsiveness
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        // border: '2px solid yellow',
         justifyContent: 'center',
         alignItems: 'center',
         padding: '0.75rem',
@@ -20,31 +21,28 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         minHeight: '20rem',
-        // border: '2px solid green',
         margin: '0.75rem',
     },
     contentContainer: {
         display: 'flex',
         flexDirection: 'row',
-        // border: '2px solid pink',
     },
     textContainer: {
         display: 'flex',
         flexDirection: 'column',
         width: '20rem',
-        // border: '2px solid orange',
         marginRight: '1.5rem',
         paddingRight: '1.5rem',
     },
     rightContainer: {
         display: 'flex',
         flexDirection: 'column',
-        // border: '2px solid red',
         rowGap: '1.5rem',
         width: '60vw',
     },
     link: {
         color: 'inherit',
+        textDecoration: 'inherit',
     },
     horizontalLine: {
         color: 'white',
@@ -52,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
         height: 1,
         width: '100%',
         marginTop: '3rem',
+    },
+    button: {
+        width: '16rem',
+        margin: '1.5rem 0rem',
     },
 }));
 
@@ -68,16 +70,18 @@ const About = () => {
                         {ourStory.split('\n').map((paragraph, i) => (
                             <p key={i}>{paragraph}</p>
                         ))}
-                        <p>
-                            Check out our project on{' '}
-                            <a
-                                href="https://github.com/DillonPanthers/LiveMusicMapper"
-                                target="_blank"
-                                className={classes.link}
+                        <a
+                            href="https://github.com/DillonPanthers/LiveMusicMapper"
+                            target="_blank"
+                            className={classes.link}
+                        >
+                            <ContainedButton
+                                startIcon={<GitHubIcon />}
+                                className={classes.button}
                             >
-                                <strong>GitHub</strong>
-                            </a>
-                        </p>
+                                GITHUB REPOSITORY
+                            </ContainedButton>
+                        </a>
                     </div>
                     <div className={classes.rightContainer}>
                         <Map />

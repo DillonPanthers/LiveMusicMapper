@@ -16,7 +16,6 @@ const TechLogoCardList = ({ technologies }) => {
 
     return (
         <div className={classes.container}>
-            {/* <img src={techStack.backend[0]} /> */}
             {technologies.map((tech, idx) => (
                 <TechLogoCard key={idx} tech={tech} />
             ))}

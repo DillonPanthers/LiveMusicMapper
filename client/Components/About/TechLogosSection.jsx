@@ -17,13 +17,15 @@ const TechLogosSection = () => {
 
     return (
         <div className={classes.container}>
-            {/* Backend */}
             <Typography variant="h6">Backend</Typography>
             <TechLogoCardlist technologies={techStack.backend} />
+
             <Typography variant="h6">Frontend</Typography>
             <TechLogoCardlist technologies={techStack.frontend} />
+
             <Typography variant="h6">Libraries</Typography>
             <TechLogoCardlist technologies={techStack.libraries} />
+
             <Typography variant="h6">APIs</Typography>
             <TechLogoCardlist technologies={techStack.apis} />
         </div>

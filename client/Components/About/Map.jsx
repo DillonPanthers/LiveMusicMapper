@@ -21,7 +21,6 @@ const Map = () => {
     const classes = useStyles();
 
     const { googleInformation } = useContext(GlobalState);
-
     const [googleInfo, setGoogleInfo] = googleInformation;
 
     const [markerState, setMarkerState] = useState({
@@ -40,7 +39,6 @@ const Map = () => {
             isOpen: true,
         });
     };
-
     return (
         <div>
             <LoadScript

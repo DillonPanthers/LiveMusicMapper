@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         backgroundColor: 'white',
         width: '10rem',
-        // border: '2px solid green',
         '&:hover': {
             boxShadow: '2px 2px 5px #01072a',
         },

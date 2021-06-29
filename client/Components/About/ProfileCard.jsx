@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '1.5rem',
         fontFamily: 'Montserrat, sans-serif',
         fontWeight: 'bold',
-        color: '#1DE9B6',
+        color: theme.palette.primary.main,
         lineHeight: '1.15',
     },
     link: {
