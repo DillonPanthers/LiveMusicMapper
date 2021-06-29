@@ -140,6 +140,9 @@ const NavBar = (props) => {
                                 </Button>
                             </>
                         )}
+                        <Link to="/about" className={classes.link}>
+                            <Button className={classes.button}>About</Button>
+                        </Link>
                     </Toolbar>
                 </AppBar>
             </div>

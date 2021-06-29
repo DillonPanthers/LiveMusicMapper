@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     errorContainer: {
         display: 'flex',
-        marginBottom: '8%',
+        marginBottom: '5%',
     },
     errorMsg: {
         justifyContent: 'center',

@@ -14,7 +14,7 @@ import FriendRequests from './User/FriendRequests';
 import Search from './User/Search';
 import AllFriends from './User/AllFriends';
 import UnauthorizedUser from './Error handling/UnauthorizedUser';
-/* import About from './About/About; - Team Page tbd */
+import About from './About/About';
 
 import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
@@ -61,6 +61,7 @@ const Main = () => {
                         component={UnauthorizedUser}
                         path="/unauthorizeduser"
                     />
+                    <Route exact component={About} path="/about" />
                 </Switch>
             </Router>
         </div>

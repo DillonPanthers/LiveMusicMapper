@@ -20,52 +20,48 @@ import { getDateInStringFormat, getConcertImage } from './utils';
 
 import OutlinedButton from '../StyledComponents/OutlinedButton';
 
-const useStyles = makeStyles((theme) => {
-    const hexColor = theme.palette.text.primary;
-
-    return {
-        root: {
-            width: '16rem',
-            marginTop: 0,
-            marginBottom: 10,
-            color: 'white',
-            backgroundColor: '#000A47',
-            '&:hover': {
-                boxShadow: '2px 2px 5px #01072a',
-            },
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '16rem',
+        marginTop: 0,
+        marginBottom: 10,
+        color: 'white',
+        backgroundColor: '#000A47',
+        '&:hover': {
+            boxShadow: '2px 2px 5px #01072a',
         },
-        media: {
-            height: 140,
-            objectFit: 'contain',
-            position: 'top',
-        },
-        heart: {
-            color: 'pink',
-        },
-        clear: {
-            color: 'red',
-        },
-        link: {
-            marginTop: '1rem',
-            textDecoration: 'inherit',
-            color: 'inherit',
-            width: '100%',
-        },
-        outlinedButton: {
-            height: '2.25rem',
-            fontSize: '0.65rem',
-            marginBottom: '1rem',
-            color: hexColor,
-            borderColor: hexColor,
-            padding: '0 20px',
-        },
-        cardActions: {
-            display: 'flex',
-            alignItems: 'center',
-            backgroundColor: '#363073',
-        },
-    };
-});
+    },
+    media: {
+        height: 140,
+        objectFit: 'contain',
+        position: 'top',
+    },
+    heart: {
+        color: 'pink',
+    },
+    clear: {
+        color: 'red',
+    },
+    link: {
+        marginTop: '1rem',
+        textDecoration: 'inherit',
+        color: 'inherit',
+        width: '100%',
+    },
+    outlinedButton: {
+        height: '2.25rem',
+        fontSize: '0.65rem',
+        marginBottom: '1rem',
+        color: theme.palette.text.primary,
+        borderColor: theme.palette.text.primary,
+        padding: '0 20px',
+    },
+    cardActions: {
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#363073',
+    },
+}));
 
 export default function TempCard({ concertData, isAttending }) {
     const classes = useStyles();
