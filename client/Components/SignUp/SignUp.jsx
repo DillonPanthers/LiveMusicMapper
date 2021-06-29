@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Card, makeStyles, Icon } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import WarningIcon from '@material-ui/icons/Warning';
+import { Link, useHistory } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignUp from './EmailSignUp';
 import ContainedButton from '../StyledComponents/ContainedButton';
 
-// TODO: Nice to have - error message to prevent existing user from signing up
+// TODO: Nice to have - error message to prevent existing Spotify user from signing up
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: '100vw',
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         zIndex: '1000',
-        maxWidth: '50%',
+        width: '30rem',
         minHeight: '10vh',
         display: 'flex',
         fontWeight: '100',
@@ -29,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'rgba(0,10,60,0.75)',
     },
     link: {
-        color: 'inherit',
         textDecoration: 'inherit',
+        width: '24rem',
     },
     divider: {
         display: 'flex',
@@ -50,16 +51,59 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         verticalAlign: 'top',
     },
+    errorContainer: {
+        display: 'flex',
+        marginBottom: '8%',
+    },
+    errorMsg: {
+        justifyContent: 'center',
+        border: '2px solid red',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flex: 3,
+    },
+    error: {
+        color: 'red',
+        margin: '0.5rem',
+        lineHeight: '1.15',
+        alignSelf: 'center',
+    },
+    warningIcon: {
+        color: 'white',
+        alignSelf: 'center',
+    },
+    iconContainer: {
+        backgroundColor: 'red',
+        display: 'flex',
+        padding: '0.5rem',
+        width: '4rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 }));
 
 const Signup = () => {
     const classes = useStyles();
+
+    const [errorMsg, setErrorMsg] = useState('');
 
     const svgIcon = (
         <Icon>
             <img src="spotify.svg" className={classes.icon} />
         </Icon>
     );
+
+    const signUpWithSpotify = () => {
+        try {
+            // TODO: Find a way to block an existing user from using logging in through the sign up button. Moved link here in case we find an efficient way to set up a conditional without creating another spotify api callback route
+            const path =
+                window.location.href.split('#')[0] + 'api/spotify/login';
+            window.location.replace(path);
+        } catch (error) {
+            setErrorMsg(error.response.data.error);
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -68,12 +112,25 @@ const Signup = () => {
                     <Typography variant="h4" className={classes.title}>
                         Hello, there!
                     </Typography>
-
-                    <a href="/api/spotify/login" className={classes.link}>
-                        <ContainedButton startIcon={svgIcon}>
-                            SIGN UP WITH A SPOTIFY ACCOUNT
-                        </ContainedButton>
-                    </a>
+                    {errorMsg !== '' ? (
+                        <div className={classes.errorContainer}>
+                            <div className={classes.iconContainer}>
+                                <WarningIcon className={classes.warningIcon} />
+                            </div>
+                            <div className={classes.errorMsg}>
+                                <p className={classes.error}>{errorMsg}</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                    <ContainedButton
+                        startIcon={svgIcon}
+                        className={classes.link}
+                        onClick={signUpWithSpotify}
+                    >
+                        SIGN UP WITH A SPOTIFY ACCOUNT
+                    </ContainedButton>
 
                     <div className={classes.divider}>
                         <p>or</p>

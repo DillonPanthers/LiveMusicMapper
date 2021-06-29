@@ -118,16 +118,31 @@ User.byToken = async (token) => {
 
 // generates token for user & adds signature on the backend
 User.authenticate = async ({ email, password }) => {
+    let error = new Error('All fields are required.');
+    error.status = 401;
+
+    if (email === '' || password === '') throw error;
+
     const user = await User.findOne({
         where: {
             email,
         },
     });
-    if (user && (await bcrypt.compare(password, user.password))) {
-        return jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+
+    error = new Error(
+        "The Username and Password don't match our records, please check them and try logging in again."
+    );
+
+    if (user) {
+        if (user.spotifyId) {
+            error = new Error(
+                "Looks like you've already connected your Spotify account. Please log in with your Spotify account instead."
+            );
+        } else if (await bcrypt.compare(password, user.password)) {
+            return jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        }
+        throw error;
     }
-    const error = Error('bad credentials');
-    error.status = 401;
     throw error;
 };
 
@@ -136,6 +151,15 @@ User.generateToken = async (id) => {
     const user = await User.findByPk(id);
     if (user) {
         return jwt.sign({ id }, process.env.JWT_SECRET);
+    }
+};
+
+User.checkDuplicate = async (email) => {
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+        const error = new Error('This email address is already in use.');
+        error.status = 409;
+        throw error;
     }
 };
 

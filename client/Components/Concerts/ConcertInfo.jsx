@@ -226,7 +226,7 @@ export default function ConcertInfo({ single_concert, artistName }) {
                                     className={classes.spotifyButton}
                                     startIcon={svgIcon}
                                 >
-                                    LOGIN WITH SPOTIFY FOR ARTIST PREVIEW
+                                    LOG IN WITH SPOTIFY FOR ARTIST PREVIEW
                                 </ContainedButton>
                             </Link>
                         </div>

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         zIndex: '1000',
-        maxWidth: '50%',
+        width: '30rem',
         minHeight: '10vh',
         display: 'flex',
         fontWeight: '100',
@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         padding: '2.5% 5%',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
+    },
+    button: {
+        width: '24rem',
     },
     link: {
         color: 'inherit',
@@ -68,9 +71,11 @@ const Login = () => {
                     <Typography variant="h4" className={classes.title}>
                         Welcome Back
                     </Typography>
-
                     <a href="/api/spotify/login" className={classes.link}>
-                        <ContainedButton startIcon={svgIcon}>
+                        <ContainedButton
+                            startIcon={svgIcon}
+                            className={classes.button}
+                        >
                             LOG IN WITH SPOTIFY ACCOUNT
                         </ContainedButton>
                     </a>

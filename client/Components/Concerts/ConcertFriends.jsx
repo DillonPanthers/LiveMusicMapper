@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
 import { GlobalState } from '../../contexts/Store';
 import { attendingFriends } from '../../contexts/concertUtil';
 import ConcertFriendsList from './ConcertFriendList';
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'inherit',
         color: 'inherit',
     },
+    secondaryLink: {
+        color: 'inherit',
+    },
 }));
 
 function FriendsAttending({ concert }) {
@@ -74,7 +78,18 @@ function FriendsAttending({ concert }) {
 
     return user.id ? (
         <ConcertFriendsList friends={concertFriends} classes={classes} />
-    ) : null;
+    ) : (
+        <>
+            <Typography variant="h6" gutterBottom>
+                See if you have friends attending this&nbsp;event
+            </Typography>
+            <Typography>
+                <Link to="/login" className={classes.secondaryLink}>
+                    <strong>Log in here</strong>
+                </Link>
+            </Typography>
+        </>
+    );
 }
 
 export default FriendsAttending;

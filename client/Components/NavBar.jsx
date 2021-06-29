@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone';
+import MapIcon from '@material-ui/icons/Map';
 
 import { GlobalState } from '../contexts/Store';
 import { socket } from '../contexts/SocketContext';
@@ -32,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         color: 'white',
+        padding: '1rem',
+    },
+    icon: {
+        color: 'white',
+        margin: '1rem',
+        verticalAlign: 'middle',
     },
 }));
 
@@ -81,9 +88,7 @@ const NavBar = (props) => {
                         </Typography>
                         {location.pathname !== '/map' && (
                             <Link to="/map" className={classes.link}>
-                                <Button className={classes.button}>
-                                    View&nbsp;Map
-                                </Button>
+                                <MapIcon className={classes.icon} />
                             </Link>
                         )}
                         {!user.id && (
@@ -112,7 +117,7 @@ const NavBar = (props) => {
                                         <PeopleAltTwoToneIcon color="primary" />
                                     ) : (
                                         <PeopleAltTwoToneIcon
-                                            style={{ color: 'gray' }}
+                                            className={classes.icon}
                                         />
                                     )}
                                 </Link>
@@ -135,6 +140,9 @@ const NavBar = (props) => {
                                 </Button>
                             </>
                         )}
+                        <Link to="/about" className={classes.link}>
+                            <Button className={classes.button}>About</Button>
+                        </Link>
                     </Toolbar>
                 </AppBar>
             </div>

@@ -1,14 +1,18 @@
 const router = require('express').Router();
 
 const { User, Friendship } = require('../db/index');
-const { requireToken } = require('./utils/utils');
+const { requireToken, checkValidFields, validEmail } = require('./utils/utils');
 
-// POST /api/user/ - creates a new user
+// POST /api/user/ - creates a new user if all fields are valid and email is unique
 router.post('/', async (req, res, next) => {
     try {
-        const {
+        let {
             body: { firstName, lastName, email, password },
         } = req;
+        checkValidFields(firstName, lastName, email, password);
+        validEmail(email);
+        email = email.toLowerCase();
+        await User.checkDuplicate(email);
         const newUserDetails = { firstName, lastName, email, password };
         res.status(201).send(await User.create(newUserDetails));
     } catch (err) {
