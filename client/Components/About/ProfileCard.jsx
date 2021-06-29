@@ -7,7 +7,6 @@ import {
     Typography,
     makeStyles,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import GitHubIcon from '@material-ui/icons/GitHub';
@@ -18,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         backgroundColor: theme.palette.background.light,
         flex: 1,
-        // border: '2px solid green',
         '&:hover': {
             boxShadow: '2px 2px 5px #01072a',
         },
@@ -66,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
 const ProfileCard = ({ user }) => {
     const classes = useStyles();
     const { name, title, linkedIn, gitHub, imageUrl } = user;
-    console.log(linkedIn);
     return (
         <Card className={classes.container}>
             <CardMedia className={classes.media} image={imageUrl}></CardMedia>
