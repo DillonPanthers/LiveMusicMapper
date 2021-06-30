@@ -39,6 +39,11 @@ const Map = () => {
             isOpen: true,
         });
     };
+
+    const onMapClick = () => {
+        setMarkerState({ ...markerState, isOpen: false });
+    };
+
     return (
         <div>
             <LoadScript
@@ -46,7 +51,7 @@ const Map = () => {
                 mapIds={googleInfo.GOOGLE_MAP_ID}
             >
                 <GoogleMap
-                    zoom={5}
+                    zoom={4}
                     center={{
                         lat: 36.17745,
                         lng: -86.78528,
@@ -59,6 +64,7 @@ const Map = () => {
                         fullscreenControl: false,
                         mapId: googleInfo.GOOGLE_MAP_ID,
                     }}
+                    onClick={onMapClick}
                 >
                     {teamInfo.map((user, idx) => (
                         <Marker
