@@ -2,10 +2,12 @@ const techStack = {
     backend: [
         { name: 'Node.js', logo: 'logos/nodejs-logo.png' },
         { name: 'Express.js', logo: 'logos/ExpressJS-logo.png' },
+    ],
+    databaseManagementSystem: [
         { name: 'PostgreSQL', logo: 'logos/PostgreSQL-Logo.png' },
         { name: 'Sequelize', logo: 'logos/sequelize-2.png' },
     ],
-    frontend: [
+    frontendFrameworks: [
         { name: 'React', logo: 'logos/react.png' },
         { name: 'Material UI', logo: 'logos/material-ui.png' },
     ],
@@ -19,6 +21,10 @@ const techStack = {
         { name: 'Google Maps API', logo: 'logos/googlemapsapi.png' },
         { name: 'Ticketmaster', logo: 'logos/Ticketmaster-Logo.png' },
         { name: 'Spotify', logo: 'logos/Spotify_Logo_RGB_Green.png' },
+    ],
+    tooling: [
+        { name: 'Babel', logo: 'logos/Babel.png' },
+        { name: 'Webpack', logo: 'logos/Webpack.svg.png' },
     ],
 };
 

@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
         color: 'white',
         margin: '0.25rem',
         verticalAlign: 'middle',
+        '&:hover': {
+            color: theme.palette.accent.main,
+        },
     },
 }));
 

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Typography, Card, makeStyles, Icon } from '@material-ui/core';
 import WarningIcon from '@material-ui/icons/Warning';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Background from '../AnimatedBackground/Background';
 import EmailSignUp from './EmailSignUp';
 import ContainedButton from '../StyledComponents/ContainedButton';
+import HorizontalLine from '../StyledComponents/HorizontalLine';
 
 // TODO: Nice to have - error message to prevent existing Spotify user from signing up
 const useStyles = makeStyles((theme) => ({
@@ -25,18 +26,13 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '100',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '2.5% 5%',
+        padding: '2.5% 0',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
     },
     link: {
         textDecoration: 'inherit',
         width: '24rem',
-    },
-    divider: {
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'center',
     },
     title: {
         paddingBottom: '5%',
@@ -129,12 +125,9 @@ const Signup = () => {
                         className={classes.link}
                         onClick={signUpWithSpotify}
                     >
-                        SIGN UP WITH A SPOTIFY ACCOUNT
+                        SIGN UP WITH SPOTIFY ACCOUNT
                     </ContainedButton>
-
-                    <div className={classes.divider}>
-                        <p>or</p>
-                    </div>
+                    <HorizontalLine />
                     <EmailSignUp />
                     <Typography className={classes.label}>
                         Already have an account?{' '}
