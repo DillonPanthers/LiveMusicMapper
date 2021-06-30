@@ -28,15 +28,17 @@ const Map = () => {
         lat: 0,
         lng: 0,
         name: '',
+        favoriteArtist: {},
     });
 
-    const onMarkerPopup = (lat, lng, name) => {
+    const onMarkerPopup = (lat, lng, name, favoriteArtist) => {
         setMarkerState({
             ...markerState,
             lat,
             lng,
             name,
             isOpen: true,
+            favoriteArtist,
         });
     };
 
@@ -70,7 +72,12 @@ const Map = () => {
                         <Marker
                             key={idx}
                             onClick={() =>
-                                onMarkerPopup(user.lat, user.lng, user.name)
+                                onMarkerPopup(
+                                    user.lat,
+                                    user.lng,
+                                    user.name,
+                                    user.favoriteArtist
+                                )
                             }
                             position={{
                                 lat: +user.lat,
@@ -87,9 +94,35 @@ const Map = () => {
                                 lng: markerState.lng,
                             }}
                         >
-                            <div className={classes.infoWindow}>
-                                {markerState.name}
-                            </div>
+                            <>
+                                <div className={classes.infoWindow}>
+                                    {markerState.name}
+                                </div>
+                                {Object.keys(markerState.favoriteArtist)
+                                    .length ? (
+                                    <>
+                                        <p>Favorite Artist at the Moment:</p>{' '}
+                                        <a
+                                            href={
+                                                markerState.favoriteArtist[
+                                                    Object.keys(
+                                                        markerState.favoriteArtist
+                                                    )[0]
+                                                ]
+                                            }
+                                            target="_blank"
+                                        >
+                                            {
+                                                Object.keys(
+                                                    markerState.favoriteArtist
+                                                )[0]
+                                            }
+                                        </a>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                            </>
                         </InfoWindow>
                     )}
                 </GoogleMap>
