@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
 import ContainedButton from '../StyledComponents/ContainedButton';
+import ContainedButtonSpotifyExperience from '../StyledComponents/ContainedButtonSpotifyExperience';
 import HorizontalLine from '../StyledComponents/HorizontalLine';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '2.5% 0',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
+        rowGap: '1rem',
     },
     button: {
         width: '24rem',
@@ -35,12 +37,6 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: 'inherit',
         textDecoration: 'inherit',
-    },
-    title: {
-        paddingBottom: '5%',
-    },
-    label: {
-        paddingTop: '8%',
     },
     secondaryLink: {
         color: 'inherit',
@@ -64,9 +60,15 @@ const Login = () => {
         <>
             <Grid className={classes.root}>
                 <Card className={classes.card}>
-                    <Typography variant="h4" className={classes.title}>
-                        Welcome Back
-                    </Typography>
+                    <Typography variant="h4">Welcome Back</Typography>
+                    <Link to="/spotifyguestexperience" className={classes.link}>
+                        <ContainedButtonSpotifyExperience
+                            startIcon={svgIcon}
+                            className={classes.button}
+                        >
+                            PREVIEW SPOTIFY EXPERIENCE
+                        </ContainedButtonSpotifyExperience>
+                    </Link>
                     <a href="/api/spotify/login" className={classes.link}>
                         <ContainedButton
                             startIcon={svgIcon}
@@ -77,7 +79,7 @@ const Login = () => {
                     </a>
                     <HorizontalLine />
                     <EmailSignIn />
-                    <Typography className={classes.label}>
+                    <Typography>
                         Don't have an account?{' '}
                         <Link to="/signup" className={classes.secondaryLink}>
                             <strong>SIGN UP</strong>

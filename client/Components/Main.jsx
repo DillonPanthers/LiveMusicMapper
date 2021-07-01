@@ -15,6 +15,7 @@ import Search from './User/Search';
 import AllFriends from './User/AllFriends';
 import UnauthorizedUser from './Error handling/UnauthorizedUser';
 import About from './About/About';
+import SpotifyGuestExperience from './SpotifyGuestExperience/SpotifyGuestExperience';
 
 import { GlobalState } from '../contexts/Store';
 import { SocketContext } from '../contexts/SocketContext';
@@ -43,6 +44,11 @@ const Main = () => {
                     <Route exact component={Dashboard} path="/dashboard" />
                     <Route exact component={Login} path="/login" />
                     <Route exact component={SignUp} path="/signup" />
+                    <Route
+                        exact
+                        component={SpotifyGuestExperience}
+                        path="/spotifyguestexperience"
+                    />
                     <Route exact component={SingleUser} path="/user/:id" />
                     <Route exact component={Search} path="/search" />
                     <Route exact component={AllFriends} path="/friends" />

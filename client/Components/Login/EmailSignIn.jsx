@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         width: '24rem',
     },
     text: {
-        marginBottom: '8%',
+        marginBottom: '1rem',
         backgroundColor: 'rgba(228,228,228,0.25)',
     },
     errorContainer: {
