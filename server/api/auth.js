@@ -6,7 +6,8 @@ const { requireToken } = require('./utils/utils');
 // POST /api/auth - returns token for email account
 router.post('/', async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email.toLowerCase();
         res.send({ token: await User.authenticate({ email, password }) });
     } catch (err) {
         next(err);
