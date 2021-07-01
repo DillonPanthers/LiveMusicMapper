@@ -29,9 +29,29 @@ You can then run in a development environment with the `build:dev` and `start:de
 
 ### Keeping this repo up-to-date
 
+#### Contributing code & submitting PRs
+
 1. On your development branch `git pull <remote> development`
 2. Write new code on a separate branch `git checkout -b <branch>`
-3. Push code on newly created branch to this repo `git push <remote> <branch>`
-4. Create a pull create request and assign to an engineer for review. Fix all feedback received from reviewer.
-5. Merge code to development when the pull request has been approved. Delete branch.
-6. Repeat!
+3. Commit your code
+
+```
+git status
+git add .
+git commit -m 'semantic commit message`
+```
+
+4. Push code on newly created branch to this repo `git push <remote> <branch>`
+5. Create a pull create request and assign to an engineer for review. Fix all feedback received from reviewer.
+6. Merge code to development when the pull request has been approved. Delete branch.
+7. Repeat!
+
+#### Merging development changes while working on a branch
+
+1. Commit any changes in your branch
+2. Checkout the development branch `git checkout development`
+3. Pull the latest development branch `git pull <remote> development`
+4. Checkout the branch you were working on `git checkout <branch>`
+5. Merge this branch with the development branch `git merge development`
+6. Resolve any merge conflicts, usually you will accept incoming changes
+7. Commit the merged changes

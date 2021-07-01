@@ -251,18 +251,25 @@ function SingleUser(props) {
                             (user.isPublic || friendship === 'friends') ? (
                                 <>
                                     <Typography>
-                                        <strong>Top Genres&nbsp;</strong>
-                                        {`| ${
-                                            Object.keys(
-                                                user.ticketmasterGenres
-                                            )[0]
-                                        }`}
+                                        <strong>Top Genre&nbsp;|&nbsp;</strong>
+                                        {Object.keys(user.ticketmasterGenres)
+                                            .length
+                                            ? `${
+                                                  Object.keys(
+                                                      user.ticketmasterGenres
+                                                  )[0]
+                                              }`
+                                            : 'none'}
                                     </Typography>
                                     <Typography>
-                                        <strong>Top Artists&nbsp;</strong>
-                                        {`| ${Object.keys(user.artists)
-                                            .slice(0, 3)
-                                            .join(' | ')}`}
+                                        <strong>
+                                            Top Artists&nbsp;|&nbsp;
+                                        </strong>
+                                        {Object.keys(user.artists).length
+                                            ? `${Object.keys(user.artists)
+                                                  .slice(0, 3)
+                                                  .join(' | ')}`
+                                            : 'none'}
                                     </Typography>
                                 </>
                             ) : (
