@@ -5,8 +5,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Assignment } from '@material-ui/icons';
 
 import Background from '../AnimatedBackground/Background';
-import OutlinedButtonCopyPaste from '../StyledComponents/OutlinedButtonCopyPaste';
-import ContainedButtonSpotifyExperience from '../StyledComponents/ContainedButtonSpotifyExperience';
+import OutlinedButton from '../StyledComponents/OutlinedButton';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const email = 'spotifyguest2101@gmail.com';
 const password = 'Spotifyguest2101#';
@@ -72,13 +72,13 @@ const SpotifyGuestExperience = () => {
                 <Card className={classes.card}>
                     <Typography variant="h4">So excited for you!</Typography>
                     <CopyToClipboard text={`${email} ${password}`}>
-                        <OutlinedButtonCopyPaste
+                        <OutlinedButton
                             variant="outlined"
                             startIcon={<Assignment fontSize="large" />}
                             className={classes.button}
                         >
                             COPY EMAIL{' & '}PASSWORD*
-                        </OutlinedButtonCopyPaste>
+                        </OutlinedButton>
                     </CopyToClipboard>
                     <div className={classes.typographyContainer}>
                         <Typography className={classes.typography}>
@@ -95,12 +95,12 @@ const SpotifyGuestExperience = () => {
                         password into the next page
                     </Typography>
                     <a href="/api/spotify/login" className={classes.link}>
-                        <ContainedButtonSpotifyExperience
+                        <ContainedButton
                             startIcon={svgIcon}
                             className={classes.button}
                         >
                             ACCESS WITH GUEST CREDENTIALS
-                        </ContainedButtonSpotifyExperience>
+                        </ContainedButton>
                     </a>
                     <Typography>
                         Already have an account?{' '}

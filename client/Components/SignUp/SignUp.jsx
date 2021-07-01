@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import Background from '../AnimatedBackground/Background';
 import EmailSignUp from './EmailSignUp';
 import ContainedButton from '../StyledComponents/ContainedButton';
-import ContainedButtonSpotifyExperience from '../StyledComponents/ContainedButtonSpotifyExperience';
 import HorizontalLine from '../StyledComponents/HorizontalLine';
 
 // TODO: Nice to have - error message to prevent existing Spotify user from signing up
@@ -118,12 +117,12 @@ const Signup = () => {
                         <></>
                     )}
                     <Link to="/spotifyguestexperience" className={classes.link}>
-                        <ContainedButtonSpotifyExperience
+                        <ContainedButton
                             startIcon={svgIcon}
                             className={classes.button}
                         >
-                            PREVIEW SPOTIFY EXPERIENCE
-                        </ContainedButtonSpotifyExperience>
+                            PREVIEW&nbsp;PERSONALIZED&nbsp;EXPERIENCE
+                        </ContainedButton>
                     </Link>
                     <ContainedButton
                         startIcon={svgIcon}

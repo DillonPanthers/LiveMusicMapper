@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
 import ContainedButton from '../StyledComponents/ContainedButton';
-import ContainedButtonSpotifyExperience from '../StyledComponents/ContainedButtonSpotifyExperience';
 import HorizontalLine from '../StyledComponents/HorizontalLine';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,12 +61,12 @@ const Login = () => {
                 <Card className={classes.card}>
                     <Typography variant="h4">Welcome Back</Typography>
                     <Link to="/spotifyguestexperience" className={classes.link}>
-                        <ContainedButtonSpotifyExperience
+                        <ContainedButton
                             startIcon={svgIcon}
                             className={classes.button}
                         >
-                            PREVIEW SPOTIFY EXPERIENCE
-                        </ContainedButtonSpotifyExperience>
+                            PREVIEW&nbsp;PERSONALIZED&nbsp;EXPERIENCE
+                        </ContainedButton>
                     </Link>
                     <a href="/api/spotify/login" className={classes.link}>
                         <ContainedButton
