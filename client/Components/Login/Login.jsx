@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Background from '../AnimatedBackground/Background';
 import EmailSignIn from './EmailSignIn';
 import ContainedButton from '../StyledComponents/ContainedButton';
+import HorizontalLine from '../StyledComponents/HorizontalLine';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '100',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '2.5% 5%',
+        padding: '2.5% 0',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
     },
@@ -35,13 +36,8 @@ const useStyles = makeStyles((theme) => ({
         color: 'inherit',
         textDecoration: 'inherit',
     },
-    divider: {
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'center',
-    },
     title: {
-        paddingBottom: '8%',
+        paddingBottom: '5%',
     },
     label: {
         paddingTop: '8%',
@@ -79,10 +75,7 @@ const Login = () => {
                             LOG IN WITH SPOTIFY ACCOUNT
                         </ContainedButton>
                     </a>
-
-                    <div className={classes.divider}>
-                        <p>or</p>
-                    </div>
+                    <HorizontalLine />
                     <EmailSignIn />
                     <Typography className={classes.label}>
                         Don't have an account?{' '}

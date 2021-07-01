@@ -70,8 +70,12 @@ router.get('/callback', async (req, res, next) => {
             access_token
         );
 
-        let { email, id, display_name } = userData;
+        let { email, id, display_name, images } = userData;
         email = email.toLowerCase();
+
+        /* grab image (if it exists) from spotify and save in database */
+        let imageUrl = 'profile_pic_placeholder';
+        if (images[0].url) imageUrl = images[0].url;
 
         /* Find user with an email that matches one used in Spotify account */
         let user = await User.findOne({ where: { email } });
@@ -133,6 +137,7 @@ router.get('/callback', async (req, res, next) => {
             user.artists = artists;
             user.recommendedArtists = recommendedArtists;
             user.ticketmasterGenres = ticketmasterGenres;
+            user.imageUrl = imageUrl;
             await user.save();
         } else if (!user) {
             let firstName = '';
@@ -155,6 +160,7 @@ router.get('/callback', async (req, res, next) => {
                 artists,
                 recommendedArtists,
                 ticketmasterGenres,
+                imageUrl,
             });
         }
         const jwtToken = await User.generateToken(user.id);

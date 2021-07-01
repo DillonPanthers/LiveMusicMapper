@@ -17,17 +17,29 @@ const TechLogosSection = () => {
 
     return (
         <div className={classes.container}>
-            <Typography variant="h6">Backend</Typography>
+            <Typography variant="h6">
+                Runtime Environment{' & '}Web Application Framework
+            </Typography>
             <TechLogoCardlist technologies={techStack.backend} />
 
-            <Typography variant="h6">Frontend</Typography>
-            <TechLogoCardlist technologies={techStack.frontend} />
+            <Typography variant="h6">
+                Database Management System{' & '}ORM
+            </Typography>
+            <TechLogoCardlist
+                technologies={techStack.databaseManagementSystem}
+            />
 
-            <Typography variant="h6">Libraries</Typography>
-            <TechLogoCardlist technologies={techStack.libraries} />
+            <Typography variant="h6">Frontend Frameworks</Typography>
+            <TechLogoCardlist technologies={techStack.frontendFrameworks} />
 
             <Typography variant="h6">APIs</Typography>
             <TechLogoCardlist technologies={techStack.apis} />
+
+            <Typography variant="h6">Tooling</Typography>
+            <TechLogoCardlist technologies={techStack.tooling} />
+
+            <Typography variant="h6">Libraries</Typography>
+            <TechLogoCardlist technologies={techStack.libraries} />
         </div>
     );
 };

@@ -3,6 +3,7 @@ import { Typography, makeStyles } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
 import ourStory from './ourStory';
+import buildDescription from './buildDescription';
 import Map from './Map';
 import ProfileCardsList from './ProfileCardsList';
 import TechLogosSection from './TechLogosSection';
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     textContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: '20rem',
+        width: '25rem',
         marginRight: '1.5rem',
         paddingRight: '1.5rem',
     },
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         rowGap: '1.5rem',
-        width: '60vw',
+        width: '55vw',
     },
     link: {
         color: 'inherit',
@@ -94,7 +95,10 @@ const About = () => {
             <div className={classes.sectionContainer}>
                 <div className={classes.contentContainer}>
                     <div className={classes.textContainer}>
-                        <Typography variant="h4">Tech Stack</Typography>
+                        <Typography variant="h4">How We Built This</Typography>
+                        {buildDescription.split('\n').map((paragraph, i) => (
+                            <p key={i}>{paragraph}</p>
+                        ))}
                     </div>
                     <div className={classes.rightContainer}>
                         <TechLogosSection />
