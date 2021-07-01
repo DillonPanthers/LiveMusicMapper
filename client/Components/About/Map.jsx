@@ -7,6 +7,7 @@ import {
 } from '@react-google-maps/api';
 import { makeStyles } from '@material-ui/core';
 import { FaMusic } from 'react-icons/fa';
+import { HiLocationMarker } from 'react-icons/fa';
 
 import { GlobalState } from '../../contexts/Store';
 import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
@@ -30,9 +31,10 @@ const Map = () => {
         lng: 0,
         name: '',
         favoriteArtist: {},
+        city: '',
     });
 
-    const onMarkerPopup = (lat, lng, name, favoriteArtist) => {
+    const onMarkerPopup = (lat, lng, name, favoriteArtist, city) => {
         setMarkerState({
             ...markerState,
             lat,
@@ -40,6 +42,7 @@ const Map = () => {
             name,
             isOpen: true,
             favoriteArtist,
+            city,
         });
     };
 
@@ -77,7 +80,8 @@ const Map = () => {
                                     user.lat,
                                     user.lng,
                                     user.name,
-                                    user.favoriteArtist
+                                    user.favoriteArtist,
+                                    user.city
                                 )
                             }
                             position={{
@@ -98,12 +102,14 @@ const Map = () => {
                             <>
                                 <div className={classes.infoWindow}>
                                     {markerState.name}
+                                    <p>{markerState.city}</p>
                                 </div>
                                 {Object.keys(markerState.favoriteArtist)
                                     .length ? (
                                     <>
                                         <p>Favorite Artist at the Moment:</p>{' '}
-                                        <FaMusic />{' '}
+                                        <FaMusic />
+                                        &nbsp;
                                         <a
                                             href={
                                                 markerState.favoriteArtist[
