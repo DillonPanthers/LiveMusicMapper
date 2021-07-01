@@ -69,7 +69,6 @@ router.get('/callback', async (req, res, next) => {
             'https://api.spotify.com/v1/me',
             access_token
         );
-        console.log(userData);
 
         let { email, id, display_name, images } = userData;
         email = email.toLowerCase();

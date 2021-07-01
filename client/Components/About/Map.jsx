@@ -6,6 +6,7 @@ import {
     InfoWindow,
 } from '@react-google-maps/api';
 import { makeStyles } from '@material-ui/core';
+import { FaMusic } from 'react-icons/fa';
 
 import { GlobalState } from '../../contexts/Store';
 import personalizedMarkerIcon from '../Map/personalizedMarkerIcon';
@@ -102,6 +103,7 @@ const Map = () => {
                                     .length ? (
                                     <>
                                         <p>Favorite Artist at the Moment:</p>{' '}
+                                        <FaMusic />{' '}
                                         <a
                                             href={
                                                 markerState.favoriteArtist[
