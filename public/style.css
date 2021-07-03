@@ -2,3 +2,32 @@
   width: 500px;
   height: 400px;
 }
+
+.menu {
+  position: relative;
+}
+
+.gm-style .gm-style-iw-c * {
+    font-family: Montserrat, sans-serif;
+    color: #000a47;
+ }
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(11, 12, 15, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #1de9b6;
+    border: 2px solid #0b0c0f;
+}
+
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation0.MuiPaper-rounded::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border: 1.5px solid #838282;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #000021;
+    border: 1px solid #0b0c0f;
+}

@@ -1,67 +1,55 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, makeStyles, Button, Container } from '@material-ui/core';
-import './LandingPage.scss';
+import { Typography, makeStyles, Container } from '@material-ui/core';
+
+import Background from '../AnimatedBackground/Background';
+import ContainedButton from '../StyledComponents/ContainedButton';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    width: '80%',
-    textAlign: 'center',
-    padding: '5rem',
-    [theme.breakpoints.down('xs')]: {
-      width: '80%',
+    container: {
+        width: '85%',
+        textAlign: 'center',
+        paddingTop: 64,
+        [theme.breakpoints.down('xs')]: {
+            width: '85%',
+        },
+        zIndex: '2',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
     },
-  },
+    button: {
+        margin: theme.spacing(3),
+    },
+    link: {
+        color: 'inherit',
+        textDecoration: 'inherit',
+    },
+    text: {
+        fontSize: '12vh',
+        lineHeight: '1.15',
+    },
 }));
 
 const LandingPage = () => {
-  const classes = useStyles();
-  return (
-    <>
-      <Container className={classes.container}>
-        <Typography variant="h2">
-          Find live music events for all your favorite bands and artists in your
-          city
-        </Typography>
-        <Link to="/map" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              fontFamily: 'Montserrat, sans-serif',
-              width: '20rem',
-              margin: '2rem',
-              padding: '0.5rem 0',
-            }}
-          >
-            SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
-          </Button>
-        </Link>
-      </Container>
-      <div className="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </>
-  );
+    const classes = useStyles();
+    return (
+        <>
+            <Container className={classes.container}>
+                <Typography variant="h2" className={classes.text}>
+                    Find live music events for all your favorite bands and
+                    artists in your&nbsp;city
+                </Typography>
+                <Link to="/map" className={classes.link}>
+                    <ContainedButton className={classes.button}>
+                        SEE&nbsp;LIVE&nbsp;MUSIC&nbsp;EVENTS&nbsp;NEARBY
+                    </ContainedButton>
+                </Link>
+            </Container>
+            <Background />
+        </>
+    );
 };
 
 export default LandingPage;

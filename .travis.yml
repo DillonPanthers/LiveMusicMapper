@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - 14.16.1
+    - 14.16.1
 services:
-  - postgresql
+    - postgresql
 before_script:
-  - psql -c 'create database dillon_panthers;' -U postgres
+    - psql -c 'create database dillon_panthers;' -U postgres
