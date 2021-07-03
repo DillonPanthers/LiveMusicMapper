@@ -1,6 +1,11 @@
 # Dependency Directories
 node_modules
+.env
 
 # Public
 public/main.js
 public/main.js.map
+client/secret.js
+indysLinter.js
+
+.DS_Store
