@@ -11,6 +11,7 @@ const teamInfo = [
         favoriteArtist: {
             Robyn: 'https://open.spotify.com/artist/6UE7nl9mha6s8z0wFQFIZ2',
         },
+        city: 'Dallas, TX',
     },
     {
         name: 'Inderprit Singh',
@@ -25,6 +26,7 @@ const teamInfo = [
             ['Linkin Park']:
                 'https://open.spotify.com/artist/6XyY86QOPPrYVGvF9ch6wz',
         },
+        city: 'New York, NY',
     },
     {
         name: 'Alejandra Villanueva',
@@ -38,6 +40,7 @@ const teamInfo = [
             ['Glass Animals']:
                 'https://open.spotify.com/artist/4yvcSjfu4PC0CYQyLy4wSq',
         },
+        city: 'New York, NY',
     },
 ];
 

@@ -55,12 +55,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ userInfo }) => {
     const classes = useStyles();
-    const topGenre = userInfo.ticketmasterGenres
+    const topGenre = Object.keys(userInfo.ticketmasterGenres).length
         ? Object.keys(userInfo.ticketmasterGenres)[0]
         : 'none';
-    const topArtists = userInfo.artists
+    const topArtists = Object.keys(userInfo.artists).length
         ? Object.keys(userInfo.artists).slice(0, 3).join(' | ')
         : 'none';
+    console.log(topGenre);
     return (
         <div className={classes.upperContainer}>
             <div className={classes.info}>
@@ -83,7 +84,7 @@ const Header = ({ userInfo }) => {
             {userInfo.spotifyId ? (
                 <div className={classes.spotifyInfo}>
                     <Typography>
-                        <strong>Top Genres | </strong>
+                        <strong>Top Genre | </strong>
                         {topGenre}
                     </Typography>
                     <Typography>

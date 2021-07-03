@@ -29,16 +29,11 @@ const useStyles = makeStyles((theme) => ({
         padding: '2.5% 0',
         borderRadius: '2.5%',
         backgroundColor: 'rgba(0,10,60,0.75)',
+        rowGap: '1rem',
     },
     link: {
         textDecoration: 'inherit',
         width: '24rem',
-    },
-    title: {
-        paddingBottom: '5%',
-    },
-    label: {
-        paddingTop: '6%',
     },
     secondaryLink: {
         color: 'inherit',
@@ -76,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    button: {
+        width: '24rem',
+    },
 }));
 
 const Signup = () => {
@@ -105,9 +103,7 @@ const Signup = () => {
         <>
             <div className={classes.root}>
                 <Card className={classes.card}>
-                    <Typography variant="h4" className={classes.title}>
-                        Hello, there!
-                    </Typography>
+                    <Typography variant="h4">Hello, there!</Typography>
                     {errorMsg !== '' ? (
                         <div className={classes.errorContainer}>
                             <div className={classes.iconContainer}>
@@ -120,6 +116,14 @@ const Signup = () => {
                     ) : (
                         <></>
                     )}
+                    <Link to="/spotifyguestexperience" className={classes.link}>
+                        <ContainedButton
+                            startIcon={svgIcon}
+                            className={classes.button}
+                        >
+                            PREVIEW&nbsp;PERSONALIZED&nbsp;EXPERIENCE
+                        </ContainedButton>
+                    </Link>
                     <ContainedButton
                         startIcon={svgIcon}
                         className={classes.link}
@@ -129,7 +133,7 @@ const Signup = () => {
                     </ContainedButton>
                     <HorizontalLine />
                     <EmailSignUp />
-                    <Typography className={classes.label}>
+                    <Typography>
                         Already have an account?{' '}
                         <Link to="/login" className={classes.secondaryLink}>
                             <strong>LOG IN</strong>

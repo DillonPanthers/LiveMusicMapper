@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
         width: '24rem',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '0.75rem 0rem',
     },
     span: {
         padding: '0rem 0.75rem',
