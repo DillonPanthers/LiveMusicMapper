@@ -1,4 +1,5 @@
-//This is where test specs for jest will go.
+// TODO: Front end and back end tests
+// This is where test specs for jest will go.
 
 const addTwo = (numOne, numTwo) => {
     return numOne + numTwo;

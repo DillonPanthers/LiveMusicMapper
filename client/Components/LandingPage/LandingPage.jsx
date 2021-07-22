@@ -5,6 +5,7 @@ import { Typography, makeStyles, Container } from '@material-ui/core';
 import Background from '../AnimatedBackground/Background';
 import ContainedButton from '../StyledComponents/ContainedButton';
 
+// TODO: Add a splash screen to advise mobile users to view app on desktop
 const useStyles = makeStyles((theme) => ({
     container: {
         width: '85%',

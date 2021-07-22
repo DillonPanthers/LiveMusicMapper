@@ -15,6 +15,7 @@ import FriendsList from '../User/FriendsList';
 import ContainedButton from '../StyledComponents/ContainedButton';
 import UpcomingEvents from '../Concerts/UpcomingEvents';
 
+// TODO: set central map coordinates to either the user's geolocation, or the mid point between the farthest markers
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
         display: 'flex',

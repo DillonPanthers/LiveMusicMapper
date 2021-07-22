@@ -2,6 +2,8 @@ import React from 'react';
 import { BounceLoader } from 'react-spinners';
 import { makeStyles, Typography, Card } from '@material-ui/core';
 
+// TODO: create a discreet loading bar
+// Reccomended loading bar - <LinearProgress> component from material UI
 const useStyles = makeStyles((theme) => ({
     root: {
         zIndex: 1000,

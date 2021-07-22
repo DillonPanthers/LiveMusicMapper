@@ -18,6 +18,7 @@ function ArtistTracks({ artistName }) {
     const [artistId, setArtistId] = useState('');
 
     useEffect(() => {
+        // TODO: Add try catch statement to prevent crashing. You can use a default value at {artists = []} but it will only work if you get undefined. if you get null the call will crash.
         const grabArtistId = async () => {
             const access_token = window.localStorage.getItem('spotify_token');
 
