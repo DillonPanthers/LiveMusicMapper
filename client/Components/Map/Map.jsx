@@ -26,7 +26,7 @@ import {
 import markerIcon from './markerIcon';
 // Marker colors for non-personalized events are aqua
 import personalizedMarkerIcon from './personalizedMarkerIcon';
-
+// TODO: Implement debouncing to reduce API calls. https://css-tricks.com/debouncing-throttling-explained-examples/
 function Map() {
     const [state, setState] = useState({
         selectedEventLat: 0,

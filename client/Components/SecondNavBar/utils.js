@@ -76,7 +76,7 @@ export const getTopGenresEvents = async (user, locationData, radius) => {
         console.log(error);
     }
 };
-
+// TODO: try implemeneting lodash throttle function here
 const callTicketmasterApi = async (object, parameterType, latlong, radius) => {
     let array = Object.keys(object);
     let events = [];
